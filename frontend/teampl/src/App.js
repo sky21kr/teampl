@@ -2,12 +2,13 @@ import React, { Component } from 'react';
 import { Route } from 'react-router-dom'
 import './App.css';
 import { Home, SignUp } from './pages'
+import Header from './components/Header/Header'
 
 class App extends Component {
   render() {
     return (
       <div>
-        <div>헤더</div>
+        <Header/>
         <Route exact path='/' component={Home}/>
         <Route path='/sign-up' component={SignUp}/> {/*4*/}
         <Route path='/log-in' component={SignUp}/> {/*3*/}

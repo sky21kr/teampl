@@ -1,4 +1,7 @@
+@import '../../Common.scss';
+
 .header {
+    font-family: $font;
     height: 102px;
     border-bottom: 1px solid #F3F3F3;
     padding: 0px 370px;

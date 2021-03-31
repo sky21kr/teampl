@@ -1,13 +1,17 @@
 @import '../../Common.scss';
 
+.logo {
+    cursor: pointer;
+}
+
 .header {
+    min-width: 700px;
     font-family: $font;
     height: 102px;
     border-bottom: 1px solid #F3F3F3;
-    padding: 0px 370px;
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: space-around;
 }
 
 .headerLeft {

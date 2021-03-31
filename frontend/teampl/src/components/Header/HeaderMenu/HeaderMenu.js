@@ -1,11 +1,14 @@
 import React from 'react';
 import './HeaderMenu.scss'
+import { useHistory } from "react-router-dom";
 
-const HeaderMenu = () => {
+const HeaderMenu = ({}) => {
+    let history = useHistory();
+
     return (
         <div className="headerMenu">
-            <div>팀 만들기</div>
-            <div>팀 찾기</div>
+            <div onClick={() => history.push('/team/make')}>팀 만들기</div>
+            <div onClick={() => history.push('/team/search')}>팀 찾기</div>
         </div>
     )
 }

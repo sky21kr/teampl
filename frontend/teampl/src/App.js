@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Route } from 'react-router-dom'
 import { Home, SignUp } from './pages'
 import Header from './components/Header/Header'
+import Footer from './components/Footer/Footer'
 import MakeTeam from './components/MakeTeam/MakeTeam';
 import MyTeam from './components/MyTeam/MyTeam';
 import './App.scss'
@@ -24,7 +25,7 @@ class App extends Component {
 
         <Route path='/team/detail' component={SignUp}/> {/*10*/}
         <Route path='/team/detail/post' component={SignUp}/> {/*11*/}
-        <div>푸터</div>
+        <Footer/>
       </div>
     )
   }

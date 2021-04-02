@@ -1,3 +1,9 @@
 .MyMenu {
     display: flex;
+    font-size: 14px;
+}
+
+.MyMenu div {
+    cursor: pointer;
+    margin-left: 20px;
 }

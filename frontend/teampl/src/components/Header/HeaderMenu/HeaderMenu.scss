@@ -1,3 +1,10 @@
 .headerMenu {
     display: flex;
+    font-size: 18px;
+    font-weight: 500;
+}
+
+.headerMenu div {
+    cursor: pointer;
+    margin-left: 50px;
 }

@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Route } from 'react-router-dom'
-import './App.css';
 import { Home, SignUp } from './pages'
 import Header from './components/Header/Header'
 import MakeTeam from './components/MakeTeam/MakeTeam';

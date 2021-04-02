@@ -4,6 +4,7 @@ import { Home, SignUp } from './pages'
 import Header from './components/Header/Header'
 import MakeTeam from './components/MakeTeam/MakeTeam';
 import MyTeam from './components/MyTeam/MyTeam';
+import './App.scss'
 
 class App extends Component {
   render() {

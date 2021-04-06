@@ -1,3 +1,5 @@
+@import '@/Common.scss';
+
 * {
   box-sizing: border-box;
   -webkit-box-sizing: border-box;
@@ -16,10 +18,14 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+body {
+  overflow-y: scroll;
+}
+
 #root {
   min-height: 100%;
   position: relative;
-  padding-bottom:100px;
+  padding-bottom: $footer-height;
 }
 
 code {

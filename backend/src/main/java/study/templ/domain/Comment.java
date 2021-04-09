@@ -1,10 +1,5 @@
 package study.templ.domain;
 
-<<<<<<< HEAD
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-=======
 
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -15,19 +10,12 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
->>>>>>> backendfeature/comment
 
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
 public class Comment {
-<<<<<<< HEAD
-    @Id
-    @Column(name="comment_id")
-    Long commentid;
-=======
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "comment_id")
@@ -68,8 +56,6 @@ public class Comment {
 
     private Boolean live;
 
-
->>>>>>> backendfeature/comment
 }
 
 

@@ -7,6 +7,9 @@ import study.templ.domain.User;
 import study.templ.repository.UserRepository;
 
 import java.util.List;
+import study.templ.domain.User;
+import study.templ.repository.UserRepository;
+
 import java.util.Optional;
 
 @Service
@@ -42,3 +45,4 @@ public class UserService {
         userRepository.deleteAll();
     }
 }
+

@@ -30,7 +30,7 @@ public class UserController {
     @ResponseBody
     public LoginResult loginApi(@RequestBody LoginRequest loginInfo) {
         Optional<User> user;
-        user = userRepository.findByAccountId(loginInfo.id);
+        user = userRepository.findByaccountid(loginInfo.id);
         return new LoginResult(true, "1234");
     }
 

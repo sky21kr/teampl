@@ -1,14 +1,17 @@
 package study.templ.controller;
 
+import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import study.templ.domain.Comment;
 import study.templ.domain.CreateCommentForm;
+import study.templ.domain.Team;
 import study.templ.service.CommentService;
 
 import javax.servlet.http.HttpSession;
+import java.util.Optional;
 
 @Controller
 public class CommentController {
@@ -38,16 +41,16 @@ public class CommentController {
         Integer comment_id = Integer.parseInt(datgeul);
 
         commentService.editComment(comment_id,comment);
-        long team_id= commentService.findById(comment_id).getTarget_team().getTeam_id();
+        @NonNull Team team_id= commentService.findById(comment_id).get().getTarget_team();
         return "redirect:/team/="+team_id;
     }
 
     @GetMapping("/delete")
     public String deleteComment(@RequestParam String comment, HttpSession httpSession){
         int comment_id = Integer.parseInt(comment);
-        Comment commentToDelete =commentService.findById(comment_id);
+        Optional<Comment> commentToDelete =commentService.findById(comment_id);
 
-        long team_id= commentToDelete.getTarget_team().getTeam_id(); //팀페이지 아이디 얻어오기
+        long team_id= commentToDelete.get().getTarget_team().getTeamid(); //팀페이지 아이디 얻어오기
         commentService.deleteComment(comment_id);
         return "redirect:/post/read?post=" +team_id;
     }

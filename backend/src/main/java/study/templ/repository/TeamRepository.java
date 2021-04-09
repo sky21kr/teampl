@@ -3,5 +3,8 @@ package study.templ.repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import study.templ.domain.Team;
 
-public interface TeamRepository extends JpaRepository<Team, Long> {
+import java.util.List;
+
+public interface TeamRepository extends JpaRepository<Team, Integer> {
+    List<Team> findBycategory(int category);
 }

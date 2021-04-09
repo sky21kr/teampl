@@ -1,4 +1,4 @@
-@import '@/Common.scss';
+@import '@/assets/styles/variable.scss';
 
 .logIn {
     height: $content-height;
@@ -10,6 +10,11 @@
 
 .logInTitle {
     color: $font-color;
-    font-size: 18px;
-    font-weight: 800;
+    font-family: TmoneyRoundWindExtraBold;
+    font-size: 24px;
+    margin-bottom: 30px;
+}
+
+.t-input {
+    width: 350px;
 }

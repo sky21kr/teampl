@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import { Route } from 'react-router-dom'
-import { Home, SignUp } from './pages'
+import { Home, SignUp, LogIn } from './pages'
 import Header from './components/Header/Header'
 import Footer from './components/Footer/Footer'
 import MakeTeam from './components/MakeTeam/MakeTeam';
 import MyTeam from './components/MyTeam/MyTeam';
+import '@/assets/styles/index.scss'
 import './App.scss'
 
 class App extends Component {
@@ -14,7 +15,7 @@ class App extends Component {
         <Header/>
         <Route exact path='/' component={Home}/>
         <Route path='/sign-up' component={SignUp}/> {/*4*/}
-        <Route path='/log-in' component={SignUp}/> {/*3*/}
+        <Route path='/log-in' component={LogIn}/> {/*3*/}
         <Route path='/main' component={SignUp}/> {/*2, 5*/}
 
         <Route exact path='/team/make' component={MakeTeam}/> {/*6*/} 

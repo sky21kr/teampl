@@ -1,10 +1,17 @@
 import React from 'react';
 import './LogIn.scss'
+import { useHistory } from "react-router-dom";
 
 const LogIn = () => {
+    let history = useHistory()
 
     const inputStyle = { width: '350px'}
     const buttonStyle = { marginTop: '40px', marginBottom: '40px'}
+
+
+    const moveSignUp = () => {
+        history.push('sign-up')
+    }
 
     return (
         <div className="logIn">
@@ -18,7 +25,7 @@ const LogIn = () => {
             </button>
             <div className="signUpPhrase">
                 아직 회원이 아니신가요?
-                <span>
+                <span onClick={moveSignUp}>
                     회원가입하기
                 </span>
             </div>

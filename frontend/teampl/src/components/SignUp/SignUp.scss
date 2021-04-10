@@ -1,0 +1,16 @@
+@import '@/assets/styles/variable.scss';
+
+.signUp {
+    height: $content-height;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.signUpTitle {
+    color: $font-color;
+    font-family: TmoneyRoundWindExtraBold;
+    font-size: 24px;
+    margin-bottom: 30px;
+}

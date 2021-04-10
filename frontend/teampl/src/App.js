@@ -14,8 +14,8 @@ class App extends Component {
       <div>
         <Header/>
         <Route exact path='/' component={Home}/>
-        <Route path='/sign-up' component={SignUp}/> {/*4*/}
         <Route path='/log-in' component={LogIn}/> {/*3*/}
+        <Route path='/sign-up' component={SignUp}/> {/*4*/}
         <Route path='/main' component={SignUp}/> {/*2, 5*/}
 
         <Route exact path='/team/make' component={MakeTeam}/> {/*6*/} 

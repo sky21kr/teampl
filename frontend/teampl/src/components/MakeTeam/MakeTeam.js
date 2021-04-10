@@ -41,7 +41,9 @@ function MakeTeam(){
                         <option>4명</option>
                     </select>
                     <textarea name="teamIntro" placeholder="팀 소개글을 적어주세요!" required></textarea>
-                    <button className="basicBtn" onClick={openModal}>팀 만들기</button>
+                    {/* form안의 내용이 작성,선택이 되어있을때만 openModal이 작동하게 if문을 추가해야됨 */}
+                    <button className="basicBtn" onClick={ openModal }>팀 만들기</button>
+
                 </form>
 
             </div>

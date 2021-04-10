@@ -78,3 +78,62 @@
   display: flex;
   justify-content: center;
 }
+
+// 내정보
+
+.myInfoWrap {
+  width: 1200px;
+  margin: 70px auto;
+  height: 200px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #fff;
+  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.05);
+  padding: 40px;
+  box-sizing: border-box;
+  border-radius: 5px;
+  align-items: center;
+}
+
+.myInfoWrap div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.myInfoWrap img {
+  width: 120px;
+  height: 120px;
+}
+
+.myInfoWrap button {
+  cursor: pointer;
+  border: none;
+  background-color: transparent;
+}
+
+// 계정 삭제 모달창 예아니오 버튼
+
+.yesBtn {
+  cursor: pointer;
+  width: 225px;
+  height: 48px;
+  background: #895ef7;
+  border-radius: 5px;
+  border: none;
+  color: #fff;
+  font-size: 15px;
+  font-weight: 600;
+  margin-top: 20px;
+}
+
+.noBtn {
+  cursor: pointer;
+  width: 225px;
+  height: 48px;
+  border: none;
+  background-color: transparent;
+  font-size: 15px;
+  font-weight: 600;
+}

@@ -8,9 +8,9 @@ import SubjectSlider from '../components/SubjectSlider/SubjectSlider';
 const Home = () => {
     return (
         <div>
-        <SearchArea></SearchArea>
-        <SubjectSlider></SubjectSlider>
-        <Recruitment></Recruitment>
+            <SearchArea></SearchArea>
+            <SubjectSlider></SubjectSlider>
+            <Recruitment></Recruitment>
         </div>
     )
 }

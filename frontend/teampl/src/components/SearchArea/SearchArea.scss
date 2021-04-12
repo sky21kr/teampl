@@ -1,5 +1,13 @@
 $purple: #6438e0;
 
+@font-face {
+  font-family: "TmoneyRoundWindRegular";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-07@1.0/TmoneyRoundWindRegular.woff")
+    format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+
 .searchWrap {
   width: 652px;
   margin: 72px auto;
@@ -11,6 +19,8 @@ $purple: #6438e0;
 
 .searchTitle {
   color: $purple;
+  font-family: "TmoneyRoundWindRegular";
+  font-size: 24px;
 }
 
 .searchBox {

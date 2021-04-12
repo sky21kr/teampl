@@ -60,8 +60,12 @@
 
 // 글쓴이,작성일,댓글수
 .recruitBox > div:nth-child(3) {
-  display: flex;
   color: #8c8c8c;
+}
+
+.recruitBox > div:nth-child(3) > div {
+  display: inline-block;
+  float: right;
 }
 
 // 글쓴이

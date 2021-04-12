@@ -17,8 +17,6 @@ function Recruitment(){
       spaceBetween={50}
       slidesPerView={1}
       pagination={{ clickable: true }}
-      onSlideChange={() => console.log('slide change')}
-      onSwiper={(swiper) => console.log(swiper)}
     >
       <SwiperSlide><RecruitComponent></RecruitComponent></SwiperSlide>
       <SwiperSlide><RecruitComponent></RecruitComponent></SwiperSlide>

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Route } from 'react-router-dom'
-import { Home, SignUp, LogIn } from './pages'
+import { Home, SignUp, LogIn, TeamSearch } from './pages'
 import Header from './components/Header/Header'
 import Footer from './components/Footer/Footer'
 import MakeTeam from './components/MakeTeam/MakeTeam';
@@ -20,7 +20,7 @@ class App extends Component {
 
         <Route exact path='/team/make' component={MakeTeam}/> {/*6*/} 
         <Route exact path='/team/modify' component={SignUp}/> {/*6*/}
-        <Route exact path='/team/search' component={SignUp}/> {/*7, 12*/}
+        <Route exact path='/team/search' component={TeamSearch}/> {/*7, 12*/}
         <Route exact path='/team/post' component={SignUp}/> {/*8*/}
         <Route exact path='/team' component={MyTeam}/> {/*9*/}
 

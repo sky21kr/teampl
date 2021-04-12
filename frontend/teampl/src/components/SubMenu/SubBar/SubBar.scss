@@ -1,0 +1,9 @@
+.subBar {
+    min-width: 750px;
+    display: flex;
+}
+
+.subBar > * {
+    cursor: pointer;
+    margin: 15px;
+}

@@ -6,5 +6,5 @@ import study.templ.domain.Team;
 import java.util.List;
 
 public interface TeamRepository extends JpaRepository<Team, Integer> {
-    List<Team> findBycategory(int category);
+    List<Team> findByCategory(int category);
 }

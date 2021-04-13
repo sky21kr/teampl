@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import study.templ.domain.Team;
+import study.templ.domain.TeamContentsForm;
 import study.templ.service.TeamService;
 
 import java.util.HashMap;
@@ -23,10 +24,10 @@ public class TeamController {
                 param.get("title")==null|| param.get("introduction")==null|| param.get("datetime")==null || param.get("userid")==null)
             return Optional.empty();
 
-        return Optional.ofNullable(teamService.createTeam(
+        return teamService.createTeam(
                 (int)param.get("category"), (int)param.get("limit"), (int)param.get("numberofmembers"),
                 (boolean)param.get("status"), (String) param.get("title"), (String) param.get("introduction"),
-                (String) param.get("datetime"), (int) param.get("userid")));
+                (String) param.get("datetime"), (int) param.get("userid"));
     }
     //조회
     //request parameter에 따라 다른 함수 호출하도록 최종 구현
@@ -52,8 +53,8 @@ public class TeamController {
     }
     //글 조회
     @GetMapping("teamcontents")
-    public void getTeamContents(){
-
+    public Optional<TeamContentsForm> getTeamContents(@RequestParam("teamid") int team_id){
+        return teamService.getTeamContents(team_id);
     }
 
     //수정

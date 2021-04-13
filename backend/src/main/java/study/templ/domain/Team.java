@@ -5,6 +5,8 @@ import com.sun.istack.NotNull;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -38,6 +40,13 @@ public class Team {
     @JoinColumn(name = "\"owner\"")
     @NonNull
     private User owner;
-    
+
+    @ManyToMany
+    @JoinTable(name = "member", joinColumns = @JoinColumn(name = "team_id"),
+                        inverseJoinColumns = @JoinColumn(name = "user_id"))
+    Set<User> members;
+    @OneToMany(mappedBy = "target_team", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
+    private List<Comment> owncomments;
     //코멘트 알람에 OneToMany 설정
+
 }

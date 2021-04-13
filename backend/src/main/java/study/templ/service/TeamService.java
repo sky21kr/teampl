@@ -4,9 +4,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
 import study.templ.domain.Team;
+import study.templ.domain.TeamContentsForm;
 import study.templ.domain.User;
 import study.templ.repository.TeamRepository;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,10 +21,12 @@ public class TeamService {
     private UserService userService;
 
     //팀 만들기
-    public Team createTeam(int category, int limit, int numberofmembers, Boolean status, String title, String introduction, String datetime, int owner) {
-        User user = userService.getUserById(owner).get();
-        Team team = new Team(category, numberofmembers, limit, status, title, introduction, datetime, user);
-        return teamRepository.save(team);
+    public Optional<Team> createTeam(int category, int limit, int numberofmembers, Boolean status, String title, String introduction, String datetime, int owner) {
+        Optional<User> isUser = userService.getUserById(owner);
+        if (isUser.isEmpty())
+            return Optional.empty();
+        Team team = new Team(category, numberofmembers, limit, status, title, introduction, datetime, isUser.get());
+        return Optional.of(teamRepository.save(team));
     }
 
     //team_id로 팀 가져오기
@@ -31,7 +36,7 @@ public class TeamService {
 
     //카테고리에 해당하는 팀 가져오기
     public List<Team> getTeamByCategory(int category){
-        return teamRepository.findBycategory(category);
+        return teamRepository.findByCategory(category);
     }
 
     //모든 팀 가져오기
@@ -39,27 +44,39 @@ public class TeamService {
 
     //user_id가 owner인 팀 가져오기
     public List<Team> getTeamAsOwner(int owner){
-        User user = userService.getUserById(owner).get();
-        return user.getOwnteams();
+        Optional<User> user = userService.getUserById(owner);
+        if (user.isEmpty())
+            return Collections.emptyList();
+        return user.get().getOwnteams();
     }
 
-    //Member :: user_id가 member인 팀 가져오기
-    public void getTeamAsMember(){
+    //team_id 팀의 멤버 가져오기
+    public List<User> getMemberOfTeam(int team_id){
+        Optional<Team> isTeam = teamRepository.findById(team_id);
+        if (isTeam.isEmpty())
+            return Collections.emptyList();
+        List<User> members = new ArrayList<User>(isTeam.get().getMembers());
+        return members;
 
     }
 
     //팀 모집 글 내용 가져오기
-    public void getTeamContents(int team_id){
+    public Optional<TeamContentsForm> getTeamContents(int team_id){
         Optional<Team> isTeam = teamRepository.findById(team_id);
+        if (isTeam.isEmpty())
+            return Optional.empty();
+        TeamContentsForm contents = new TeamContentsForm();
         Team team = isTeam.get();
-        team.getCategory();
-        team.getDatetime();
-        team.getOwner().getNickname();
-        team.getStatus();
-        team.getTitle();
-        team.getIntroduction();
+        contents.setCategory(team.getCategory());
+        contents.setDatetime(team.getDatetime());
+        contents.setNickname(team.getOwner().getNickname());
+        contents.setStatus(team.getStatus());
+        contents.setTitle(team.getTitle());
+        contents.setIntroduction(team.getIntroduction());
+        contents.setComments(team.getOwncomments());
+        return Optional.of(contents);
     }
-    //사용자 owner이고 team 수정 정보 주어지지않을시 이전 값 그대로
+    //사용자 owner이고 team 수정 (정보 주어지지 않을시 이전 값 그대로)
     public Optional<Team> updateTeam(int owner, int team_id, int category, int limit, String title, String introduction){
         Optional<Team> isTeam = teamRepository.findById(team_id);
         if (isTeam.isEmpty())
@@ -95,4 +112,5 @@ public class TeamService {
     public void deleteAllTeam(){
         teamRepository.deleteAll();
     }
+
 }

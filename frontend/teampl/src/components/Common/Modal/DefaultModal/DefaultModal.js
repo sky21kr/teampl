@@ -12,8 +12,8 @@ const DefaultModal = (props) => {
                 <img className="modalImg" src={props.imgSrc}/>
                 <div className="modalTitle">{props.title}</div>
                 { props.contents ? <div className="modalContents">{props.contents}</div> : ''}
-                { props.btnOk ? <button className="t-button btnOk">{props.btnOk}</button> : ''}
-                { props.btnCancel ? <button className="t-button btnCancel">{props.btnCancel}</button> : ''}
+                { props.btnOkText ? <button className="t-button btnOk" onClick={props.btnOk}>{props.btnOkText}</button> : ''}
+                { props.btnCancelText ? <button className="t-button btnCancel" onClick={props.btnCancel}>{props.btnCancelText}</button> : ''}
             </div>
         </div>
     )

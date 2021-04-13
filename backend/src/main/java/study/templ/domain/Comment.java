@@ -25,7 +25,7 @@ public class Comment {
     @CreatedDate
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss")
     @NonNull
-    private LocalDateTime dateTime;
+    private LocalDateTime datetime;
 
     @NonNull
     @Column(name = "comment")
@@ -33,7 +33,7 @@ public class Comment {
 
 
     @NonNull
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "writer")
     @ManyToOne
     private User writer;
 

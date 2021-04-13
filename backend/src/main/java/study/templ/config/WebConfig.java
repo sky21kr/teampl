@@ -8,10 +8,10 @@ import study.templ.intercepter.BasicIntercepter;
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
 
-    @Override
+   /* @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(new BasicIntercepter())
-                .addPathPatterns("/*")
-                .excludePathPatterns("/login");
+        registry.addInterceptor(new BasicIntercepter());
     }
+
+    */
 }

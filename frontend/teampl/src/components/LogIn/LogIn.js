@@ -1,8 +1,21 @@
-import React from 'react';
-import './LogIn.scss'
+import React, { useState }from 'react';
+import './LogIn.scss';
+import DefaultModal from '@/components/Common/Modal/DefaultModal/DefaultModal';
 import { useHistory } from "react-router-dom";
+import ImgSrc from '@/assets/images/askdelete.svg';
 
 const LogIn = () => {
+
+    const [ showModal, setShowModal ] = useState(false);
+
+    const openModal = () => {
+        setShowModal(true);
+    }
+
+    const closeModal = () => {
+        setShowModal(false);
+    }
+
     let history = useHistory()
 
     const inputStyle = { width: '350px'}
@@ -20,7 +33,7 @@ const LogIn = () => {
             </div>
             <input className="t-input" style={inputStyle} placeholder="아이디"/>
             <input className="t-input" style={inputStyle} placeholder="비밀번호"/>
-            <button className="t-button" style={buttonStyle}>
+            <button onClick={openModal} className="t-button" style={buttonStyle}>
                 로그인
             </button>
             <div className="signUpPhrase">
@@ -29,6 +42,17 @@ const LogIn = () => {
                     회원가입하기
                 </span>
             </div>
+            <DefaultModal
+                showModal={showModal}
+                imgSrc={ImgSrc}
+                title="로그인에 실패하셨습니다"
+                contents="로그인에 실패"
+                btnOk="메인화면으로"
+                btnCancel="아니오"
+                closeModal={closeModal}
+            />
+            
+
         </div>
     )
 }

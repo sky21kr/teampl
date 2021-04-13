@@ -16,6 +16,10 @@ const LogIn = () => {
         setShowModal(false);
     }
 
+    const btnOk = () => {
+        history.push('')
+    }
+
     let history = useHistory()
 
     const inputStyle = { width: '350px'}
@@ -47,8 +51,9 @@ const LogIn = () => {
                 imgSrc={ImgSrc}
                 title="로그인에 실패하셨습니다"
                 contents="로그인에 실패"
-                btnOk="메인화면으로"
-                btnCancel="아니오"
+                btnOkText="메인화면으로"
+                btnOk={btnOk}
+                btnCancelText="아니오"
                 closeModal={closeModal}
             />
             

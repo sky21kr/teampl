@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import study.templ.domain.Team;
 import study.templ.domain.TeamContentsForm;
+import study.templ.domain.User;
 import study.templ.service.TeamService;
 
 import java.util.HashMap;
@@ -41,11 +42,6 @@ public class TeamController {
     public List<Team> getTeamByCategory(@RequestParam("category") int category){
         return teamService.getTeamByCategory(category);
     }
-    //내가 만든 팀 조회
-    @GetMapping("team/owner")
-    public List<Team> getTeamAsOwner(@RequestParam("owner") int owner){
-        return  teamService.getTeamAsOwner(owner);
-    }
     //검색어로 조회
     @GetMapping
     public void getTeamBySearch(){
@@ -55,6 +51,10 @@ public class TeamController {
     @GetMapping("teamcontents")
     public Optional<TeamContentsForm> getTeamContents(@RequestParam("teamid") int team_id){
         return teamService.getTeamContents(team_id);
+    }
+    @GetMapping("teammember")
+    public List<User> getTeamMember(@RequestParam("teamid") int team_id){
+        return teamService.getMemberOfTeam(team_id);
     }
 
     //수정
@@ -82,6 +82,7 @@ public class TeamController {
         return teamService.deleteTeamAsOwner(owner, teamid);
     }
 
+
     /*
     //가입 신청
     @PostMapping("/join")
@@ -94,12 +95,11 @@ public class TeamController {
 
     }
 
-    //내가 가입한 팀 조회
-    @GetMapping
-    public void getTeamAsMember(){
+    //내가 가입한 팀 조회 => UserController?
+    @GetMapping("myteam")
+    public void getTeamAsMember(@RequestParam("userid") int userid){
 
     }
-
     //팀 탈퇴
     @DeleteMapping
     public void deleteTeamAsMember(){

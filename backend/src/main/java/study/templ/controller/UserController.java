@@ -4,20 +4,21 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
+import study.templ.domain.Team;
 import study.templ.domain.User;
 import study.templ.repository.UserRepository;
+import study.templ.service.UserService;
 
+import java.util.List;
 import java.util.Optional;
 
-@Controller
+@RestController
 public class UserController {
     @Autowired
     UserRepository userRepository;
-
+    @Autowired
+    UserService userService;
 
     @GetMapping("/test")
     @ResponseBody
@@ -50,5 +51,18 @@ public class UserController {
             this.success = success;
             this.token = token;
         }
+    }
+
+    //내가 만든 팀 조회
+    @GetMapping("/myteam")
+    public List<Team> getMyTeam(@RequestParam("userid") int user_id){
+        return userService.getTeamAsOwner(user_id);
+
+    }
+    @DeleteMapping("/user")
+    public boolean deleteUser(@RequestParam("userid") int user_id){
+        //authentication required!
+
+        return userService.deleteUserById(user_id);
     }
 }

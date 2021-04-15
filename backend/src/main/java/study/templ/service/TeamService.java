@@ -42,14 +42,6 @@ public class TeamService {
     //모든 팀 가져오기
     public List<Team> getTeam(){ return teamRepository.findAll(); }
 
-    //user_id가 owner인 팀 가져오기
-    public List<Team> getTeamAsOwner(int owner){
-        Optional<User> user = userService.getUserById(owner);
-        if (user.isEmpty())
-            return Collections.emptyList();
-        return user.get().getOwnteams();
-    }
-
     //team_id 팀의 멤버 가져오기
     public List<User> getMemberOfTeam(int team_id){
         Optional<Team> isTeam = teamRepository.findById(team_id);
@@ -65,15 +57,10 @@ public class TeamService {
         Optional<Team> isTeam = teamRepository.findById(team_id);
         if (isTeam.isEmpty())
             return Optional.empty();
-        TeamContentsForm contents = new TeamContentsForm();
+
         Team team = isTeam.get();
-        contents.setCategory(team.getCategory());
-        contents.setDatetime(team.getDatetime());
-        contents.setNickname(team.getOwner().getNickname());
-        contents.setStatus(team.getStatus());
-        contents.setTitle(team.getTitle());
-        contents.setIntroduction(team.getIntroduction());
-        contents.setComments(team.getOwncomments());
+        TeamContentsForm contents = new TeamContentsForm(team.getCategory(),team.getDatetime(),team.getOwner().getNickname(),
+                team.getStatus(),team.getTitle(),team.getIntroduction(),team.getOwncomments());
         return Optional.of(contents);
     }
     //사용자 owner이고 team 수정 (정보 주어지지 않을시 이전 값 그대로)

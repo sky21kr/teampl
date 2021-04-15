@@ -7,6 +7,7 @@ import study.templ.domain.User;
 import study.templ.repository.UserRepository;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import study.templ.domain.User;
 import study.templ.repository.UserRepository;
@@ -44,10 +45,19 @@ public class UserService {
     public List<Team> getTeamAsMember(int user_id){
         Optional<User> isUser = userRepository.findById(user_id);
         if (isUser.isEmpty())
-            return List.of(null);
+            return Collections.emptyList();
         List<Team> teams = new ArrayList<>(isUser.get().getTeams());
         return teams;
     }
+
+    //user_id가 owner인 팀 가져오기
+    public List<Team> getTeamAsOwner(int owner){
+        Optional<User> user = userRepository.findById(owner);
+        if (user.isEmpty())
+            return Collections.emptyList();
+        return user.get().getOwnteams();
+    }
+
     //모든 사용자 삭제
     public void deleteAllUser(){//테스트용 팀 테이블 초기화
         userRepository.deleteAll();

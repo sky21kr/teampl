@@ -4,7 +4,7 @@ import TeamSearchMain from '@/components/TeamSearchMain/TeamSearchMain'
 
 const TeamSearch = () => {
     return (
-        <div style={{width: '100%', height: '100%'}}>
+        <div>
             <SubMenu/>
             <TeamSearchMain/>
         </div>

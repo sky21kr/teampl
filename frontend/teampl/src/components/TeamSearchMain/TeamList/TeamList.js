@@ -1,12 +1,22 @@
 import React from 'react';
 import './TeamList.scss'
 import RecruitBox from '@/components/Common/RecruitBox/RecruitBox'
+import { useHistory } from "react-router-dom";
+
 
 const TeamList = () => {
 
+    let history = useHistory();
+
+    const clickRecruitBox = () => {
+        history.push('/team/post')
+    }
+
     return (
         <div className="teamList">
-            <RecruitBox/>
+            <div onClick={clickRecruitBox}>
+                <RecruitBox/>
+            </div>
             <RecruitBox/>
             <RecruitBox/>
             <RecruitBox/>

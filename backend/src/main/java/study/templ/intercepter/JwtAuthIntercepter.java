@@ -1,12 +1,16 @@
 package study.templ.intercepter;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 import study.templ.domain.User;
 import study.templ.repository.UserRepository;
+import study.templ.service.UserService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 
 public class JwtAuthIntercepter implements HandlerInterceptor {
     @Autowired
@@ -21,7 +25,6 @@ public class JwtAuthIntercepter implements HandlerInterceptor {
         String token = request.getHeader(HEADER_TOKEN_KEY);
 
         if (!token.equals(user.getToken())) {
-
             throw new IllegalArgumentException("토큰 불일치");
         }
 

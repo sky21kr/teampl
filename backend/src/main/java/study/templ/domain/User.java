@@ -30,5 +30,7 @@ public class User {
     @OneToMany(mappedBy = "owner",cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
     List<Team> ownteams;
 
+    @Column(name = "auth_token")
+    @Setter
     String token;
 }

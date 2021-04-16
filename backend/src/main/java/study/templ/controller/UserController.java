@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 import study.templ.domain.User;
 import study.templ.repository.UserRepository;
+import study.templ.service.UserService;
 
 import java.util.Optional;
 
@@ -17,22 +18,61 @@ import java.util.Optional;
 public class UserController {
     @Autowired
     UserRepository userRepository;
+    @Autowired
+    UserService userService;
 
 
-    @GetMapping("/test")
+    @GetMapping("/test1")
     @ResponseBody
-    public String hello() {
-        return "Hello";
+    public String hello1() {
+        return "Hello1";
+    }
+
+    @GetMapping("/test2")
+    @ResponseBody
+    public String hello2() {
+        return "Hello2";
+    }
+
+    @GetMapping("/test3")
+    @ResponseBody
+    public String hello3() {
+        return "Hello3";
     }
 
 
     @PostMapping("/login")
     @ResponseBody
     public LoginResult loginApi(@RequestBody LoginRequest loginInfo) {
-        Optional<User> user;
-        user = userRepository.findByAccountId(loginInfo.id);
-        return new LoginResult(true, "1234");
+        User user = userService.login(loginInfo.getId(), loginInfo.getPassword());
+        return new LoginResult(true, user.getToken(), user.getUserid());
     }
+
+    @PostMapping("/signup")
+    @ResponseBody
+    public SignupResponse signupApi(@RequestBody SignupRequest signupInfo) {
+        userService.createUser(signupInfo.getId(), signupInfo.getPassword(), signupInfo.getNickname());
+        return new SignupResponse(true);
+    }
+
+
+    @Setter
+    @Getter
+    static class SignupRequest {
+        private String id;
+        private String password;
+        private String nickname;
+    }
+
+    @Getter
+    static class SignupResponse {
+        private boolean success;
+
+        public SignupResponse(boolean success) {
+            this.success = success;
+        }
+    }
+
 
     @Setter
     @Getter
@@ -45,10 +85,12 @@ public class UserController {
     static class LoginResult {
         private boolean success;
         private String token;
+        private int userId;
 
-        public LoginResult(boolean success, String token) {
+        public LoginResult(boolean success, String token, int userId) {
             this.success = success;
             this.token = token;
+            this.userId = userId;
         }
     }
 }

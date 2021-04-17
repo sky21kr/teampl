@@ -1,128 +1,33 @@
 import React from 'react';
 import './RecruitComponent.scss';
+import RecruitBox from '@/components/Common/RecruitBox/RecruitBox';
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
 function RecruitComponent(){
     return(
         <div className="recruitBoxWrap">
             <Link to="main" style={{textDecoration:'none'}}>
-                <div className="recruitBox">
-                    <div>
-                        <span className="subjectBtn">취업/취준</span>
-                        <span className="teamStatus">모집중</span>
-                    </div>
-                    <div>
-                        <h3>공기업 같이 준비하실분</h3>
-                        <p>같이 준비하실분 3분정도 모셔요 댓글주세요</p>
-                    </div>
-                    <div>
-                        <span>글쓴이</span>
-                        <span>2021-04-01</span>
-                        <div>
-                                  <img src="./images/message-circle.svg"></img><span>3</span>
-                        </div>
-                    </div>
-                </div>
+                <RecruitBox></RecruitBox>
             </Link>
 
             <Link to="main" style={{textDecoration:'none'}}>
-                <div className="recruitBox">
-                    <div>
-                        <span className="subjectBtn">취업/취준</span>
-                        <span className="teamStatus">모집중</span>
-                    </div>
-                    <div>
-                        <h3>공기업 같이 준비하실분</h3>
-                        <p>같이 준비하실분 3분정도 모셔요 댓글주세요</p>
-                    </div>
-                    <div>
-                        <span>글쓴이</span>
-                        <span>2021-04-01</span>
-                        <div>
-                                  <img src="./images/message-circle.svg"></img><span>3</span>
-                        </div>
-                    </div>
-                </div>
+             <RecruitBox type={"취업/취준"} status={"모집완료"}></RecruitBox>
             </Link>
             
             <Link to="main" style={{textDecoration:'none'}}>
-                <div className="recruitBox">
-                    <div>
-                        <span className="subjectBtn">취업/취준</span>
-                        <span className="teamStatus">모집중</span>
-                    </div>
-                    <div>
-                        <h3>공기업 같이 준비하실분</h3>
-                        <p>같이 준비하실분 3분정도 모셔요 댓글주세요</p>
-                    </div>
-                    <div>
-                        <span>글쓴이</span>
-                        <span>2021-04-01</span>
-                        <div>
-                                  <img src="./images/message-circle.svg"></img><span>3</span>
-                        </div>
-                    </div>
-                </div>
+             <RecruitBox type={"운동/스포츠"} status={"모집중"}></RecruitBox>
             </Link>
 
             <Link to="main" style={{textDecoration:'none'}}>
-                <div className="recruitBox">
-                    <div>
-                        <span className="subjectBtn">취업/취준</span>
-                        <span className="teamStatus">모집중</span>
-                    </div>
-                    <div>
-                        <h3>공기업 같이 준비하실분</h3>
-                        <p>같이 준비하실분 3분정도 모셔요 댓글주세요</p>
-                    </div>
-                    <div>
-                        <span>글쓴이</span>
-                        <span>2021-04-01</span>
-                        <div>
-                                  <img src="./images/message-circle.svg"></img><span>3</span>
-                        </div>
-                    </div>
-                </div>
+              <RecruitBox type={"공부/학문"} status={"모집중"}></RecruitBox>
             </Link>
 
             <Link to="main" style={{textDecoration:'none'}}>
-                <div className="recruitBox">
-                    <div>
-                        <span className="subjectBtn">취업/취준</span>
-                        <span className="teamStatus">모집중</span>
-                    </div>
-                    <div>
-                        <h3>공기업 같이 준비하실분</h3>
-                        <p>같이 준비하실분 3분정도 모셔요 댓글주세요</p>
-                    </div>
-                    <div>
-                        <span>글쓴이</span>
-                        <span>2021-04-01</span>
-                        <div>
-                                  <img src="./images/message-circle.svg"></img><span>3</span>
-                        </div>
-                    </div>
-                </div>
+                <RecruitBox type={"어학/자격증"} status={"모집중"}></RecruitBox>
             </Link>
 
             <Link to="main" style={{textDecoration:'none'}}>
-                <div className="recruitBox">
-                    <div>
-                        <span className="subjectBtn">취업/취준</span>
-                        <span className="teamStatus">모집중</span>
-                    </div>
-                    <div>
-                        <h3>공기업 같이 준비하실분</h3>
-                        <p>같이 준비하실분 3분정도 모셔요 댓글주세요</p>
-                    </div>
-                    <div>
-                        <span>글쓴이</span>
-                        <span>2021-04-01</span>
-                        <div>
-                                  <img src="./images/message-circle.svg"></img><span>3</span>
-                        </div>
-                    </div>
-                </div>
+               <RecruitBox type={"취미/오락"} status={"모집중"}></RecruitBox>   
             </Link>
 
         </div>

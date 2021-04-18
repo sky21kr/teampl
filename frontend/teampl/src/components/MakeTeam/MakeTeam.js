@@ -22,7 +22,7 @@ function MakeTeam(){
                     e.preventDefault();
                     console.log(e.target.teamName.value,e.target.teamSubject.value,e.target.numberOfMember.value,e.target.teamIntro.value)
                 }}>
-                    <input type="text" name="teamName" placeholder="팀 이름" required></input>
+                    <input className="teamName" type="text" name="teamName" placeholder="팀 이름" required></input>
                     <select name="teamSubject">
                         <option disabled selected hidden>주제 분류</option>
                         <option>공부/학문</option>
@@ -40,9 +40,9 @@ function MakeTeam(){
                         <option>3명</option>
                         <option>4명</option>
                     </select>
-                    <textarea name="teamIntro" placeholder="팀 소개글을 적어주세요!" required></textarea>
+                    <textarea className="teamIntro" name="teamIntro" placeholder="팀 소개글을 적어주세요!" required></textarea>
                     {/* form안의 내용이 작성,선택이 되어있을때만 openModal이 작동하게 if문을 추가해야됨 */}
-                    <button className="basicBtn" onClick={ openModal }>팀 만들기</button>
+                    <button className="basicBtn" onClick={openModal}>팀 만들기</button>
 
                 </form>
 

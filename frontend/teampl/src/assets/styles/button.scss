@@ -1,19 +1,19 @@
-@import './variable.scss';
+@import "./variable.scss";
 
 .t-button {
-    background-color: $purple;
-    color: #ffffff;
-    width: 160px;
-    height: 48px;
-    border: 0;
-    outline: 0;
-    border-radius: 4px;
-    font-weight: 500;
-    font-size: 15px;
-    font-family: $font;
-    cursor: pointer;
+  background-color: $purple;
+  color: #ffffff;
+  min-width: 190px;
+  height: 48px;
+  border: 0;
+  outline: 0;
+  border-radius: 4px;
+  font-weight: 500;
+  font-size: 15px;
+  font-family: $font;
+  cursor: pointer;
 }
 
 .t-button:focus {
-    outline: none
+  outline: none;
 }

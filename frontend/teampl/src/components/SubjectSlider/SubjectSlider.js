@@ -22,13 +22,13 @@ function SubjectSlider (){
       onSlideChange={() => console.log('slide change')}
       onSwiper={(swiper) => console.log(swiper)}
     >
-      <SwiperSlide><Link to="main"><img src="./images/subject01.png"></img></Link></SwiperSlide>
-      <SwiperSlide><Link to="main"><img src="./images/subject02.png"></img></Link></SwiperSlide>
-      <SwiperSlide><Link to="main"><img src="./images/subject03.png"></img></Link></SwiperSlide>
-      <SwiperSlide><Link to="main"><img src="./images/subject04.png"></img></Link></SwiperSlide>
-      <SwiperSlide><Link to="main"><img src="./images/subject05.png"></img></Link></SwiperSlide>
-      <SwiperSlide><Link to="main"><img src="./images/subject06.png"></img></Link></SwiperSlide>
-      <SwiperSlide><Link to="main"><img src="./images/subject07.png"></img></Link></SwiperSlide>
+      <SwiperSlide><Link to="main"><img src="./images/subject01.png" alt="공부/학문"></img></Link></SwiperSlide>
+      <SwiperSlide><Link to="main"><img src="./images/subject02.png" alt="운동/스포츠"></img></Link></SwiperSlide>
+      <SwiperSlide><Link to="main"><img src="./images/subject03.png" alt="취미/오락"></img></Link></SwiperSlide>
+      <SwiperSlide><Link to="main"><img src="./images/subject04.png" alt="취업/취준"></img></Link></SwiperSlide>
+      <SwiperSlide><Link to="main"><img src="./images/subject05.png" alt="어학/자격증"></img></Link></SwiperSlide>
+      <SwiperSlide><Link to="main"><img src="./images/subject06.png" alt="IT/개발"></img></Link></SwiperSlide>
+      <SwiperSlide><Link to="main"><img src="./images/subject07.png" alt="기타"></img></Link></SwiperSlide>
       
     </Swiper>
     </div>

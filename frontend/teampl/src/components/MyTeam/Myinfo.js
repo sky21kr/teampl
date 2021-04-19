@@ -1,32 +1,30 @@
 import React, { Component, useState } from 'react';
-import DeleteModal from './DeleteModal';
-import ChangeModal from './ChangeModal';
 import './MyTeam.scss'
+import DefaultModal from '../Common/Modal/DefaultModal/DefaultModal';
+import ImgSrc from '@/assets/images/askdelete.svg';
 
 function Myinfo(props){
 
-    // 이름변경하기 모달
-    let [changeModal,changeModalHandler] = useState(false);
- 
-    const openChangeModal= ()=>{
-        changeModalHandler(true);
+    const [ showModal, setShowModal ] = useState(false);
+
+    const openModal = () => {
+        setShowModal(true);
     }
 
-    const closeChangeModal=()=>{
-        changeModalHandler(false);
+    const closeModal = () => {
+        setShowModal(false);
     }
 
-    // 계정삭제하기 모달
-    
-    let [deleteModal,deleteModalHandler] = useState(false);
- 
-    const openDeleteModal= ()=>{
-        deleteModalHandler(true);
+    const [ showModal2, setShowModal2 ] = useState(false);
+
+    const openModal2 = () => {
+        setShowModal2(true);
     }
 
-    const closeDeleteModal=()=>{
-        deleteModalHandler(false);
+    const closeModal2 = () => {
+        setShowModal2(false);
     }
+
 
     const userName = props.userName
     const madeTeamNum = props.madeTeamNum
@@ -40,21 +38,43 @@ function Myinfo(props){
 
     return(
         <>
+
+                <DefaultModal
+                    showModal={showModal}
+                    imgSrc={ImgSrc}
+                    title="정말로 팀플 계정을 삭제하시겠습니까?"
+                    btnOkText="네, 삭제하겠습니다."
+                    btnCancelText="아니오, 한번 더 생각해볼게요"
+                    closeModal={closeModal}
+                    >
+                </DefaultModal>
+
+
+                <DefaultModal
+                    showModal={showModal2}
+                    title="이름을 변경하시겠습니까?"
+                    btnOkText="네"
+                    btnCancelText="아니오"
+                    closeModal={closeModal2}
+                    >
+                </DefaultModal>
+
+
         <div className="myInfoWrap">
+  
             <div>
                  <img src="./images/userimage.png"></img>
 
                  <div>
-                 <h2>{userName}  <button onClick={openChangeModal}>이름변경</button></h2>
+                 <h2>{userName}  <button onClick={openModal2}>이름변경</button></h2>
                  <p>내가만든 팀플 {madeTeamNum}개   |   내가 가입한 팀플 {joinedTeamNum}개</p>
                  </div>
             </div>
 
-            <button onClick={openDeleteModal} >팀플 탈퇴하기</button>
+            <button onClick={openModal} >팀플 탈퇴하기</button>
         </div>
     
-        <ChangeModal open={changeModal} close={closeChangeModal}></ChangeModal>
-        <DeleteModal open={deleteModal} close={closeDeleteModal}></DeleteModal>
+  
     </>
     )
 }

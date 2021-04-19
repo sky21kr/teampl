@@ -1,18 +1,21 @@
 import React, { Component, useState } from 'react';
 import './MakeTeam.scss'
-import MakeTeamModal from './MakeTeamModal'
+import DefaultModal from '../Common/Modal/DefaultModal/DefaultModal';
+import ImgSrc from '@/assets/images/createsuccess.svg';
 
 function MakeTeam(){
 
-    let [modal,modalHandler] = useState(false);
- 
-    const openModal= ()=>{
-        modalHandler(true);
+
+    const [ showModal, setShowModal ] = useState(false);
+
+    const openModal = () => {
+        setShowModal(true);
     }
 
-    const closeModal=()=>{
-        modalHandler(false);
+    const closeModal = () => {
+        setShowModal(false);
     }
+
 
         return(
             <>
@@ -48,9 +51,15 @@ function MakeTeam(){
 
             </div>
 
-
-            <MakeTeamModal open={modal} close={closeModal}></MakeTeamModal>
-
+            <DefaultModal
+                    showModal={showModal}
+                    imgSrc={ImgSrc}
+                    title="짝짝짝! 당신의 팀이 만들어졌어요!"
+                    contents="이제 다른 팀원들의 가입을 기다려주세요!"
+                    btnOkText="팀 확인하러 가기"
+                    closeModal={closeModal}
+                    >
+                </DefaultModal>
         
             </>
             )

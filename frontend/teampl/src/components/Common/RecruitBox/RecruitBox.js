@@ -11,16 +11,6 @@ const RecruitBox = (props) => {
     const date = props.date
     const comments = props.comments
 
-    RecruitBox.defaultProps={
-        type : "카테고리",
-        status : "모집정보",
-        title: "글 제목",
-        contents : "글 내용",
-        writer : "글쓴이",
-        date : "날짜",
-        comments : "댓글 수"
-    }
-
     const Subject = styled.span`
       text-align: center;
       font-size: 13px;
@@ -81,6 +71,16 @@ const RecruitBox = (props) => {
             </div>
         </div>
     )
+}
+
+RecruitBox.defaultProps={
+    type : "카테고리",
+    status : "모집정보",
+    title: "글 제목",
+    contents : "글 내용",
+    writer : "글쓴이",
+    date : "날짜",
+    comments : "댓글 수"
 }
 
 export default RecruitBox;

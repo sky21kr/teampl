@@ -1,0 +1,31 @@
+@import '@/assets/styles/variable.scss';
+
+.postContent {
+    border: solid 1px #eeeeee;
+    padding: 50px;
+    display: flex;
+    flex-direction: column;
+    .postHeader {
+        display: flex;
+        justify-content: space-between;
+
+        .postEditBtn {
+            display: flex;
+            font-size: 11px;
+            color: #8c8c8c;
+        }
+    }
+}
+
+.studyType {
+    width: 72px;
+    height: 24px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    border-radius: 12px;
+    background-color: #895ef7;
+    font-size: 13px;
+    color: #ffffff;
+}

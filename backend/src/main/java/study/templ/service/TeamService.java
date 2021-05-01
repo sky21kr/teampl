@@ -2,10 +2,11 @@ package study.templ.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestParam;
+import study.templ.domain.Member;
 import study.templ.domain.Team;
 import study.templ.domain.TeamContentsForm;
 import study.templ.domain.User;
+import study.templ.repository.ApplicationRepository;
 import study.templ.repository.TeamRepository;
 
 import java.util.ArrayList;
@@ -19,6 +20,8 @@ public class TeamService {
     private TeamRepository teamRepository;
     @Autowired
     private UserService userService;
+    @Autowired
+    private ApplicationRepository applicationRepository;
 
     //팀 만들기
     public Optional<Team> createTeam(int category, int limit, int numberofmembers, Boolean status, String title, String introduction, String datetime, int owner) {
@@ -43,11 +46,13 @@ public class TeamService {
     public List<Team> getTeam(){ return teamRepository.findAll(); }
 
     //team_id 팀의 멤버 가져오기
-    public List<User> getMemberOfTeam(int team_id){
+    public List<Member> getMemberOfTeam(int team_id){
         Optional<Team> isTeam = teamRepository.findById(team_id);
         if (isTeam.isEmpty())
             return Collections.emptyList();
-        List<User> members = new ArrayList<User>(isTeam.get().getMembers());
+        if (isTeam.get().getMembers()==null)
+            return Collections.emptyList();
+        List<Member> members = new ArrayList<Member>(isTeam.get().getMembers());
         return members;
 
     }

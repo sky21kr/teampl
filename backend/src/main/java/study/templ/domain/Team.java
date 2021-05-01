@@ -1,12 +1,10 @@
 package study.templ.domain;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.sun.istack.NotNull;
 import lombok.*;
 
 import javax.persistence.*;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Getter
@@ -41,11 +39,11 @@ public class Team {
     @NonNull
     private User owner;
 
-    @ManyToMany
-    @JoinTable(name = "member", joinColumns = @JoinColumn(name = "team_id"),
-                        inverseJoinColumns = @JoinColumn(name = "user_id"))
-    Set<User> members;
-    @OneToMany(mappedBy = "target_team", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "team", cascade = CascadeType.REMOVE)
+    List<Member> members;
+    @OneToMany(mappedBy = "team", cascade = CascadeType.REMOVE)
+    List<Application> applications;
+    @OneToMany(mappedBy = "target_team", cascade = CascadeType.REMOVE)
     private List<Comment> owncomments;
     //코멘트 알람에 OneToMany 설정
 

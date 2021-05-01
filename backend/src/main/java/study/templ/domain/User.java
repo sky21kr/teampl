@@ -27,17 +27,19 @@ public class User {
     String password;
     @NonNull
     String nickname;
-
-    @ManyToMany(mappedBy = "members")
-    Set<Team> teams;
-
-
-    @JsonManagedReference
-    @OneToMany(mappedBy = "owner",cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
-    List<Team> ownteams;
-
-    @OneToMany(mappedBy = "writer", fetch = FetchType.LAZY)
-    List<Comment> owncomments;
     @Column(name = "auth_token")
     String token;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
+    List<Member> memberteams;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
+    List<Application> applications;
+
+    @JsonManagedReference
+    @OneToMany(mappedBy = "owner", cascade = CascadeType.REMOVE)
+    List<Team> ownteams;
+    @OneToMany(mappedBy = "writer")
+    List<Comment> owncomments;
+
+
 }

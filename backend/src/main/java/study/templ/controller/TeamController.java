@@ -3,6 +3,7 @@ package study.templ.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import study.templ.domain.Member;
 import study.templ.domain.Team;
 import study.templ.domain.TeamContentsForm;
 import study.templ.domain.User;
@@ -53,7 +54,7 @@ public class TeamController {
         return teamService.getTeamContents(team_id);
     }
     @GetMapping("teammember")
-    public List<User> getTeamMember(@RequestParam("teamid") int team_id){
+    public List<Member> getTeamMember(@RequestParam("teamid") int team_id){
         return teamService.getMemberOfTeam(team_id);
     }
 

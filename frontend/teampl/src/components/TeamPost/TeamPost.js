@@ -1,6 +1,7 @@
 import React from 'react';
 import './TeamPost.scss'
 import PostContent from './PostContent/PostContent'
+import PostComment from './PostComment/PostComment'
 
 const TeamPost = () => {
 
@@ -10,17 +11,8 @@ const TeamPost = () => {
                 &lt; 이전으로
             </div>
             <PostContent/>
-            <div>
-                <div>
-                    댓글
-                </div>
-                <div>
-                    대댓글
-                </div>
-                <div>
-                    대댓글
-                </div>
-            </div>
+            <PostComment/>
+            
         </div>
     )
 }

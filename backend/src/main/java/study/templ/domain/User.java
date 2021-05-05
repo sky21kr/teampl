@@ -30,6 +30,7 @@ public class User {
     @Column(name = "auth_token")
     String token;
 
+    @JsonManagedReference
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
     List<Member> memberteams;
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)

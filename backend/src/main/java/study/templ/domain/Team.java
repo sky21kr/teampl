@@ -1,9 +1,11 @@
 package study.templ.domain;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -31,7 +33,8 @@ public class Team {
     @NonNull
     private String introduction;
     @NonNull
-    private String datetime;
+
+    private LocalDateTime datetime;
 
     @JsonBackReference
     @ManyToOne
@@ -39,6 +42,7 @@ public class Team {
     @NonNull
     private User owner;
 
+    @JsonManagedReference
     @OneToMany(mappedBy = "team", cascade = CascadeType.REMOVE)
     List<Member> members;
     @OneToMany(mappedBy = "team", cascade = CascadeType.REMOVE)

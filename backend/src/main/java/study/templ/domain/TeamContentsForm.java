@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
@@ -12,7 +13,7 @@ import java.util.List;
 @AllArgsConstructor
 public class TeamContentsForm {
     private Integer category;
-    private String datetime;
+    private LocalDateTime datetime;
     private String nickname;
     private Boolean status;
     private String title;

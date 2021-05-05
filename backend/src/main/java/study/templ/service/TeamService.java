@@ -7,8 +7,10 @@ import study.templ.domain.Team;
 import study.templ.domain.TeamContentsForm;
 import study.templ.domain.User;
 import study.templ.repository.ApplicationRepository;
+import study.templ.repository.MemberRepository;
 import study.templ.repository.TeamRepository;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -22,13 +24,16 @@ public class TeamService {
     private UserService userService;
     @Autowired
     private ApplicationRepository applicationRepository;
-
+    @Autowired
+    private MemberRepository memberRepository;
     //팀 만들기
-    public Optional<Team> createTeam(int category, int limit, int numberofmembers, Boolean status, String title, String introduction, String datetime, int owner) {
+    public Optional<Team> createTeam(int category, int limit, int numberofmembers, Boolean status, String title, String introduction, int owner) {
         Optional<User> isUser = userService.getUserById(owner);
         if (isUser.isEmpty())
             return Optional.empty();
-        Team team = new Team(category, numberofmembers, limit, status, title, introduction, datetime, isUser.get());
+        Team team = new Team(category, numberofmembers, limit, status, title, introduction, LocalDateTime.now(), isUser.get());
+        teamRepository.save(team);
+        memberRepository.save(new Member(team.getTeamid(), isUser.get().getUserid(), team, isUser.get()));
         return Optional.of(teamRepository.save(team));
     }
 
@@ -37,12 +42,12 @@ public class TeamService {
         return teamRepository.findById(team_id);
     }
 
-    //카테고리에 해당하는 팀 가져오기
+    //카테고리에 해당하는 팀 가져오기 :: page
     public List<Team> getTeamByCategory(int category){
         return teamRepository.findByCategory(category);
     }
 
-    //모든 팀 가져오기
+    //모든 팀 가져오기 :: page
     public List<Team> getTeam(){ return teamRepository.findAll(); }
 
     //team_id 팀의 멤버 가져오기

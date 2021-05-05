@@ -9,6 +9,7 @@ import study.templ.domain.TeamContentsForm;
 import study.templ.domain.User;
 import study.templ.service.TeamService;
 
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
@@ -23,13 +24,13 @@ public class TeamController {
     @PostMapping("make-team")
     public Optional<Team> createTeam(@RequestBody HashMap<String, Object> param){
         if (param.get("category")==null||param.get("limit")==null||param.get("numberofmembers")==null|| param.get("status")==null ||
-                param.get("title")==null|| param.get("introduction")==null|| param.get("datetime")==null || param.get("userid")==null)
+                param.get("title")==null|| param.get("introduction")==null || param.get("userid")==null)
             return Optional.empty();
 
         return teamService.createTeam(
                 (int)param.get("category"), (int)param.get("limit"), (int)param.get("numberofmembers"),
                 (boolean)param.get("status"), (String) param.get("title"), (String) param.get("introduction"),
-                (String) param.get("datetime"), (int) param.get("userid"));
+                (int) param.get("userid"));
     }
     //조회
     //request parameter에 따라 다른 함수 호출하도록 최종 구현

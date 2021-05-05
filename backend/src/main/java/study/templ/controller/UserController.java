@@ -5,11 +5,13 @@ import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import study.templ.domain.Member;
 import study.templ.domain.Team;
 import study.templ.domain.User;
 import study.templ.repository.UserRepository;
 import study.templ.service.UserService;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,6 +28,11 @@ public class UserController {
         return "Hello";
     }
 
+    //사용자 생성
+    @PostMapping("/sign-up")
+    public Optional<User> createUser(@RequestBody HashMap<String,String> params){
+        return userService.createUser(params.get("account_id"),params.get("password"),params.get("nickname"));
+    }
 
     @PostMapping("/login")
     @ResponseBody
@@ -57,12 +64,25 @@ public class UserController {
     @GetMapping("/myteam")
     public List<Team> getMyTeam(@RequestParam("userid") int user_id){
         return userService.getTeamAsOwner(user_id);
-
     }
+    @GetMapping("/memberteam")
+    public List<Member> getMemberTeam(@RequestParam("userid") int user_id){
+        return userService.getTeamAsMember(user_id);
+    }
+    //userid로 사용자 삭제
     @DeleteMapping("/user")
     public boolean deleteUser(@RequestParam("userid") int user_id){
         //authentication required!
-
         return userService.deleteUserById(user_id);
+    }
+
+    @PostMapping("/application")
+    public boolean createApplication(@RequestBody HashMap<String, Object> params){
+        return userService.createApplication((Integer)params.get("teamid"), (Integer)params.get("userid"), (String)params.get("contents"));
+    }
+    @PostMapping("/accept-application")
+    public int acceptApplication(@RequestBody HashMap<String, Object> params){
+        return userService.acceptApplication((Integer)params.get("owner"), (Integer)params.get("teamid"),
+                (Integer)params.get("userid"), (Boolean)params.get("accept"));
     }
 }

@@ -7,6 +7,7 @@ import MakeTeam from './components/MakeTeam/MakeTeam';
 import MyTeam from './components/MyTeam/MyTeam';
 import '@/assets/styles/index.scss'
 import './App.scss'
+import JoinedTeamMain from './components/JoinedTeamMain/JoinedTeamMain';
 
 class App extends Component {
   render() {
@@ -24,7 +25,7 @@ class App extends Component {
         <Route exact path='/team/post' component={TeamPost}/> {/*8*/}
         <Route exact path='/team' component={MyTeam}/> {/*9*/}
 
-        <Route path='/team/detail' component={SignUp}/> {/*10*/}
+        <Route exact path='/team/detail' component={JoinedTeamMain}/> {/*10*/}
         <Route path='/team/detail/post' component={SignUp}/> {/*11*/}
         <Footer/>
       </div>

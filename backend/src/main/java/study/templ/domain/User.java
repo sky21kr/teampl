@@ -28,6 +28,7 @@ public class User {
     @NonNull
     String nickname;
     @Column(name = "auth_token")
+    @Setter
     String token;
 
     @JsonManagedReference

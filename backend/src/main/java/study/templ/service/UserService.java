@@ -5,6 +5,9 @@ import org.springframework.stereotype.Service;
 import study.templ.domain.*;
 import study.templ.repository.ApplicationRepository;
 import study.templ.repository.MemberRepository;
+import study.templ.domain.Team;
+import study.templ.domain.User;
+import study.templ.infra.JwtUtil;
 import study.templ.repository.UserRepository;
 
 import java.util.ArrayList;
@@ -24,7 +27,23 @@ public class UserService {
     
     @Autowired
     TeamService teamService;
-    
+    @Autowired
+    JwtUtil jwtUtil;
+
+    public User login(String account_id, String password) {
+        User user = userRepository.findByAccountid(account_id)
+                .orElseThrow(() -> new IllegalArgumentException("id wrong"));
+
+        if (!user.getPassword().equals(password)) {
+            throw new IllegalArgumentException("password wrong");
+        }
+
+        user.setToken(jwtUtil.createToken());
+        userRepository.save(user);
+
+        return user;
+    }
+
     //사용자 생성
     public Optional<User> createUser(String account_id, String password, String nickname){
         User user = new User(account_id, password, nickname);

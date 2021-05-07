@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 import study.templ.domain.User;
+import study.templ.infra.AuthenticationFailedException;
 import study.templ.repository.UserRepository;
 import study.templ.service.UserService;
 
@@ -20,12 +21,21 @@ public class JwtAuthIntercepter implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        User user = userRepository.findById(Integer.parseInt(request.getHeader("userId"))).orElseThrow(() -> new IllegalArgumentException("유저 아님"));
-
+        String userId = request.getHeader("userId");
         String token = request.getHeader(HEADER_TOKEN_KEY);
 
+        if (userId == null) {
+            throw new AuthenticationFailedException("userId 헤더 없음");
+        }
+
+        if (token == null) {
+            throw new AuthenticationFailedException("token 헤더 없음");
+        }
+
+        User user = userRepository.findById(Integer.parseInt(userId)).orElseThrow(() -> new AuthenticationFailedException("유저 아님"));
+
         if (!token.equals(user.getToken())) {
-            throw new IllegalArgumentException("토큰 불일치");
+            throw new AuthenticationFailedException("토큰 불일치");
         }
 
         return true;

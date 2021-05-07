@@ -8,6 +8,7 @@ import ImgSrc from '@/assets/images/askdelete.svg';
 import './JoinedTeamMain.scss'
 import { useHistory } from "react-router-dom";
 import Posting from './Posting'
+import PostingModal from '../Common/Modal/DefaultModal/PostingModal'
 
 function JoinedTeamMain(props){
 
@@ -28,6 +29,16 @@ function JoinedTeamMain(props){
 
     const closeModal = () => {
         setShowModal(false);
+    }
+
+    const [ showModal2, setShowModal2 ] = useState(false);
+
+    const openModal2 = () => {
+        setShowModal2(true);
+    }
+
+    const closeModal2 = () => {
+        setShowModal2(false);
     }
 
     
@@ -72,7 +83,7 @@ function JoinedTeamMain(props){
             <button className="leaveBtn" onClick={openModal}>팀 탈퇴하기</button>
             </>
 
-            <button className="writeBtn">글쓰기</button>
+            <button className="writeBtn" onClick={openModal2}>글쓰기</button>
 
 
             <DefaultModal
@@ -84,6 +95,17 @@ function JoinedTeamMain(props){
                     closeModal={closeModal}
                     >
                 </DefaultModal>
+
+
+                <PostingModal
+                    className="postMode"
+                    showModal={showModal2}
+                    title="글쓰기"
+                    closeModal={closeModal2}
+                    btnOkText="등록하기"
+                    >
+                </PostingModal>
+
 
         </div>
 

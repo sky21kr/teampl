@@ -34,13 +34,12 @@ const PostComment  = () => {
                 </div>
             </div>
 
-            <div className="commentInput">
+            <div className="replyCommentInput">
                 <textarea placeholder="대댓글을 입력하세요"/>
                 <button className="t-button">
                     등록
                 </button>
             </div>
-
         </div>
     )
 }

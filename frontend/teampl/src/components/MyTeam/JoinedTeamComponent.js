@@ -67,7 +67,7 @@ function JoinedTeamComponent(props){
              <p>{contents}</p>
         </div>
         <div>
-            <Link to="/"><button className="goToTeamBtn">팀 바로가기</button></Link>
+            <Link to="/team/detail"><button className="goToTeamBtn">팀 바로가기</button></Link>
         </div>
     </div>
     )

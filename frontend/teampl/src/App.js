@@ -6,6 +6,7 @@ import Footer from './components/Footer/Footer'
 import MakeTeam from './components/MakeTeam/MakeTeam';
 import MyTeam from './components/MyTeam/MyTeam';
 import JoinedTeamMain from './components/JoinedTeamMain/JoinedTeamMain';
+import TeamPost from './components/TeamPost/TeamPost';
 
 import '@/assets/styles/index.scss'
 import './App.scss'
@@ -27,7 +28,7 @@ class App extends Component {
         <Route exact path='/team' component={MyTeam}/> {/*9*/}
 
         <Route exact path='/team/detail' component={JoinedTeamMain}/> {/*10*/}
-        <Route exact path='/team/detail/post/:postId' component={SignUp}/> {/*11*/}
+        <Route exact path='/team/post/:postId' component={TeamPost}/> {/*11*/}
         <Footer/>
       </div>
     )

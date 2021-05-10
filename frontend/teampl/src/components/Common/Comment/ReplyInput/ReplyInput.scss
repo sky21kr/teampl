@@ -1,0 +1,32 @@
+@import '@/assets/styles/variable.scss';
+
+.replyInput {
+    background-color: #F9F9F9;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    padding-right: 20px;
+    > textarea {
+        border: none;
+        resize: none;
+        padding: 20px;
+        width: 100%;
+        background-color: #F9F9F9;
+        overflow: hidden;
+        &:focus {
+            border: none;
+            outline: none;
+        }
+
+        &::placeholder {
+            font-family: "Spoqa Han Sans Neo", sans-serif;
+        }
+    }
+
+    .t-button {
+        font-size: 12px;
+        width: 80px;
+        height: 30px;
+    }
+    
+}

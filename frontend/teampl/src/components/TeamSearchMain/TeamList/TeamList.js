@@ -9,7 +9,7 @@ const TeamList = () => {
     let history = useHistory();
 
     const clickRecruitBox = () => {
-        history.push('/team/recuritment')
+        history.push('/team/recruitment/1')
     }
 
     return (

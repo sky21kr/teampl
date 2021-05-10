@@ -1,71 +1,73 @@
 @import '@/assets/styles/variable.scss';
 
-.postContent {
-    border: solid 1px #eeeeee;
-    padding: 50px;
-    display: flex;
-    flex-direction: column;
-
-    .postHeader {
+.TeamRecruitment {
+    .postContent {
+        border: solid 1px #eeeeee;
+        padding: 50px;
         display: flex;
-        justify-content: space-between;
-        margin-bottom: 20px;
-        .postEditBtn {
-            font-size: 11px;
-            color: #8c8c8c;
-            cursor: pointer;
-            > span:first-child{
-                margin-right: 5px;
+        flex-direction: column;
+
+        .postHeader {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            .postEditBtn {
+                font-size: 11px;
+                color: #8c8c8c;
+                cursor: pointer;
+                > span:first-child{
+                    margin-right: 5px;
+                }
             }
         }
+
+        .postTitle {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            > span:first-child {
+                font-size: 18px;
+                font-weight: 500;
+                margin-right: 10px;
+            }
+            .recruitmentStatus {
+                display: inline-block;
+                padding: 2px;
+                border-radius: 20px;
+                width: 40px;
+                height: 20px;
+                text-align: center;
+                font-size: 10px;
+                color: #ff3e3e;
+                border: 1px solid #ff3e3e;
+            }
+        }
+
+        .postInfo {
+            color: #8c8c8c;
+            margin-bottom: 20px;
+
+            > *{
+                margin-right: 10px;
+                font-size: 13px;
+            }
+        }
+
+        .postText {
+            margin-bottom: 40px;
+        }
     }
 
-    .postTitle {
+    .studyType {
+        width: 72px;
+        height: 24px;
         display: flex;
+        flex-direction: row;
+        justify-content: center;
         align-items: center;
-        margin-bottom: 20px;
-        > span:first-child {
-            font-size: 18px;
-            font-weight: 500;
-            margin-right: 10px;
-        }
-        .recruitmentStatus {
-            display: inline-block;
-            padding: 2px;
-            border-radius: 20px;
-            width: 40px;
-            height: 20px;
-            text-align: center;
-            font-size: 10px;
-            color: #ff3e3e;
-            border: 1px solid #ff3e3e;
-        }
+        border-radius: 12px;
+        background-color: #895ef7;
+        font-size: 13px;
+        color: #ffffff;
     }
-
-    .postInfo {
-        color: #8c8c8c;
-        margin-bottom: 20px;
-
-        > *{
-            margin-right: 10px;
-            font-size: 13px;
-        }
-    }
-
-    .postText {
-        margin-bottom: 40px;
-    }
-}
-
-.studyType {
-    width: 72px;
-    height: 24px;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    border-radius: 12px;
-    background-color: #895ef7;
-    font-size: 13px;
-    color: #ffffff;
 }

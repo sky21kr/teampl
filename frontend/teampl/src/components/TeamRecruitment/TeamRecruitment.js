@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './TeamRecruitment.scss'
 import PostContent from './PostContent/PostContent'
-import PostComment from './PostComment/PostComment'
+import Comment from '@/components/Common/Comment/Comment'
 import SubsApplyModal from './SubsApplyModal/SubsApplyModal';
 
 const TeamRecruitment = () => {
@@ -22,7 +22,7 @@ const TeamRecruitment = () => {
                 &lt; 이전으로
             </div>
             <PostContent/>
-            <PostComment/>
+            <Comment/>
 
             <textarea className="commentInput" placeholder="댓글을 입력하세요"/>
             <div className="addComment">

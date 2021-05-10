@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import './TeamPost.scss'
+import './TeamRecruitment.scss'
 import PostContent from './PostContent/PostContent'
 import PostComment from './PostComment/PostComment'
 import SubsApplyModal from './SubsApplyModal/SubsApplyModal';
 
-const TeamPost = () => {
+const TeamRecruitment = () => {
 
     const [ showModal, setShowModal ] = useState(false)
 
@@ -17,7 +17,7 @@ const TeamPost = () => {
     }
 
     return (
-        <div className="teamPost">
+        <div className="TeamRecruitment">
             <div>
                 &lt; 이전으로
             </div>
@@ -42,4 +42,4 @@ const TeamPost = () => {
     )
 }
 
-export default TeamPost;
+export default TeamRecruitment;

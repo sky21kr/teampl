@@ -18,11 +18,6 @@ const TeamPost = () => {
             <div className="addComment">
                 <button className="t-button">등록</button>
             </div>
-            <div className="submitJoin">
-                <button
-                    className="t-button"
-                >가입신청하기</button>
-            </div>
         </div>
     )
 }

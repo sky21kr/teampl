@@ -14,6 +14,7 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
+@RequiredArgsConstructor
 @NoArgsConstructor
 public class Comment {
     @Id
@@ -23,9 +24,7 @@ public class Comment {
     private Integer comment_id;
 
     @CreatedDate
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss")
-    @NonNull
-    private LocalDateTime datetime;
+    private String datetime;
 
     @NonNull
     @Column(name = "comment")
@@ -47,7 +46,7 @@ public class Comment {
     @OneToMany(mappedBy = "Comment1",cascade =CascadeType.ALL )
     private List <Comment> subComment =new ArrayList<>();
 
-    @NonNull
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "target_team")
     private Team target_team;

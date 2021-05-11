@@ -1,12 +1,13 @@
 package study.templ.service;
 
-import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import study.templ.domain.Comment;
 import study.templ.domain.CreateCommentForm;
+import study.templ.domain.Team;
+import study.templ.domain.User;
 import study.templ.repository.CommentRepository;
 
 import java.util.Optional;
@@ -23,17 +24,16 @@ public class CommentService {
     }
 
     @Transactional
-    public Object createComment(CreateCommentForm createCommentForm){
+    public Object createComment(CreateCommentForm createCommentForm, Optional<Team> target_team, Optional<User> user){
+
         Comment newComment = new Comment();
 
         if(createCommentForm.getComment_id() ==null){
             newComment.setLevel(1);
         }
         else{
-            int super_comment_id = createCommentForm.getComment_id(); //parselong(문자열을 long값으로 반환함)
+            int super_comment_id = createCommentForm.getComment_id();
             Optional<Comment> super_comment = commentRepository.findById(super_comment_id);
-            if (super_comment.isEmpty())
-                return Optional.empty();
 
             if(!super_comment.get().getLive()){
                 throw new RuntimeException("Super_Comment is already dead");
@@ -43,31 +43,41 @@ public class CommentService {
             super_comment.get().getSubComment().add(newComment);
         }
 
-        newComment.setComment(createCommentForm.getComment().replace("\r\n","<br>"));//뭐를 replace?
-        newComment.setTarget_team(newComment.getTarget_team());
+        newComment.setComment(createCommentForm.getComment());
+        newComment.setTarget_team(target_team.get());
+        newComment.setWriter(user.get());
 
 
         newComment.setLive(true);
         commentRepository.save(newComment);
+
         return newComment;
     }
 
 
 
     @Transactional
-    public void deleteComment( @NonNull Integer comment_id) {
+    public boolean deleteComment( int owner, int comment_id) {
 
         Optional<Comment> commentToDelete = commentRepository.findById(comment_id);
 
         //대댓글이 있는 경우 상위 댓글 삭제된 댓글로 바꾸기
-        if(commentToDelete.get().getSubComment()!=null){
-            commentToDelete.get().setComment("삭제된 댓글입니다. ");
-            commentToDelete.get().setLive(false);
-        }//대댓글이 없는 경우 그냥 삭제 하기.
-        else{
-            commentToDelete.get().setComment("삭제된 댓글입니다. ");
-        }
+        if(commentToDelete.isEmpty())
+            return false;
 
+        if (commentToDelete.get().getWriter().getUserid() != owner) {
+            return false;
+
+        }else{if (commentToDelete.get().getSubComment() != null) {
+                commentToDelete.get().setComment("삭제된 댓글입니다. ");
+                commentToDelete.get().setLive(false);
+            }//대댓글이 없는 경우 그냥 삭제 하기.
+            else {
+                commentToDelete.get().setComment("삭제된 댓글입니다. ");
+            }
+            commentRepository.deleteById(comment_id);
+        }
+        return true;
     }
 
 

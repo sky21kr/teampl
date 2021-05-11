@@ -6,14 +6,12 @@ import lombok.Setter;
 
 import java.time.LocalDateTime;
 
-@Getter @Setter @NonNull
+@Getter @Setter
 public class CreateCommentForm {
 
     private String comment;
-    private String target_team;
+    private Integer teamid ;
     private Integer comment_id;
-    private String writer;
-    private LocalDateTime dateTime;
 
 
 

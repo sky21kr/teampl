@@ -5,18 +5,19 @@ import teammaster from '@/assets/images/teammaster.svg';
 import teammember from '@/assets/images/teammember.svg';
 import DefaultModal from '../Common/Modal/DefaultModal/DefaultModal';
 import ImgSrc from '@/assets/images/askdelete.svg';
-import './JoinedTeamMain.scss'
+import './MadeTeamMain.scss'
 import { useHistory } from "react-router-dom";
-import Posting from '@/components/Common/Posting/Posting'
-import PostingModal from '../Common/Modal/DefaultModal/PostingModal'
+import Posting from '@/components/Common/Posting/Posting';
+import PostingModal from '../Common/Modal/DefaultModal/PostingModal';
+import { Link } from 'react-router-dom';
 
-function JoinedTeamMain(props){
+function MadeTeamMain(props){
 
     const type = props.type
     const teamName = props.teamName
     let history = useHistory()
 
-    JoinedTeamMain.defaultProps={
+    MadeTeamMain.defaultProps={
         type : "카테고리",
         teamName : "팀 이름"
     }
@@ -80,7 +81,9 @@ function JoinedTeamMain(props){
               <img src={teammember}/>
               <img src={teammember}/>
             </div>
-            <button className="leaveBtn" onClick={openModal}>팀 탈퇴하기</button>
+            <Link to="/team/modify"><button className="leaveBtn">정보 수정하기</button></Link>
+            <button className="leaveBtn">멤버 관리</button>
+            <button className="leaveBtn" onClick={openModal}>팀 삭제하기</button>
             </>
 
             <button className="writeBtn" onClick={openModal2}>글쓰기</button>
@@ -89,8 +92,8 @@ function JoinedTeamMain(props){
             <DefaultModal
                     showModal={showModal}
                     imgSrc={ImgSrc}
-                    title="정말로 팀에서 탈퇴하시겠습니까?"
-                    btnOkText="네, 탈퇴하겠습니다."
+                    title="정말로 팀을 삭제하시겠습니까?"
+                    btnOkText="네, 삭제하겠습니다."
                     btnCancelText="아니오, 한번 더 생각해볼게요"
                     closeModal={closeModal}
                     >
@@ -126,4 +129,4 @@ function JoinedTeamMain(props){
 
 }
 
-export default JoinedTeamMain;
+export default MadeTeamMain;

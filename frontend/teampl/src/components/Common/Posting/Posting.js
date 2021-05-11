@@ -1,5 +1,5 @@
 import React, { Component, useState } from 'react';
-import './JoinedTeamMain.scss'
+import './Posting.scss'
 import messagecircle from '@/assets/images/message-circle.svg'
 
 function Posting(props){
@@ -40,4 +40,4 @@ function Posting(props){
     )
 }
 
-export default Posting
+export default Posting;

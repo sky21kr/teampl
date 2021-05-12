@@ -5,10 +5,13 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.PageRequest;
+import study.templ.domain.CreateTeamForm;
 import study.templ.domain.Member;
 import study.templ.domain.Team;
 
 import javax.transaction.Transactional;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,7 +31,8 @@ class TeamServiceTest {
     void createTeam() {
         //when
         int user_id = userService.createUser("acc", "pass", "nick").get().getUserid();
-        Optional<Team> isTeam = teamService.createTeam(1,3,2,false,"title","intro",user_id);
+        CreateTeamForm createTeamForm = new CreateTeamForm(1,3,2,LocalDateTime.now(),false,"title","intro",user_id);
+        Optional<Team> isTeam = teamService.createTeam(createTeamForm);
         if (isTeam.isEmpty())
             Assertions.fail("creationfailed");
         Team team= isTeam.get();
@@ -43,11 +47,11 @@ class TeamServiceTest {
         //given
         int user_id1 = userService.createUser("acc", "pass", "nick").get().getUserid();
         int user_id2 = userService.createUser("acc", "pass", "nick").get().getUserid();
-        teamService.createTeam(1, 2, 2, true, "t","i", user_id1);
-        teamService.createTeam(3, 2, 2, true, "t2","i2", user_id2);
-        teamService.createTeam(3, 3, 3, true, "t3","i3", user_id1);
+        teamService.createTeam(new CreateTeamForm(1, 2, 2, LocalDateTime.now(),true, "t","i", user_id1));
+        teamService.createTeam(new CreateTeamForm(3, 2, 2, LocalDateTime.now(),true, "t2","i2", user_id2));
+        teamService.createTeam(new CreateTeamForm(3, 3, 3, LocalDateTime.now(),true, "t3","i3", user_id1));
         //when
-        List<Team> result = teamService.getTeamByCategory(3);
+        List<Team> result = teamService.getTeamByCategory(PageRequest.of(0,1000),3).getContent();
         //then
         Assertions.assertThat(2).isEqualTo(result.size());
     }
@@ -57,20 +61,20 @@ class TeamServiceTest {
         //given
         int user_id1 = userService.createUser("acc", "pass", "nick").get().getUserid();
         int user_id2 = userService.createUser("acc", "pass", "nick").get().getUserid();
-        teamService.createTeam(1, 2, 2, true, "t","i",  user_id1);
-        teamService.createTeam(3, 2, 2, true, "t2","i2", user_id2);
-        teamService.createTeam(1, 3, 3, true, "t3","i3", user_id1);
-        teamService.createTeam(1, 3, 3, true, "t3","i3", user_id1);
-        teamService.createTeam(1, 3, 3, true, "t3","i3", user_id1);
+        teamService.createTeam(new CreateTeamForm(1, 2, 2,LocalDateTime.now(), true, "t","i",  user_id1));
+        teamService.createTeam(new CreateTeamForm(3, 2, 2, LocalDateTime.now(),true, "t2","i2", user_id2));
+        teamService.createTeam(new CreateTeamForm(1, 3, 3, LocalDateTime.now(),true, "t3","i3", user_id1));
+        teamService.createTeam(new CreateTeamForm(1, 3, 3, LocalDateTime.now(),true, "t3","i3", user_id1));
+        teamService.createTeam(new CreateTeamForm(1, 3, 3, LocalDateTime.now(),true, "t3","i3", user_id1));
         //when
-        Assertions.assertThat(5).isEqualTo(teamService.getTeam().size());
+        Assertions.assertThat(5).isEqualTo(teamService.getTeam(PageRequest.of(0,1000)).getContent().size());
     }
 
     @Test
     void getTeamContents() {
         //given
         int user_id = userService.createUser("acc", "pass", "nick").get().getUserid();
-        int team_id = teamService.createTeam(1, 2, 2, true, "t","i", user_id).get().getTeamid();
+        int team_id = teamService.createTeam(new CreateTeamForm(1, 2, 2, LocalDateTime.now(), true, "t","i", user_id)).get().getTeamid();
         Assertions.assertThat(teamService.getTeamContents(team_id).get().getIntroduction()).isEqualTo(teamService.getTeamById(team_id).get().getIntroduction());
     }
 
@@ -79,7 +83,7 @@ class TeamServiceTest {
         //given
         int owner_id = userService.createUser("acc", "pass", "nick").get().getUserid();
         int user_id1 = userService.createUser("acc", "pass", "nick").get().getUserid();
-        Optional<Team> isTeam = teamService.createTeam(3, 2, 2, true, "t2","i2", owner_id);
+        Optional<Team> isTeam = teamService.createTeam(new CreateTeamForm(3, 2, 2, LocalDateTime.now(),true, "t2","i2", owner_id));
         //when
         if (isTeam.isEmpty())
             Assertions.fail("creationfail");
@@ -92,7 +96,7 @@ class TeamServiceTest {
     @Test
     void ifUserDelete_OwnteamDelete(){
         int owner_id = userService.createUser("acc", "pass", "nick").get().getUserid();
-        Optional<Team> isTeam = teamService.createTeam(3, 2, 2, true, "t2","i2", owner_id);
+        Optional<Team> isTeam = teamService.createTeam(new CreateTeamForm(3, 2, 2, LocalDateTime.now(),true, "t2","i2", owner_id));
         if (isTeam.isEmpty())
             Assertions.fail("creationfail");
         Team team = isTeam.get();
@@ -105,7 +109,7 @@ class TeamServiceTest {
         //given
         int owner_id = userService.createUser("acc", "pass", "nick").get().getUserid();
         int user_id = userService.createUser("a","p","n").get().getUserid();
-        int team_id = teamService.createTeam(1,3,4,false,"t","i", owner_id).get().getTeamid();
+        int team_id = teamService.createTeam(new CreateTeamForm(1,3,4,LocalDateTime.now(),false,"t","i", owner_id)).get().getTeamid();
         //when
         userService.createApplication(team_id, user_id, "application_contents");
         //reject

@@ -1,12 +1,14 @@
 package study.templ.controller;
 
+import lombok.Builder;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import study.templ.domain.Member;
-import study.templ.domain.Team;
-import study.templ.domain.TeamContentsForm;
-import study.templ.domain.User;
+import study.templ.domain.*;
 import study.templ.service.TeamService;
 
 import java.time.LocalDateTime;
@@ -22,32 +24,43 @@ public class TeamController {
     //생성
     //팀 생성
     @PostMapping("make-team")
-    public Optional<Team> createTeam(@RequestBody HashMap<String, Object> param){
-        if (param.get("category")==null||param.get("limit")==null||param.get("numberofmembers")==null|| param.get("status")==null ||
-                param.get("title")==null|| param.get("introduction")==null || param.get("userid")==null)
-            return Optional.empty();
-
-        return teamService.createTeam(
-                (int)param.get("category"), (int)param.get("limit"), (int)param.get("numberofmembers"),
-                (boolean)param.get("status"), (String) param.get("title"), (String) param.get("introduction"),
-                (int) param.get("userid"));
+    public Optional<Team> createTeam(@RequestBody CreateTeamForm createTeamForm){
+        return teamService.createTeam(createTeamForm);
     }
     //조회
     //request parameter에 따라 다른 함수 호출하도록 최종 구현
     // 최신순으로 조회
     @GetMapping("team")
-    public List<Team> getTeam(){
-        return teamService.getTeam();
+    public Page<Team> getTeam(@RequestParam("pageNumber") int pageNumber, @RequestParam("pageSize") int pageSize,
+                              @RequestParam(name = "ascending",required = false,defaultValue = "false") boolean ascending){
+        Pageable pageable;
+        if (ascending==true)
+            pageable = teamService.createPageRequest(pageNumber, pageSize, "datetime", true);
+        else
+            pageable = teamService.createPageRequest(pageNumber, pageSize, "datetime", false);
+        return teamService.getTeam(pageable);
     }
     //카테고리로 조회
     @GetMapping("team/category")
-    public List<Team> getTeamByCategory(@RequestParam("category") int category){
-        return teamService.getTeamByCategory(category);
+    public Page<Team> getTeamByCategory(@RequestParam("pageNumber") int pageNumber, @RequestParam("pageSize") int pageSize, @RequestParam("category") int category,
+                                        @RequestParam(name = "ascending",required = false,defaultValue = "false") boolean ascending){
+        Pageable pageable;
+        if (ascending==true)
+            pageable = teamService.createPageRequest(pageNumber, pageSize, "datetime", true);
+        else
+            pageable = teamService.createPageRequest(pageNumber, pageSize, "datetime", false);
+        return teamService.getTeamByCategory(pageable, category);
     }
     //검색어로 조회
-    @GetMapping
-    public void getTeamBySearch(){
-
+    @GetMapping("team/search")
+    public Page<Team> getTeamBySearch(@RequestParam("pageNumber") int pageNumber, @RequestParam("pageSize") int pageSize, @RequestParam("keyword") String keyword,
+                                      @RequestParam(name = "ascending",required = false,defaultValue = "false") boolean ascending){
+        Pageable pageable;
+        if (ascending==true)
+            pageable = teamService.createPageRequest(pageNumber, pageSize, "datetime", true);
+        else
+            pageable = teamService.createPageRequest(pageNumber, pageSize, "datetime", false);
+        return teamService.getTeamBySearch(pageable, keyword);
     }
     //글 조회
     @GetMapping("teamcontents")
@@ -83,31 +96,6 @@ public class TeamController {
     public boolean deleteTeamAsOwner(@RequestParam("userid") int owner, @RequestParam("teamid") int teamid){
         return teamService.deleteTeamAsOwner(owner, teamid);
     }
-
-
-    /*
-    //가입 신청
-    @PostMapping("/join")
-    public void joinTeam(){
-
-    }
-    //가입 수락/거절
-    @PostMapping("/accept")
-    public void acceptJoinTeam(){
-
-    }
-
-    //내가 가입한 팀 조회 => UserController?
-    @GetMapping("myteam")
-    public void getTeamAsMember(@RequestParam("userid") int userid){
-
-    }
-    //팀 탈퇴
-    @DeleteMapping
-    public void deleteTeamAsMember(){
-
-    }
-    */
 
 
 }

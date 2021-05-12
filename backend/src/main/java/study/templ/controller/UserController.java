@@ -60,7 +60,37 @@ public class UserController {
         return new SignupResponse(true);
     }
 
-
+    //내가 만든 팀 조회
+    @GetMapping("/myteam")
+    public List<Team> getMyTeam(@RequestParam("userid") int user_id){
+        return userService.getTeamAsOwner(user_id);
+    }
+    @GetMapping("/memberteam")
+    public List<Member> getMemberTeam(@RequestParam("userid") int user_id){
+        return userService.getTeamAsMember(user_id);
+    }
+    //userid로 사용자 삭제
+    @DeleteMapping("/user")
+    public boolean deleteUser(@RequestParam("userid") int user_id){
+        //authentication required!
+        return userService.deleteUserById(user_id);
+    }
+    //가입 신청하기
+    @PostMapping("/application")
+    public boolean createApplication(@RequestBody HashMap<String, Object> params){
+        return userService.createApplication((Integer)params.get("teamid"), (Integer)params.get("userid"), (String)params.get("contents"));
+    }
+    //owner가 가입 수락/거절하기
+    @PostMapping("/accept-application")
+    public int acceptApplication(@RequestBody HashMap<String, Object> params){
+        return userService.acceptApplication((Integer)params.get("owner"), (Integer)params.get("teamid"),
+                (Integer)params.get("userid"), (Boolean)params.get("accept"));
+    }
+    //팀 탈퇴 request_id = user_id or team_id의 team owner_id
+    @DeleteMapping("member")
+    public Boolean deleteTeamAsMember(@RequestParam("userid") int user_id, @RequestParam("teamid") int team_id, @RequestParam("requestid") int request_id){
+        return userService.deleteMember(user_id, team_id, request_id);
+    }
     @Setter
     @Getter
     static class SignupRequest {
@@ -77,7 +107,6 @@ public class UserController {
             this.success = success;
         }
     }
-
 
     @Setter
     @Getter
@@ -99,29 +128,4 @@ public class UserController {
         }
     }
 
-    //내가 만든 팀 조회
-    @GetMapping("/myteam")
-    public List<Team> getMyTeam(@RequestParam("userid") int user_id){
-        return userService.getTeamAsOwner(user_id);
-    }
-    @GetMapping("/memberteam")
-    public List<Member> getMemberTeam(@RequestParam("userid") int user_id){
-        return userService.getTeamAsMember(user_id);
-    }
-    //userid로 사용자 삭제
-    @DeleteMapping("/user")
-    public boolean deleteUser(@RequestParam("userid") int user_id){
-        //authentication required!
-        return userService.deleteUserById(user_id);
-    }
-
-    @PostMapping("/application")
-    public boolean createApplication(@RequestBody HashMap<String, Object> params){
-        return userService.createApplication((Integer)params.get("teamid"), (Integer)params.get("userid"), (String)params.get("contents"));
-    }
-    @PostMapping("/accept-application")
-    public int acceptApplication(@RequestBody HashMap<String, Object> params){
-        return userService.acceptApplication((Integer)params.get("owner"), (Integer)params.get("teamid"),
-                (Integer)params.get("userid"), (Boolean)params.get("accept"));
-    }
 }

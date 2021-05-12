@@ -123,6 +123,20 @@ public class UserService {
             return true;
         }
     }
+    //user_id, team_id로 Member 삭제
+    public boolean deleteMember(int user_id, int team_id, int request_id){
+        Optional<Team> isTeam = teamService.getTeamById(team_id);
+        if (isTeam.isEmpty())
+            return false;
+        if (user_id!=request_id&&isTeam.get().getOwner().getUserid()!=request_id)
+            return false;
+
+        Optional<Member> isMember = memberRepository.findById(new MemberId(team_id, user_id));
+        if (isMember.isEmpty())
+            return false;
+        memberRepository.delete(isMember.get());
+        return true;
+    }
 
     //모든 사용자 삭제
     public void deleteAllUser(){//테스트용 팀 테이블 초기화

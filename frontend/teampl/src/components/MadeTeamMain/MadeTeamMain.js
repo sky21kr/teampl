@@ -10,6 +10,7 @@ import { useHistory } from "react-router-dom";
 import Posting from '@/components/Common/Posting/Posting';
 import PostingModal from '../Common/Modal/DefaultModal/PostingModal';
 import { Link } from 'react-router-dom';
+import MemberModal from '../Common/Modal/DefaultModal/MemberModal';
 
 function MadeTeamMain(props){
 
@@ -32,6 +33,7 @@ function MadeTeamMain(props){
         setShowModal(false);
     }
 
+    // 글쓰기모달
     const [ showModal2, setShowModal2 ] = useState(false);
 
     const openModal2 = () => {
@@ -41,6 +43,17 @@ function MadeTeamMain(props){
     const closeModal2 = () => {
         setShowModal2(false);
     }
+
+    const [ showModal3, setShowModal3 ] = useState(false);
+
+    const openModal3 = () => {
+        setShowModal3(true);
+    }
+
+    const closeModal3 = () => {
+        setShowModal3(false);
+    }
+
 
     
     const Subject = styled.span`
@@ -82,7 +95,7 @@ function MadeTeamMain(props){
               <img src={teammember}/>
             </div>
             <Link to="/team/modify"><button className="leaveBtn">정보 수정하기</button></Link>
-            <button className="leaveBtn">멤버 관리</button>
+            <button className="leaveBtn" onClick={openModal3}>멤버 관리</button>
             <button className="leaveBtn" onClick={openModal}>팀 삭제하기</button>
             </>
 
@@ -98,6 +111,13 @@ function MadeTeamMain(props){
                     closeModal={closeModal}
                     >
                 </DefaultModal>
+
+
+                <MemberModal
+                showModal={showModal3}
+                closeModal={closeModal3}
+                >
+                </MemberModal>
 
 
                 <PostingModal

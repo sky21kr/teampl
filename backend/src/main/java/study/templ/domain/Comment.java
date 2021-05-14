@@ -23,8 +23,9 @@ public class Comment {
     @NonNull
     private Integer comment_id;
 
+    @NonNull
     @CreatedDate
-    private String datetime;
+    private LocalDateTime datetime;
 
     @NonNull
     @Column(name = "comment")

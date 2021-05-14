@@ -10,6 +10,7 @@ import study.templ.domain.Team;
 import study.templ.domain.User;
 import study.templ.repository.CommentRepository;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Service
@@ -27,6 +28,7 @@ public class CommentService {
     public Object createComment(CreateCommentForm createCommentForm, Optional<Team> target_team, Optional<User> user){
 
         Comment newComment = new Comment();
+
 
         if(createCommentForm.getComment_id() ==null){
             newComment.setLevel(1);
@@ -46,7 +48,7 @@ public class CommentService {
         newComment.setComment(createCommentForm.getComment());
         newComment.setTarget_team(target_team.get());
         newComment.setWriter(user.get());
-
+        newComment.setDatetime(LocalDateTime.now());
 
         newComment.setLive(true);
         commentRepository.save(newComment);
@@ -68,7 +70,8 @@ public class CommentService {
         if (commentToDelete.get().getWriter().getUserid() != owner) {
             return false;
 
-        }else{if (commentToDelete.get().getSubComment() != null) {
+        }else{
+            if (commentToDelete.get().getSubComment() != null) {
                 commentToDelete.get().setComment("삭제된 댓글입니다. ");
                 commentToDelete.get().setLive(false);
             }//대댓글이 없는 경우 그냥 삭제 하기.

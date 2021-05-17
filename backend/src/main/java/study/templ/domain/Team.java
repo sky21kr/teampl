@@ -1,6 +1,7 @@
 package study.templ.domain;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 
@@ -36,17 +37,19 @@ public class Team {
 
     private LocalDateTime datetime;
 
-    @JsonBackReference
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "\"owner\"")
     @NonNull
     private User owner;
 
-    @JsonManagedReference
+    @JsonIgnore     //getMember
     @OneToMany(mappedBy = "team", cascade = CascadeType.REMOVE)
     List<Member> members;
+    @JsonIgnore     //getApplication?
     @OneToMany(mappedBy = "team", cascade = CascadeType.REMOVE)
     List<Application> applications;
+    @JsonIgnore     //getTeamContents
     @OneToMany(mappedBy = "target_team", cascade = CascadeType.REMOVE)
     private List<Comment> owncomments;
     //코멘트 알람에 OneToMany 설정

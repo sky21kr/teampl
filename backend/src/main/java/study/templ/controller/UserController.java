@@ -5,9 +5,7 @@ import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import study.templ.domain.Member;
-import study.templ.domain.Team;
-import study.templ.domain.User;
+import study.templ.domain.*;
 import study.templ.repository.UserRepository;
 import study.templ.service.UserService;
 
@@ -77,14 +75,13 @@ public class UserController {
     }
     //가입 신청하기
     @PostMapping("/application")
-    public boolean createApplication(@RequestBody HashMap<String, Object> params){
-        return userService.createApplication((Integer)params.get("teamid"), (Integer)params.get("userid"), (String)params.get("contents"));
+    public boolean createApplication(@RequestBody CreateApplicationForm createApplicationForm){
+        return userService.createApplication(createApplicationForm);
     }
     //owner가 가입 수락/거절하기
     @PostMapping("/accept-application")
-    public int acceptApplication(@RequestBody HashMap<String, Object> params){
-        return userService.acceptApplication((Integer)params.get("owner"), (Integer)params.get("teamid"),
-                (Integer)params.get("userid"), (Boolean)params.get("accept"));
+    public int acceptApplication(@RequestBody AcceptApplicationForm acceptApplicationForm){
+        return userService.acceptApplication(acceptApplicationForm);
     }
     //팀 탈퇴 request_id = user_id or team_id의 team owner_id
     @DeleteMapping("member")

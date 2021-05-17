@@ -10,6 +10,7 @@ import study.templ.domain.User;
 import study.templ.infra.JwtUtil;
 import study.templ.repository.UserRepository;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -56,6 +57,7 @@ public class UserService {
     }
 
     //user_id가 member인 팀 가져오기
+    @Transactional
     public List<Member> getTeamAsMember(int user_id){
         Optional<User> isUser = userRepository.findById(user_id);
         if (isUser.isEmpty())
@@ -67,6 +69,7 @@ public class UserService {
     }
 
     //user_id가 owner인 팀 가져오기
+    @Transactional
     public List<Team> getTeamAsOwner(int owner){
         Optional<User> user = userRepository.findById(owner);
         if (user.isEmpty())
@@ -75,35 +78,38 @@ public class UserService {
     }
 
     //가입신청
-    public boolean createApplication(int team_id, int user_id, String contents){
+    public boolean createApplication(CreateApplicationForm createApplicationForm){
         //::user_id==자신 id
-        Optional<Team> isTeam = teamService.getTeamById(team_id);
-        Optional<User> isUser = getUserById(user_id);
+        Optional<Team> isTeam = teamService.getTeamById(createApplicationForm.getTeamid());
+        Optional<User> isUser = getUserById(createApplicationForm.getUserid());
         if (isTeam.isEmpty())
             return false;
         Team team = isTeam.get();
 
         if (isUser.isEmpty())
             return false;
-        Application application = new Application(team_id, user_id, contents, isTeam.get(), isUser.get());
+        Application application = new Application(createApplicationForm.getTeamid(), createApplicationForm.getUserid(),
+                createApplicationForm.getContents(), isTeam.get(), isUser.get());
         applicationRepository.save(application);
         return true;
     }
     //가입신청 수락/거절
-    public int acceptApplication(int owner, int team_id, int user_id, boolean accept){
+    public int acceptApplication(AcceptApplicationForm acceptApplicationForm){
         //::team의 owner만 가입신청 수락/거절 가능
-        Optional<Team> isTeam = teamService.getTeamById(team_id);
-        Optional<User> isUser = getUserById(user_id);
+        Optional<Team> isTeam = teamService.getTeamById(acceptApplicationForm.getTeamid());
+        Optional<User> isUser = getUserById(acceptApplicationForm.getUserid());
         if (isTeam.isEmpty())
             return -1;
         if (isUser.isEmpty())
             return -1;
-        if (isTeam.get().getOwner().getUserid()!=owner)
+        int team_id = isTeam.get().getTeamid();
+        int user_id = isUser.get().getUserid();
+        if (isTeam.get().getOwner().getUserid()!=acceptApplicationForm.getOwner())
             return -1;
-        Optional<Application> isApplication = applicationRepository.findById(new MemberId(team_id,user_id));
+        Optional<Application> isApplication = applicationRepository.findById(new MemberId(team_id, user_id));
         if (isApplication.isEmpty())
             return -1;
-        if (accept) {
+        if (acceptApplicationForm.getAccept()) {
             applicationRepository.deleteById(new MemberId(team_id, user_id));
             memberRepository.save(new Member(team_id, user_id, isTeam.get(), isUser.get()));
             return 1;

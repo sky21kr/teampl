@@ -2,24 +2,16 @@ package study.templ.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
+import lombok.NoArgsConstructor;
 
-@RequiredArgsConstructor
 @Getter
-public class CreateTeamForm {
-    @NonNull
-    private Integer category;
-    @NonNull
-    private Integer numberofmembers;
-    @NonNull
-    private Integer limit;
-    @NonNull
-    private Boolean status;
-    @NonNull
-    private String title;
-    @NonNull
-    private String introduction;
-    @NonNull
+public class UpdateTeamForm {
     private Integer owner;
+    private Integer teamid;
+    private Integer category;
+    private Integer numberofmembers;
+    private Integer limit;
+    private Boolean status;
+    private String title;
+    private String introduction;
 }

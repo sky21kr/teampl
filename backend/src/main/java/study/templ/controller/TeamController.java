@@ -75,19 +75,9 @@ public class TeamController {
     //수정
     //팀 정보 수정
     @PutMapping("team")
-    public boolean updateTeam(@RequestBody HashMap<String, Object> param) {
-        if (param.get("userid")==null||param.get("teamid")==null)
-            return false;
-
-        int category, limit;
-        String title = null, introduction = null;
-        if (param.get("category")==null) category = 100; else category = (int)param.get("category");
-        if (param.get("limit")==null) limit = 0; else limit = (int)param.get("limit");
-        if (param.get("title")!=null) title = (String) param.get("title");
-        if (param.get("introcution")!=null) introduction = (String) param.get("introduction");
-
-        teamService.updateTeam((int)param.get("userid"), (int)param.get("teamid"), category, limit, title, introduction);
-        return true;
+    public boolean updateTeam(@RequestBody UpdateTeamForm updateTeamForm) {
+        Optional<Team> isTeam = teamService.updateTeam(updateTeamForm);
+        return isTeam.isPresent();
     }
 
     //삭제

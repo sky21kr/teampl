@@ -6,11 +6,13 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import study.templ.domain.*;
 import study.templ.repository.ApplicationRepository;
 import study.templ.repository.MemberRepository;
 import study.templ.repository.TeamRepository;
 
+import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -57,6 +59,7 @@ public class TeamService {
     public Page<Team> getTeam(Pageable pageable){ return teamRepository.findAll(pageable); }
 
     //team_id 팀의 멤버 가져오기
+    @Transactional
     public List<Member> getMemberOfTeam(int team_id){
         Optional<Team> isTeam = teamRepository.findById(team_id);
         if (isTeam.isEmpty())
@@ -80,21 +83,27 @@ public class TeamService {
         return Optional.of(contents);
     }
     //사용자 owner이고 team 수정 (정보 주어지지 않을시 이전 값 그대로)
-    public Optional<Team> updateTeam(int owner, int team_id, int category, int limit, String title, String introduction){
+    public Optional<Team> updateTeam(UpdateTeamForm updateTeamForm){
+        int team_id = updateTeamForm.getTeamid();
+        int owner = updateTeamForm.getOwner();
         Optional<Team> isTeam = teamRepository.findById(team_id);
         if (isTeam.isEmpty())
             return isTeam;
         else if (isTeam.get().getOwner().getUserid()!=owner)
             return Optional.empty();
         Team team = isTeam.get();
-        if (title!=null)
-            team.setTitle(title);
-        if (introduction!=null)
-            team.setTitle(title);
-        if (limit!=0)
-            team.setLimit(limit);
-        if (category!=100)
-            team.setTitle(title);
+        if (updateTeamForm.getStatus()!=null)
+            team.setStatus(updateTeamForm.getStatus());
+        if (updateTeamForm.getLimit()!=null)
+            team.setLimit(updateTeamForm.getLimit());
+        if (updateTeamForm.getNumberofmembers()!=null)
+            team.setNumberofmembers(updateTeamForm.getNumberofmembers());
+        if (updateTeamForm.getCategory()!=null)
+            team.setCategory(updateTeamForm.getCategory());
+        if (updateTeamForm.getTitle()!=null)
+            team.setTitle(updateTeamForm.getTitle());
+        if (updateTeamForm.getIntroduction()!=null)
+            team.setIntroduction(updateTeamForm.getIntroduction());
 
         teamRepository.save(team);
         return Optional.ofNullable(team);

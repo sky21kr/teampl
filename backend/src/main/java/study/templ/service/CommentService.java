@@ -67,18 +67,25 @@ public class CommentService {
         if(commentToDelete.isEmpty())
             return false;
 
+        //댓글 작성자가 아닌 사용자가 삭제하려 할 때
         if (commentToDelete.get().getWriter().getUserid() != owner) {
             return false;
 
+            //댓글 작성자가 삭제하려 할 때
         }else{
+            //대댓글이 있을 때
             if (commentToDelete.get().getSubComment() != null) {
                 commentToDelete.get().setComment("삭제된 댓글입니다. ");
-                commentToDelete.get().setLive(false);
+
+                if(commentToDelete.get().getComment1() != null){
+                    commentToDelete.get().setComment("삭제된 댓글입니다.");
+                }
             }//대댓글이 없는 경우 그냥 삭제 하기.
             else {
                 commentToDelete.get().setComment("삭제된 댓글입니다. ");
+                commentToDelete.get().setLive(false);
             }
-            commentRepository.deleteById(comment_id);
+            commentRepository.deleteById(commentToDelete.get().getComment_id());
         }
         return true;
     }

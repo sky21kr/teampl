@@ -1,8 +1,6 @@
 package study.templ.domain;
 
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.apache.tomcat.jni.Local;
 
 import javax.persistence.*;
@@ -12,17 +10,19 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @RequiredArgsConstructor
+@AllArgsConstructor
 public class Alarm {
 
     @Id
     @GeneratedValue
+    @NonNull
     private Integer alarm_id;
 
-    private Integer type;
-
+    @NonNull
     private LocalDateTime datetime;
 
-    /*private Integer receiver; //알림을 받는 사람 owner 또는 신청자*/
+    @NonNull
+    private Integer receiver;
 
 
     @JoinColumn(name = "userid")
@@ -31,6 +31,9 @@ public class Alarm {
 
     @JoinColumn(name = "teamid")
     private Integer target_team; //가입 신청, 댓글 남겼을 때 팀 주인한테
+
+    @NonNull
+    private String contents;
 
 
 

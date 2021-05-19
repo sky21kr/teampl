@@ -9,7 +9,7 @@ import lombok.RequiredArgsConstructor;
 @Getter
 public class AcceptApplicationForm {
     @NonNull
-    private Integer owner;
+    private Integer requestid;
     @NonNull
     private Integer teamid;
     @NonNull

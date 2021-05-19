@@ -10,6 +10,7 @@ import study.templ.domain.User;
 import study.templ.infra.JwtUtil;
 import study.templ.repository.UserRepository;
 
+import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -46,102 +47,94 @@ public class UserService {
     }
 
     //사용자 생성
-    public Optional<User> createUser(String account_id, String password, String nickname){
+    public User createUser(String account_id, String password, String nickname){
         User user = new User(account_id, password, nickname);
-        return Optional.of(userRepository.save(user));
+        return userRepository.save(user);
     }
 
     //user_id로 사용자 조회
-    public Optional<User> getUserById(int user_id){
-        return userRepository.findById(user_id);
+    public User getUserById(int user_id){
+        Optional<User> isUser = userRepository.findById(user_id);
+        if (isUser.isEmpty())
+            throw new EntityNotFoundException("user not found. check user id.");
+        return isUser.get();
     }
 
     //user_id가 member인 팀 가져오기
     @Transactional
     public List<Member> getTeamAsMember(int user_id){
-        Optional<User> isUser = userRepository.findById(user_id);
-        if (isUser.isEmpty())
-            return Collections.emptyList();
-        if (isUser.get().getMemberteams()==null)
-            return Collections.emptyList();
-        List<Member> teams = new ArrayList<Member>(isUser.get().getMemberteams());
+        User user = getUserById(user_id);
+
+        List<Member> teams = new ArrayList<Member>(user.getMemberteams());
         return teams;
     }
 
     //user_id가 owner인 팀 가져오기
     @Transactional
     public List<Team> getTeamAsOwner(int owner){
-        Optional<User> user = userRepository.findById(owner);
-        if (user.isEmpty())
+        User user = getUserById(owner);
+
+        if (user.getOwnteams().size()==0)
             return Collections.emptyList();
-        return user.get().getOwnteams();
+        return user.getOwnteams();
     }
 
     //가입신청
-    public boolean createApplication(CreateApplicationForm createApplicationForm){
-        //::user_id==자신 id
-        Optional<Team> isTeam = teamService.getTeamById(createApplicationForm.getTeamid());
-        Optional<User> isUser = getUserById(createApplicationForm.getUserid());
-        if (isTeam.isEmpty())
-            return false;
-        Team team = isTeam.get();
+    public void createApplication(CreateApplicationForm createApplicationForm){
+        Team team = teamService.getTeamById(createApplicationForm.getTeamid());
+        User user= getUserById(createApplicationForm.getUserid());
 
-        if (isUser.isEmpty())
-            return false;
         Application application = new Application(createApplicationForm.getTeamid(), createApplicationForm.getUserid(),
-                createApplicationForm.getContents(), isTeam.get(), isUser.get());
+                createApplicationForm.getContents(), team, user);
         applicationRepository.save(application);
-        return true;
     }
     //가입신청 수락/거절
-    public int acceptApplication(AcceptApplicationForm acceptApplicationForm){
+    public void acceptApplication(AcceptApplicationForm acceptApplicationForm){
         //::team의 owner만 가입신청 수락/거절 가능
-        Optional<Team> isTeam = teamService.getTeamById(acceptApplicationForm.getTeamid());
-        Optional<User> isUser = getUserById(acceptApplicationForm.getUserid());
-        if (isTeam.isEmpty())
-            return -1;
-        if (isUser.isEmpty())
-            return -1;
-        int team_id = isTeam.get().getTeamid();
-        int user_id = isUser.get().getUserid();
-        if (isTeam.get().getOwner().getUserid()!=acceptApplicationForm.getOwner())
-            return -1;
+        Team team = teamService.getTeamById(acceptApplicationForm.getTeamid());
+        User user = getUserById(acceptApplicationForm.getUserid());
+        User req_user = getUserById(acceptApplicationForm.getRequestid());
+        int team_id = team.getTeamid();
+        int user_id = user.getUserid();
+        int req_user_id = req_user.getUserid();
+
+        if (!team.getOwner().getUserid().equals(req_user_id))
+            throw new IllegalArgumentException("request user is not owner of team.");
         Optional<Application> isApplication = applicationRepository.findById(new MemberId(team_id, user_id));
         if (isApplication.isEmpty())
-            return -1;
+            throw new EntityNotFoundException("application not found. check team id and user id.");
+
         if (acceptApplicationForm.getAccept()) {
             applicationRepository.deleteById(new MemberId(team_id, user_id));
-            memberRepository.save(new Member(team_id, user_id, isTeam.get(), isUser.get()));
-            return 1;
+            memberRepository.save(new Member(team_id, user_id, team, user));
         }
         else {
             applicationRepository.deleteById(new MemberId(team_id,user_id));
-            return 0;
         }
     }
     //user_id로 사용자 삭제
-    public boolean deleteUserById(int user_id){
-        Optional<User> isUser = userRepository.findById(user_id);
-        if (isUser.isEmpty())
-            return false;
-        else{
-            userRepository.delete(isUser.get());
-            return true;
-        }
+    public void deleteUserById(int user_id){
+        User user = getUserById(user_id);
+
+        userRepository.delete(user);
     }
     //user_id, team_id로 Member 삭제
-    public boolean deleteMember(int user_id, int team_id, int request_id){
-        Optional<Team> isTeam = teamService.getTeamById(team_id);
-        if (isTeam.isEmpty())
-            return false;
-        if (user_id!=request_id&&isTeam.get().getOwner().getUserid()!=request_id)
-            return false;
+    public void deleteMember(int user_id, int team_id, int request_id){
+        Team team = teamService.getTeamById(team_id);
+        User member_user = getUserById(user_id);
+        try {
+            User request_user = getUserById(request_id);
+        } catch (Exception e){
+            throw new EntityNotFoundException("request user not found. check request id.");
+        }
+
+        if (member_user.getUserid()!=request_id&&team.getOwner().getUserid()!=request_id)
+            throw new IllegalArgumentException("requesting user must be team owner or member to be deleted.");
 
         Optional<Member> isMember = memberRepository.findById(new MemberId(team_id, user_id));
         if (isMember.isEmpty())
-            return false;
+            throw new EntityNotFoundException("member not found. check team id and user id.");
         memberRepository.delete(isMember.get());
-        return true;
     }
 
     //모든 사용자 삭제

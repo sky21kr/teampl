@@ -5,6 +5,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import study.templ.domain.*;
@@ -12,6 +14,7 @@ import study.templ.repository.ApplicationRepository;
 import study.templ.repository.MemberRepository;
 import study.templ.repository.TeamRepository;
 
+import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -30,28 +33,30 @@ public class TeamService {
     @Autowired
     private MemberRepository memberRepository;
     //팀 만들기
-    public Optional<Team> createTeam(CreateTeamForm createTeamForm) {
-        Optional<User> isUser = userService.getUserById(createTeamForm.getOwner());
-        if (isUser.isEmpty())
-            return Optional.empty();
+    public Team createTeam(CreateTeamForm createTeamForm) {
+        User user = userService.getUserById(createTeamForm.getOwner());
+
         Team team = new Team (createTeamForm.getCategory(), createTeamForm.getNumberofmembers(),
                 createTeamForm.getLimit(), createTeamForm.getStatus(), createTeamForm.getTitle(),
-                createTeamForm.getIntroduction(), LocalDateTime.now(), isUser.get());
+                createTeamForm.getIntroduction(), LocalDateTime.now(), user);
         teamRepository.save(team);
-        memberRepository.save(new Member(team.getTeamid(), isUser.get().getUserid(), team, isUser.get()));
-        return Optional.of(teamRepository.save(team));
+        memberRepository.save(new Member(team.getTeamid(), user.getUserid(), team, user));
+        return team;
     }
 
     //team_id로 팀 가져오기
-    public Optional<Team> getTeamById(int team_id){
-        return teamRepository.findById(team_id);
+    public Team getTeamById(int team_id){
+        Optional<Team> isTeam = teamRepository.findById(team_id);
+        if (isTeam.isEmpty())
+            throw new EntityNotFoundException("team not found. check team id.");
+        return isTeam.get();
     }
 
     //카테고리에 해당하는 팀 가져오기
     public Page<Team> getTeamByCategory(Pageable pageable, int category){
         return teamRepository.findByCategory(pageable, category);
     }
-    //검색으로 title에 해당 내용 있는 팀 가져오기
+    //검색으로 title 에 해당 내용 있는 팀 가져오기
     public Page<Team> getTeamBySearch(Pageable pageable, String keyword){
         return teamRepository.findByTitleContains(pageable, keyword);
     }
@@ -61,37 +66,32 @@ public class TeamService {
     //team_id 팀의 멤버 가져오기
     @Transactional
     public List<Member> getMemberOfTeam(int team_id){
-        Optional<Team> isTeam = teamRepository.findById(team_id);
-        if (isTeam.isEmpty())
+        Team team = getTeamById(team_id);
+        if (team.getMembers()==null)
             return Collections.emptyList();
-        if (isTeam.get().getMembers()==null)
-            return Collections.emptyList();
-        List<Member> members = new ArrayList<Member>(isTeam.get().getMembers());
+        List<Member> members = new ArrayList<Member>(team.getMembers());
         return members;
 
     }
 
     //팀 모집 글 내용 가져오기
-    public Optional<TeamContentsForm> getTeamContents(int team_id){
-        Optional<Team> isTeam = teamRepository.findById(team_id);
-        if (isTeam.isEmpty())
-            return Optional.empty();
+    public TeamContentsForm getTeamContents(int team_id){
+        Team team = getTeamById(team_id);
 
-        Team team = isTeam.get();
         TeamContentsForm contents = new TeamContentsForm(team.getCategory(),team.getDatetime(),team.getOwner().getNickname(),
                 team.getStatus(),team.getTitle(),team.getIntroduction(),team.getOwncomments());
-        return Optional.of(contents);
+        return contents;
     }
     //사용자 owner이고 team 수정 (정보 주어지지 않을시 이전 값 그대로)
-    public Optional<Team> updateTeam(UpdateTeamForm updateTeamForm){
+    public Team updateTeam(UpdateTeamForm updateTeamForm){
         int team_id = updateTeamForm.getTeamid();
         int owner = updateTeamForm.getOwner();
-        Optional<Team> isTeam = teamRepository.findById(team_id);
-        if (isTeam.isEmpty())
-            return isTeam;
-        else if (isTeam.get().getOwner().getUserid()!=owner)
-            return Optional.empty();
-        Team team = isTeam.get();
+        Team team = getTeamById(team_id);                       //check team EntityNotFoundException
+
+        userService.getUserById(updateTeamForm.getOwner());     //check user EntityNotFoundException
+        if (team.getOwner().getUserid()!=owner)
+            throw new IllegalArgumentException("user is not owner of team.");
+
         if (updateTeamForm.getStatus()!=null)
             team.setStatus(updateTeamForm.getStatus());
         if (updateTeamForm.getLimit()!=null)
@@ -106,17 +106,15 @@ public class TeamService {
             team.setIntroduction(updateTeamForm.getIntroduction());
 
         teamRepository.save(team);
-        return Optional.ofNullable(team);
+        return team;
     }
     //사용자 owner이고 팀 삭제
-    public boolean deleteTeamAsOwner(int owner, int team_id){
-        Optional<Team> teamToDelete = teamRepository.findById(team_id);
-        if (teamToDelete.isEmpty())
-            return false;
-        if (teamToDelete.get().getOwner().getUserid()!=owner)
-            return false;
+    public void deleteTeamAsOwner(int owner, int team_id){
+        Team team = getTeamById(team_id);
+
+        if (team.getOwner().getUserid()!=owner)
+            throw new IllegalArgumentException("user is not owner of team.");
         teamRepository.deleteById(team_id);
-        return true;
     }
 
     public Pageable createPageRequest(int pageNumber, int pageSize, String sortParameter, Boolean ascending){

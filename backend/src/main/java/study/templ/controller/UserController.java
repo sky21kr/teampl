@@ -1,8 +1,11 @@
 package study.templ.controller;
 
+import io.swagger.models.Response;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import study.templ.domain.*;
@@ -40,7 +43,7 @@ public class UserController {
 
     //사용자 생성
     @PostMapping("/sign-up")
-    public Optional<User> createUser(@RequestBody HashMap<String,String> params){
+    public User createUser(@RequestBody HashMap<String,String> params){
         return userService.createUser(params.get("account_id"),params.get("password"),params.get("nickname"));
     }
 
@@ -60,33 +63,37 @@ public class UserController {
 
     //내가 만든 팀 조회
     @GetMapping("/myteam")
-    public List<Team> getMyTeam(@RequestParam("userid") int user_id){
-        return userService.getTeamAsOwner(user_id);
+    public ResponseEntity<List<Team>> getMyTeam(@RequestParam("userid") int user_id){
+        return ResponseEntity.status(HttpStatus.OK).body(userService.getTeamAsOwner(user_id));
     }
     @GetMapping("/memberteam")
-    public List<Member> getMemberTeam(@RequestParam("userid") int user_id){
-        return userService.getTeamAsMember(user_id);
+    public ResponseEntity<List<Member>> getMemberTeam(@RequestParam("userid") int user_id){
+        return ResponseEntity.status(HttpStatus.OK).body(userService.getTeamAsMember(user_id));
     }
     //userid로 사용자 삭제
     @DeleteMapping("/user")
-    public boolean deleteUser(@RequestParam("userid") int user_id){
+    public ResponseEntity<Void> deleteUser(@RequestParam("userid") int user_id){
         //authentication required!
-        return userService.deleteUserById(user_id);
+        userService.deleteUserById(user_id);
+        return ResponseEntity.status(HttpStatus.OK).body(null);
     }
     //가입 신청하기
     @PostMapping("/application")
-    public boolean createApplication(@RequestBody CreateApplicationForm createApplicationForm){
-        return userService.createApplication(createApplicationForm);
+    public ResponseEntity<Void> createApplication(@RequestBody CreateApplicationForm createApplicationForm){
+        userService.createApplication(createApplicationForm);
+        return ResponseEntity.status(HttpStatus.OK).body(null);
     }
-    //owner가 가입 수락/거절하기
+    //owner가 가입 수락/거절하기 request id == owner id 여야 함
     @PostMapping("/accept-application")
-    public int acceptApplication(@RequestBody AcceptApplicationForm acceptApplicationForm){
-        return userService.acceptApplication(acceptApplicationForm);
+    public ResponseEntity<Void> acceptApplication(@RequestBody AcceptApplicationForm acceptApplicationForm){
+        userService.acceptApplication(acceptApplicationForm);
+        return ResponseEntity.status(HttpStatus.OK).body(null);
     }
     //팀 탈퇴 request_id = user_id or team_id의 team owner_id
     @DeleteMapping("member")
-    public Boolean deleteTeamAsMember(@RequestParam("userid") int user_id, @RequestParam("teamid") int team_id, @RequestParam("requestid") int request_id){
-        return userService.deleteMember(user_id, team_id, request_id);
+    public ResponseEntity<Void> deleteTeamAsMember(@RequestParam("userid") int user_id, @RequestParam("teamid") int team_id, @RequestParam("requestid") int request_id){
+        userService.deleteMember(user_id, team_id, request_id);
+        return ResponseEntity.status(HttpStatus.OK).body(null);
     }
     @Setter
     @Getter

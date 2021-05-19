@@ -1,7 +1,6 @@
 package study.templ.service;
 
 import org.assertj.core.api.Assertions;
-import org.junit.Before;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -27,7 +26,7 @@ class UserServiceTest {
     ApplicationRepository applicationRepository;
     @Autowired
     MemberRepository memberRepository;
-    @BeforeEach
+    @AfterEach
     void delete(){
         userService.deleteAllUser();
         teamService.deleteAllTeam();
@@ -38,13 +37,13 @@ class UserServiceTest {
     @Test
     void createApplication() {
         //given
-        Optional<User> isUser1 = userService.createUser("a","b","c");
-        Optional<User> isUser2 = userService.createUser("a","b","c");
-        Optional<User> isUser3 = userService.createUser("a","b","c");
-        Optional<Team> isTeam = teamService.createTeam(new CreateTeamForm(0,3,2,false,"t","i",isUser1.get().getUserid()));
+        User isUser1 = userService.createUser("a","b","c");
+        User isUser2 = userService.createUser("a","b","c");
+        User isUser3 = userService.createUser("a","b","c");
+        Team team = (Team) teamService.createTeam(new CreateTeamForm(0,3,2,false,"t","i",isUser1.getUserid()));
         //when
-        userService.createApplication(new CreateApplicationForm(isTeam.get().getTeamid(),isUser2.get().getUserid(),"c"));
-        userService.createApplication(new CreateApplicationForm(isTeam.get().getTeamid(),isUser3.get().getUserid(),"c"));
+        userService.createApplication(new CreateApplicationForm(team.getTeamid(),isUser2.getUserid(),"c"));
+        userService.createApplication(new CreateApplicationForm(team.getTeamid(),isUser3.getUserid(),"c"));
         //then
         Assertions.assertThat(applicationRepository.findAll().size()).isEqualTo(2);
     }
@@ -52,50 +51,50 @@ class UserServiceTest {
     @Test
     void acceptApplication() {
         //given
-        Optional<User> isUser1 = userService.createUser("a","b","c");
-        Optional<User> isUser2 = userService.createUser("a","b","c");
-        Optional<User> isUser3 = userService.createUser("a","b","c");
-        Optional<Team> isTeam = teamService.createTeam(new CreateTeamForm(0,3,2,false,"t","i",isUser1.get().getUserid()));
+        User isUser1 = userService.createUser("a","b","c");
+        User isUser2 = userService.createUser("a","b","c");
+        User isUser3 = userService.createUser("a","b","c");
+        Team team = teamService.createTeam(new CreateTeamForm(0,3,2,false,"t","i",isUser1.getUserid()));
         //when
-        userService.createApplication(new CreateApplicationForm(isTeam.get().getTeamid(),isUser2.get().getUserid(),"c"));
-        userService.createApplication(new CreateApplicationForm(isTeam.get().getTeamid(),isUser3.get().getUserid(),"c"));
-        userService.acceptApplication(new AcceptApplicationForm(isUser1.get().getUserid(),isTeam.get().getTeamid(),isUser2.get().getUserid(),true));
-        userService.acceptApplication(new AcceptApplicationForm(isUser1.get().getUserid(),isTeam.get().getTeamid(),isUser3.get().getUserid(),false));
+        userService.createApplication(new CreateApplicationForm(team.getTeamid(),isUser2.getUserid(),"c"));
+        userService.createApplication(new CreateApplicationForm(team.getTeamid(),isUser3.getUserid(),"c"));
+        userService.acceptApplication(new AcceptApplicationForm(isUser1.getUserid(),team.getTeamid(),isUser2.getUserid(),true));
+        userService.acceptApplication(new AcceptApplicationForm(isUser1.getUserid(),team.getTeamid(),isUser3.getUserid(),false));
         //then
-        Assertions.assertThat(memberRepository.findAll().size()).isEqualTo(1);
+        Assertions.assertThat(memberRepository.findAll().size()).isEqualTo(2);  //owner + user2
     }
     @Test
     void ifUserDelete_ApplicationDeleteMemberDelete(){
         //given
-        Optional<User> isUser1 = userService.createUser("a","b","c");
-        Optional<User> isUser2 = userService.createUser("a","b","c");
-        Optional<User> isUser3 = userService.createUser("a","b","c");
-        Optional<User> isUser4 = userService.createUser("a","b","c");
-        Optional<Team> isTeam = teamService.createTeam(new CreateTeamForm(0,3,2,false,"t","i",isUser1.get().getUserid()));
+        User isUser1 = userService.createUser("a","b","c");
+        User isUser2 = userService.createUser("a","b","c");
+        User isUser3 = userService.createUser("a","b","c");
+        User isUser4 = userService.createUser("a","b","c");
+        Team team= teamService.createTeam(new CreateTeamForm(0,3,2,false,"t","i",isUser1.getUserid()));
         //when
-        userService.createApplication(new CreateApplicationForm(isTeam.get().getTeamid(),isUser2.get().getUserid(),"c"));
-        userService.createApplication(new CreateApplicationForm(isTeam.get().getTeamid(),isUser3.get().getUserid(),"c"));
-        userService.createApplication(new CreateApplicationForm(isTeam.get().getTeamid(),isUser4.get().getUserid(),"c"));
+        userService.createApplication(new CreateApplicationForm(team.getTeamid(),isUser2.getUserid(),"c"));
+        userService.createApplication(new CreateApplicationForm(team.getTeamid(),isUser3.getUserid(),"c"));
+        userService.createApplication(new CreateApplicationForm(team.getTeamid(),isUser4.getUserid(),"c"));
         //234
-        userService.acceptApplication(new AcceptApplicationForm(isUser1.get().getUserid(),isTeam.get().getTeamid(),isUser2.get().getUserid(),true));
+        userService.acceptApplication(new AcceptApplicationForm(isUser1.getUserid(),team.getTeamid(),isUser2.getUserid(),true));
         //2 -> member
-        userService.deleteUserById(isUser2.get().getUserid());
-        userService.deleteUserById(isUser3.get().getUserid());
+        userService.deleteUserById(isUser2.getUserid());
+        userService.deleteUserById(isUser3.getUserid());
         //2 delete 3 delete
         //then
-        //application 4 member 0
+        //application 4 member 1
         Assertions.assertThat(applicationRepository.findAll().size()).isEqualTo(1);
-        Assertions.assertThat(memberRepository.findAll().size()).isEqualTo(0);
+        Assertions.assertThat(memberRepository.findAll().size()).isEqualTo(1);
 
     }
 
     @Test
     void deleteMember() {
         //given
-        int user1 = userService.createUser("a","b","c").get().getUserid();
-        int user2 = userService.createUser("a","b","c").get().getUserid();
-        int user3 = userService.createUser("a","b","c").get().getUserid();
-        int team1 = teamService.createTeam(new CreateTeamForm(0,3,2,false,"t","i",user1)).get().getTeamid();
+        int user1 = userService.createUser("a","b","c").getUserid();
+        int user2 = userService.createUser("a","b","c").getUserid();
+        int user3 = userService.createUser("a","b","c").getUserid();
+        int team1 = teamService.createTeam(new CreateTeamForm(0,3,2,false,"t","i",user1)).getTeamid();
         userService.createApplication(new CreateApplicationForm(team1, user2, "contents"));
         userService.createApplication(new CreateApplicationForm(team1, user3, "contents"));
         userService.acceptApplication(new AcceptApplicationForm(user1, team1, user2, true));

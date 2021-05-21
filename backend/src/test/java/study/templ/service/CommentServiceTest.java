@@ -13,6 +13,7 @@ import study.templ.domain.User;
 import study.templ.repository.CommentRepository;
 
 import javax.swing.text.html.Option;
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -43,7 +44,7 @@ class CommentServiceTest {
         int userid = user.getUserid();
         Team team = teamService.createTeam(1,2,3,true,"1","1",userid).get();
         Comment comment = new Comment();
-        comment.setDatetime("20210508");
+        comment.setDatetime(LocalDateTime.now());
         comment.setComment("contents");
         comment.setWriter(user);
         comment.setTarget_team(team);

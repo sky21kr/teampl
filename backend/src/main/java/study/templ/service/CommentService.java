@@ -9,24 +9,26 @@ import study.templ.domain.CreateCommentForm;
 import study.templ.domain.Team;
 import study.templ.domain.User;
 import study.templ.repository.CommentRepository;
+import study.templ.repository.TeamRepository;
 
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 @Service
 public class CommentService {
 
-    private final CommentRepository commentRepository;
+    @Autowired
+    private  CommentRepository commentRepository;
 
     @Autowired
-    public CommentService(@Lazy CommentRepository commentRepository){
-
-        this.commentRepository =commentRepository;
-    }
+    private TeamRepository teamRepository;
 
     @Transactional
     public Object createComment(CreateCommentForm createCommentForm, Optional<Team> target_team, Optional<User> user){
 
         Comment newComment = new Comment();
+
 
         if(createCommentForm.getComment_id() ==null){
             newComment.setLevel(1);
@@ -46,7 +48,7 @@ public class CommentService {
         newComment.setComment(createCommentForm.getComment());
         newComment.setTarget_team(target_team.get());
         newComment.setWriter(user.get());
-
+        newComment.setDatetime(LocalDateTime.now());
 
         newComment.setLive(true);
         commentRepository.save(newComment);
@@ -65,17 +67,25 @@ public class CommentService {
         if(commentToDelete.isEmpty())
             return false;
 
+        //댓글 작성자가 아닌 사용자가 삭제하려 할 때
         if (commentToDelete.get().getWriter().getUserid() != owner) {
             return false;
 
-        }else{if (commentToDelete.get().getSubComment() != null) {
+            //댓글 작성자가 삭제하려 할 때
+        }else{
+            //대댓글이 있을 때
+            if (commentToDelete.get().getSubComment() != null) {
                 commentToDelete.get().setComment("삭제된 댓글입니다. ");
-                commentToDelete.get().setLive(false);
+
+                if(commentToDelete.get().getComment1() != null){
+                    commentToDelete.get().setComment("삭제된 댓글입니다.");
+                }
             }//대댓글이 없는 경우 그냥 삭제 하기.
             else {
                 commentToDelete.get().setComment("삭제된 댓글입니다. ");
+                commentToDelete.get().setLive(false);
             }
-            commentRepository.deleteById(comment_id);
+            commentRepository.deleteById(commentToDelete.get().getComment_id());
         }
         return true;
     }
@@ -91,7 +101,20 @@ public class CommentService {
         Optional<Comment> comment1 = commentRepository.findById(comment_id);
         comment1.get().setComment(comment);
     }
+    //teamid에 해당하는 코멘트 반환
+    public Object getCommentsByTeamId(int team_id) {
 
+        Optional<Team> isTeam = teamRepository.findById(team_id);
 
+        if (isTeam.isEmpty())
+            return Optional.empty();
+
+        Team team = isTeam.get();
+
+        List commentList = team.getOwncomments();
+
+        return commentList;
+
+    }
 }
 

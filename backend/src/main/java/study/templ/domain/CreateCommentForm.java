@@ -12,6 +12,8 @@ public class CreateCommentForm {
     private String comment;
     private Integer teamid ;
     private Integer comment_id;
+    private LocalDateTime datetime;
+
 
 
 

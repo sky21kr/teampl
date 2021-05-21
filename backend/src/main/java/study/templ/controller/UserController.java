@@ -1,8 +1,11 @@
 package study.templ.controller;
 
+import com.mysql.cj.log.Log;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import study.templ.domain.Member;
@@ -40,24 +43,22 @@ public class UserController {
         return "Hello3";
     }
 
-    //사용자 생성
-    @PostMapping("/sign-up")
-    public Optional<User> createUser(@RequestBody HashMap<String,String> params){
-        return userService.createUser(params.get("account_id"),params.get("password"),params.get("nickname"));
-    }
-
     @PostMapping("/login")
     @ResponseBody
-    public LoginResult loginApi(@RequestBody LoginRequest loginInfo) {
+    public ResponseEntity<LoginResult> loginApi(@RequestBody LoginRequest loginInfo) {
         User user = userService.login(loginInfo.getId(), loginInfo.getPassword());
-        return new LoginResult(true, user.getToken(), user.getUserid());
+        LoginResult body = new LoginResult(true, user.getToken(), user.getUserid());
+
+        return new ResponseEntity<LoginResult>(body, HttpStatus.OK);
     }
 
     @PostMapping("/signup")
     @ResponseBody
-    public SignupResponse signupApi(@RequestBody SignupRequest signupInfo) {
+    public ResponseEntity<SignupResponse> signupApi(@RequestBody SignupRequest signupInfo) {
         userService.createUser(signupInfo.getId(), signupInfo.getPassword(), signupInfo.getNickname());
-        return new SignupResponse(true);
+        SignupResponse body = new SignupResponse(true);
+
+        return new ResponseEntity<SignupResponse>(body, HttpStatus.CREATED);
     }
 
 

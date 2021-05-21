@@ -1,4 +1,5 @@
 package study.templ.domain;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 
@@ -31,13 +32,13 @@ public class User {
     @Setter
     String token;
 
-    @JsonManagedReference
+    @JsonIgnore     //getTeamAsMember
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
     List<Member> memberteams;
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
     List<Application> applications;
 
-    @JsonManagedReference
+    @JsonIgnore     //getTeamAsOwner
     @OneToMany(mappedBy = "owner", cascade = CascadeType.REMOVE)
     List<Team> ownteams;
     @OneToMany(mappedBy = "writer")

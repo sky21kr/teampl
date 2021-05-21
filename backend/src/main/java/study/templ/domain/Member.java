@@ -1,6 +1,7 @@
 package study.templ.domain;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
@@ -24,13 +25,13 @@ public class Member {
     @Column(name = "user_id")
     private Integer userid;
 
-    @JsonBackReference
+    @JsonIgnore
     @JoinColumn(name = "team_id", insertable = false, updatable = false)
     @NonNull
     @ManyToOne
     private Team team;
 
-    @JsonBackReference
+    @JsonIgnore
     @JoinColumn(name = "user_id", insertable = false, updatable = false)
     @NonNull
     @ManyToOne

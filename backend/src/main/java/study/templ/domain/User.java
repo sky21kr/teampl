@@ -1,4 +1,5 @@
 package study.templ.domain;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
@@ -24,10 +25,12 @@ public class User {
     @NonNull
     @Column(name = "account_id")
     String accountid;
+    @JsonIgnore
     @NonNull
     String password;
     @NonNull
     String nickname;
+    @JsonIgnore
     @Column(name = "auth_token")
     @Setter
     String token;
@@ -35,12 +38,14 @@ public class User {
     @JsonIgnore     //getTeamAsMember
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
     List<Member> memberteams;
+    @JsonIgnore
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
     List<Application> applications;
 
     @JsonIgnore     //getTeamAsOwner
     @OneToMany(mappedBy = "owner", cascade = CascadeType.REMOVE)
     List<Team> ownteams;
+    @JsonBackReference
     @OneToMany(mappedBy = "writer")
     List<Comment> owncomments;
 

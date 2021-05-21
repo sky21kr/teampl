@@ -14,14 +14,16 @@ import study.templ.service.UserService;
 import javax.servlet.http.HttpSession;
 import java.util.Optional;
 
-@Controller
+@RestController
 public class CommentController {
 
 
+    @Autowired
     private final CommentService commentService;
+    @Autowired
     private UserService userService;
+    @Autowired
     private TeamService teamService;
-    private CheckAuthority checkAuthority;
 
     @Autowired
     private CommentController(@Lazy CommentService commentService) {
@@ -31,17 +33,14 @@ public class CommentController {
 
 //httpsession: 인터페이스, 둘 이상의 페이지 리퀘스트에서 사용자를 식별하거나, 웹 사이트를 방문하 해당 사용자에 대한 정보저장방법 제공
     @PostMapping("/create")
-    public String createComment(@Validated @RequestBody CreateCommentForm createCommentForm, HttpSession httpSession) {
+    public Object createComment(@Validated @RequestBody CreateCommentForm createCommentForm, @RequestHeader("userId") int user_id, HttpSession httpSession) {
 
-        int userid= Integer.parseInt(checkAuthority.checkLogin(httpSession));
-        User writer = userService.getUserById(userid);
+        User writer = userService.getUserById(user_id);
         int team_id = createCommentForm.getTeamid();
         Team target_team = teamService.getTeamById(createCommentForm.getTeamid());
 
-        commentService.createComment(createCommentForm,Optional.of(target_team),Optional.of(writer));
+        return commentService.createComment(createCommentForm,Optional.of(target_team),Optional.of(writer));
 
-
-        return "redirect:/team/"+team_id; //어디로 반환해야할지 잘 모르겠음.
     }
 
     @PostMapping("/edit")

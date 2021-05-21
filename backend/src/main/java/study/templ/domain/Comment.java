@@ -2,7 +2,7 @@ package study.templ.domain;
 
 
 
-import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 
@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "comment_id")
 @Entity
 @Getter
 @Setter
@@ -31,13 +32,13 @@ public class Comment {
     @Column(name = "comment")
     private String comment; //content(댓글내용) 의미함.
 
-
+    @JsonManagedReference
     @NonNull
     @JoinColumn(name = "writer")
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private User writer;
 
-
+    @JsonIgnore
     @NonNull
     @ManyToOne
     @JoinColumn(name = "subcomment")
@@ -48,6 +49,7 @@ public class Comment {
     private List <Comment> subComment =new ArrayList<>();
 
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.REMOVE)
     @JoinColumn(name = "target_team")
     private Team target_team;

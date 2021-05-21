@@ -34,7 +34,7 @@ public class Comment {
 
     @NonNull
     @JoinColumn(name = "writer")
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private User writer;
 
 
@@ -48,7 +48,7 @@ public class Comment {
     private List <Comment> subComment =new ArrayList<>();
 
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.REMOVE)
     @JoinColumn(name = "target_team")
     private Team target_team;
 

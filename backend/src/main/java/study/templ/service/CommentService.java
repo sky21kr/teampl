@@ -9,20 +9,20 @@ import study.templ.domain.CreateCommentForm;
 import study.templ.domain.Team;
 import study.templ.domain.User;
 import study.templ.repository.CommentRepository;
+import study.templ.repository.TeamRepository;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 @Service
 public class CommentService {
 
-    private final CommentRepository commentRepository;
+    @Autowired
+    private  CommentRepository commentRepository;
 
     @Autowired
-    public CommentService(@Lazy CommentRepository commentRepository){
-
-        this.commentRepository =commentRepository;
-    }
+    private TeamRepository teamRepository;
 
     @Transactional
     public Object createComment(CreateCommentForm createCommentForm, Optional<Team> target_team, Optional<User> user){
@@ -101,7 +101,20 @@ public class CommentService {
         Optional<Comment> comment1 = commentRepository.findById(comment_id);
         comment1.get().setComment(comment);
     }
+    //teamid에 해당하는 코멘트 반환
+    public Object getCommentsByTeamId(int team_id) {
 
+        Optional<Team> isTeam = teamRepository.findById(team_id);
 
+        if (isTeam.isEmpty())
+            return Optional.empty();
+
+        Team team = isTeam.get();
+
+        List commentList = team.getOwncomments();
+
+        return commentList;
+
+    }
 }
 

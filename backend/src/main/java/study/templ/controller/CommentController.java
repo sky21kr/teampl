@@ -34,11 +34,11 @@ public class CommentController {
     public String createComment(@Validated @RequestBody CreateCommentForm createCommentForm, HttpSession httpSession) {
 
         int userid= Integer.parseInt(checkAuthority.checkLogin(httpSession));
-        Optional<User> writer = userService.getUserById(userid);
+        User writer = userService.getUserById(userid);
         int team_id = createCommentForm.getTeamid();
-        Optional<Team> target_team = teamService.getTeamById(createCommentForm.getTeamid());
+        Team target_team = teamService.getTeamById(createCommentForm.getTeamid());
 
-        commentService.createComment(createCommentForm,target_team,writer);
+        commentService.createComment(createCommentForm,Optional.of(target_team),Optional.of(writer));
 
 
         return "redirect:/team/"+team_id; //어디로 반환해야할지 잘 모르겠음.
@@ -59,11 +59,11 @@ public class CommentController {
 
         int comment_id=  Integer.parseInt(comment);
         Optional<Comment> commentToDelete =commentService.findById(comment_id);
-        Optional<User> owner = userService.getUserById(commentToDelete.get().getWriter().getUserid());
+        User owner = userService.getUserById(commentToDelete.get().getWriter().getUserid());
 
 
         int team_id= commentToDelete.get().getTarget_team().getTeamid(); //팀페이지 아이디 얻어오기
-        commentService.deleteComment( owner.get().getUserid(), comment_id);
+        commentService.deleteComment( owner.getUserid(), comment_id);
         return "redirect:/post/read?post=" +team_id;
     }
 }

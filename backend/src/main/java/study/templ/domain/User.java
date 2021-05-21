@@ -25,11 +25,13 @@ public class User {
     @NonNull
     @Column(name = "account_id")
     String accountid;
+
     @JsonIgnore
     @NonNull
     String password;
     @NonNull
     String nickname;
+
     @JsonIgnore
     @Column(name = "auth_token")
     @Setter

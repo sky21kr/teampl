@@ -11,6 +11,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import study.templ.domain.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
+import study.templ.domain.Member;
+import study.templ.domain.Team;
+import study.templ.domain.TeamContentsForm;
+import study.templ.domain.User;
 import study.templ.service.TeamService;
 
 import java.time.LocalDateTime;
@@ -27,8 +34,7 @@ public class TeamController {
     //팀 생성
     @PostMapping("make-team")
     public ResponseEntity<Team> createTeam(@RequestBody CreateTeamForm createTeamForm){
-        return ResponseEntity.status(HttpStatus.CREATED).body(teamService.createTeam(createTeamForm));
-    }
+        return ResponseEntity.status(HttpStatus.CREATED).body(teamService.createTeam(createTeamForm)); }
     //조회
     //request parameter에 따라 다른 함수 호출하도록 최종 구현
     // 최신순으로 조회
@@ -88,6 +94,5 @@ public class TeamController {
         teamService.deleteTeamAsOwner(owner, teamid);
         return ResponseEntity.status(HttpStatus.OK).body(null);
     }
-
 
 }

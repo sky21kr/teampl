@@ -13,6 +13,8 @@ import study.templ.repository.TeamRepository;
 
 import java.time.LocalDateTime;
 import java.util.List;
+
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Service
@@ -86,6 +88,7 @@ public class CommentService {
                 commentToDelete.get().setLive(false);
             }
             commentRepository.deleteById(commentToDelete.get().getComment_id());
+
         }
         return true;
     }
@@ -100,21 +103,6 @@ public class CommentService {
     public void editComment(Integer comment_id, String comment){
         Optional<Comment> comment1 = commentRepository.findById(comment_id);
         comment1.get().setComment(comment);
-    }
-    //teamid에 해당하는 코멘트 반환
-    public Object getCommentsByTeamId(int team_id) {
-
-        Optional<Team> isTeam = teamRepository.findById(team_id);
-
-        if (isTeam.isEmpty())
-            return Optional.empty();
-
-        Team team = isTeam.get();
-
-        List commentList = team.getOwncomments();
-
-        return commentList;
-
     }
 }
 

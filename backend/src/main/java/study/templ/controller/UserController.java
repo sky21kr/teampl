@@ -1,7 +1,6 @@
 package study.templ.controller;
 
 import com.mysql.cj.log.Log;
-import io.swagger.models.Response;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +9,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import study.templ.domain.*;
+import lombok.Getter;
+import lombok.Setter;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
+import study.templ.domain.Member;
+import study.templ.domain.Team;
+import study.templ.domain.User;
 import study.templ.repository.UserRepository;
 import study.templ.service.UserService;
 
@@ -130,5 +137,4 @@ public class UserController {
             this.userId = userId;
         }
     }
-
 }

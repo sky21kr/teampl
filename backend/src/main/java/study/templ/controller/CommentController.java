@@ -24,7 +24,6 @@ public class CommentController {
     private UserService userService;
     @Autowired
     private TeamService teamService;
-
     @Autowired
     private CommentController(@Lazy CommentService commentService) {
         this.commentService=commentService;
@@ -40,7 +39,6 @@ public class CommentController {
         Team target_team = teamService.getTeamById(createCommentForm.getTeamid());
 
         return commentService.createComment(createCommentForm,Optional.of(target_team),Optional.of(writer));
-
     }
 
     @PostMapping("/edit")

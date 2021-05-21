@@ -1,0 +1,60 @@
+$purple: #6438e0;
+
+@font-face {
+  font-family: "TmoneyRoundWindRegular";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-07@1.0/TmoneyRoundWindRegular.woff")
+    format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+
+.searchWrap {
+  width: 652px;
+  margin: 72px auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.searchTitle {
+  color: $purple;
+  font-family: "TmoneyRoundWindRegular";
+  font-size: 24px;
+}
+
+.searchBox {
+  width: 650px;
+  height: 50px;
+  border: 1px solid $purple;
+  text-indent: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+input::placeholder {
+  font-size: 13px;
+  color: #8c8c8c;
+}
+
+.searchBox > input {
+  width: 90%;
+  height: 47px;
+  border: none;
+  text-indent: 20px;
+}
+
+.searchBox > button {
+  background-color: transparent;
+  border: none;
+  padding: 0;
+  width: 50px;
+  height: 50px;
+  cursor: pointer;
+}
+
+.searchBox > button > img {
+  width: 18px;
+  height: 18px;
+}

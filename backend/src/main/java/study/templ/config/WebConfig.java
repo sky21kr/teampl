@@ -13,9 +13,29 @@ import java.util.List;
 
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
-    private final List<String> tokenRequirements = Arrays.asList(
-            "/test1",
-            "/test3");
+    private final String[] tokenRequirements = {
+            // UserController
+            //"login",
+            //"signup",
+            "myteam",
+            "memberteam",
+            "user",
+            "application",
+            "accept-application",
+
+            // CommentController
+            "create",
+            "edit",
+            "delete",
+
+            // TeamController
+            "make-team",
+            //"team", // -> ??
+            //"team-category",
+            //"teamcontents",
+            //"teammember",
+
+    };
 
     @Bean
     JwtAuthIntercepter getJwtAuthIntercepter() {

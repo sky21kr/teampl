@@ -24,13 +24,14 @@ public class Alarm {
     @NonNull
     private Integer receiver;
 
+    @ManyToOne
+    @JoinColumn(name = "target_user")
+    private Integer target_user;
 
-    @JoinColumn(name = "userid")
-    private Integer target_user; //가입 신청 수락시
 
-
-    @JoinColumn(name = "teamid")
-    private Integer target_team; //가입 신청, 댓글 남겼을 때 팀 주인한테
+    @ManyToOne
+    @JoinColumn(name = "target_team")
+    private Team target_team;
 
     @NonNull
     private String contents;

@@ -2,7 +2,9 @@ package study.templ.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import study.templ.domain.*;
 import study.templ.repository.AlarmRepository;
 import study.templ.service.AlarmService;
@@ -10,6 +12,9 @@ import study.templ.service.CommentService;
 import study.templ.service.TeamService;
 import study.templ.service.UserService;
 
+import javax.persistence.EntityNotFoundException;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Optional;
 
 //알림 정보를 db에 저장하는 방식으로 해야함 로그인시 사용자한테 보내는 용도
@@ -28,7 +33,7 @@ public class AlarmController {
     CommentService commentService;
 
     //댓글 달았을 때
-    @PostMapping("/")
+    @PostMapping("/comments")
     public void getComments(CreateCommentForm createCommentForm , Optional<User> writer, Optional<Team> target_team){
 
         Comment newComment= (Comment) commentService.createComment(createCommentForm, target_team, writer);
@@ -38,6 +43,7 @@ public class AlarmController {
         alarmService.sendMessage1(userid,teamid);
     }
     //가입 신청했을 때
+    @GetMapping("/apply")
     public void apply(int team_id, int user_id, String contents){
 
         boolean application =userService.createApplication(team_id,user_id,contents);
@@ -50,6 +56,7 @@ public class AlarmController {
     }
 
     //가입 수락이 되었을 경우
+    @GetMapping("/accepted")
     public void accepted(int owner, int team_id, int user_id, boolean accept){
 
         Optional<Team> teamid = teamService.getTeamById(team_id);
@@ -63,6 +70,31 @@ public class AlarmController {
     }
 
 
+    @GetMapping("/alarm")
+    public List<Alarm> sendMessages(@RequestBody HashMap<String, Object> param){
+
+        int userid = (int)param.get("userid");
+        if (param.get("userid")==null) //userid가 없는 경우 있어서는 안되니까!
+            throw new EntityNotFoundException();
+
+        return alarmService.updateAlarm(userid);
+
+    }
 
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

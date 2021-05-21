@@ -35,6 +35,7 @@ public class TeamService {
         teamRepository.save(team);
         memberRepository.save(new Member(team.getTeamid(), isUser.get().getUserid(), team, isUser.get()));
         return Optional.of(teamRepository.save(team));
+        
     }
 
     //team_id로 팀 가져오기

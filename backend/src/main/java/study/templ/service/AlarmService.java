@@ -8,6 +8,8 @@ import study.templ.domain.Alarm;
 import study.templ.repository.AlarmRepository;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Optional;
 
 
 @Service
@@ -52,6 +54,16 @@ public class AlarmService {
         Alarm alarm = new Alarm(userid,datetime,teamid,contents);
         alarmRepository.save(alarm);
 
-
     }
+
+
+
+    public List<Alarm> updateAlarm(int userid) {
+
+        userService.getUserById(userid);
+        List<Alarm> alarms = alarmRepository.findByTarget_User(userid);
+        return alarms;
+    }
+
+
 }

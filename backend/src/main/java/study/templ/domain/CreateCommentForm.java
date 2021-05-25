@@ -13,6 +13,7 @@ public class CreateCommentForm {
     private Integer teamid ;
     private Integer comment_id;
     private LocalDateTime datetime;
+    private Integer userid;
 
 
 

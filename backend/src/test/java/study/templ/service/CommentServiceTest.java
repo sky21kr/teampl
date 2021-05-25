@@ -6,10 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
-import study.templ.domain.Comment;
-import study.templ.domain.CreateCommentForm;
-import study.templ.domain.Team;
-import study.templ.domain.User;
+import study.templ.domain.*;
 import study.templ.repository.CommentRepository;
 
 import javax.swing.text.html.Option;
@@ -40,9 +37,10 @@ class CommentServiceTest {
 
         @Test
     public void 댓글생성 () throws Exception{
-        User user = userService.createUser("acc", "pass", "nick").get();
+        User user = userService.createUser("acc", "pass", "nick");
         int userid = user.getUserid();
-        Team team = teamService.createTeam(1,2,3,true,"1","1",userid).get();
+        CreateTeamForm createTeamForm = new CreateTeamForm(1,2,3,true,"1","1",userid);
+        Team team = teamService.createTeam(createTeamForm);
         Comment comment = new Comment();
         comment.setDatetime(LocalDateTime.now());
         comment.setComment("contents");
@@ -65,9 +63,10 @@ class CommentServiceTest {
     public void 댓글삭제() throws Exception{
 
 
-        Optional<User> user = Optional.ofNullable(userService.createUser("acc", "pass", "nick")).get();
-        int userid= user.get().getUserid();
-        Optional<Team> target_team = Optional.ofNullable(teamService.createTeam(0,0,0,false,"1","2",userid)).get();
+        User user = userService.createUser("acc", "pass", "nick");
+        int userid= user.getUserid();
+        CreateTeamForm createTeamForm = new CreateTeamForm(0,0,0,false,"1","2",userid);
+        Team target_team = teamService.createTeam(createTeamForm);
         CreateCommentForm createCommentForm = new CreateCommentForm();
         createCommentForm.setComment("123");
 
@@ -75,7 +74,7 @@ class CommentServiceTest {
 
 
         int owner_id = userid;
-        int user_id1 = userService.createUser("acc","pass","nick").get().getUserid();
+        int user_id1 = userService.createUser("acc","pass","nick").getUserid();
 
 
         Assertions.assertEquals(false,commentService.deleteComment(user_id1,comment.getComment_id()));

@@ -8,6 +8,7 @@ import study.templ.domain.Comment;
 import study.templ.domain.CreateCommentForm;
 import study.templ.domain.Team;
 import study.templ.domain.User;
+import study.templ.repository.AlarmRepository;
 import study.templ.repository.CommentRepository;
 import study.templ.repository.TeamRepository;
 
@@ -26,8 +27,14 @@ public class CommentService {
     @Autowired
     private TeamRepository teamRepository;
 
+    @Autowired
+    private AlarmService alarmService;
+
+    public CommentService() {
+    }
+
     @Transactional
-    public Object createComment(CreateCommentForm createCommentForm, Optional<Team> target_team, Optional<User> user){
+    public Object createComment(CreateCommentForm createCommentForm, Team target_team, User user){
 
         Comment newComment = new Comment();
 
@@ -45,11 +52,14 @@ public class CommentService {
             newComment.setLevel(super_comment.get().getLevel()+1);
             newComment.setComment1(super_comment.get());
             super_comment.get().getSubComment().add(newComment);
+
+            alarmService.sendMessage1(user.getUserid(),target_team.getTeamid());
+
         }
 
         newComment.setComment(createCommentForm.getComment());
-        newComment.setTarget_team(target_team.get());
-        newComment.setWriter(user.get());
+        newComment.setTarget_team(target_team);
+        newComment.setWriter(user);
         newComment.setDatetime(LocalDateTime.now());
 
         newComment.setLive(true);
@@ -65,7 +75,6 @@ public class CommentService {
 
         Optional<Comment> commentToDelete = commentRepository.findById(comment_id);
 
-        //대댓글이 있는 경우 상위 댓글 삭제된 댓글로 바꾸기
         if(commentToDelete.isEmpty())
             return false;
 

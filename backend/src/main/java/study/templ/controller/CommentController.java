@@ -30,15 +30,13 @@ public class CommentController {
     }
 
 
-//httpsession: 인터페이스, 둘 이상의 페이지 리퀘스트에서 사용자를 식별하거나, 웹 사이트를 방문하 해당 사용자에 대한 정보저장방법 제공
     @PostMapping("/create")
     public Object createComment(@Validated @RequestBody CreateCommentForm createCommentForm, @RequestHeader("userId") int user_id, HttpSession httpSession) {
 
         User writer = userService.getUserById(user_id);
-        int team_id = createCommentForm.getTeamid();
         Team target_team = teamService.getTeamById(createCommentForm.getTeamid());
 
-        return commentService.createComment(createCommentForm,Optional.of(target_team),Optional.of(writer));
+        return commentService.createComment(createCommentForm,target_team,writer);
     }
 
     @PostMapping("/edit")
@@ -59,7 +57,7 @@ public class CommentController {
         User owner = userService.getUserById(commentToDelete.get().getWriter().getUserid());
 
 
-        int team_id= commentToDelete.get().getTarget_team().getTeamid(); //팀페이지 아이디 얻어오기
+        int team_id= commentToDelete.get().getTarget_team().getTeamid();
         commentService.deleteComment( owner.getUserid(), comment_id);
         return "redirect:/post/read?post=" +team_id;
     }

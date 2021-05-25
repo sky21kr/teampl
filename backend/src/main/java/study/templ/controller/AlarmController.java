@@ -1,5 +1,6 @@
 package study.templ.controller;
 
+import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,49 +33,13 @@ public class AlarmController {
     @Autowired
     CommentService commentService;
 
-    //댓글 달았을 때
-    @PostMapping("/comments")
-    public void getComments(CreateCommentForm createCommentForm , Optional<User> writer, Optional<Team> target_team){
-
-        Comment newComment= (Comment) commentService.createComment(createCommentForm, target_team, writer);
-        int userid= newComment.getWriter().getUserid();
-        int teamid = newComment.getTarget_team().getTeamid();
-
-        alarmService.sendMessage1(userid,teamid);
-    }
-    //가입 신청했을 때
-    @GetMapping("/apply")
-    public void apply(int team_id, int user_id, String contents){
-
-        boolean application =userService.createApplication(team_id,user_id,contents);
-        Optional<Team> teamid = teamService.getTeamById(team_id);
-        Optional<User> userid = userService.getUserById(user_id);
-        if( application == true ) {
-            alarmService.sendMessage2(userid.get().getUserid(), teamid.get().getTeamid());
-        }
-
-    }
-
-    //가입 수락이 되었을 경우
-    @GetMapping("/accepted")
-    public void accepted(int owner, int team_id, int user_id, boolean accept){
-
-        Optional<Team> teamid = teamService.getTeamById(team_id);
-        Optional<User> userid = userService.getUserById(user_id);
-        int admitted = userService.acceptApplication(owner, team_id,user_id,accept);
-
-        if(admitted == 1){
-
-            alarmService.sendMessage3(userid.get().getUserid(),teamid.get().getTeamid());
-        }
-    }
 
 
     @GetMapping("/alarm")
     public List<Alarm> sendMessages(@RequestBody HashMap<String, Object> param){
 
         int userid = (int)param.get("userid");
-        if (param.get("userid")==null) //userid가 없는 경우 있어서는 안되니까!
+        if (param.get("userid")==null)
             throw new EntityNotFoundException();
 
         return alarmService.updateAlarm(userid);

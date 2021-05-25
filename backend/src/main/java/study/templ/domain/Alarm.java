@@ -15,23 +15,19 @@ import java.time.LocalDateTime;
 @Setter
 @RequiredArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
+@Table(name = "alarm")
 public class Alarm {
 
     @Id
-    @GeneratedValue
-    @NonNull
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer alarm_id;
 
     @NonNull
     private LocalDateTime datetime;
 
     @NonNull
-    private Integer receiver;
-
-    @ManyToOne
-    @JoinColumn(name = "target_user")
-    private Integer target_user;
-
+    private Integer targetuser;
 
     @ManyToOne
     @JoinColumn(name = "target_team")
@@ -39,7 +35,6 @@ public class Alarm {
 
     @NonNull
     private String contents;
-
 
 
 }

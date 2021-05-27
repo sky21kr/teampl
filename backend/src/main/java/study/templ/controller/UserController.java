@@ -73,7 +73,7 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.OK).body(userService.getTeamAsOwner(user_id));
     }
     @GetMapping("/memberteam")
-    public ResponseEntity<List<Member>> getMemberTeam(@RequestParam("userid") int user_id){
+    public ResponseEntity<List<Team>> getMemberTeam(@RequestParam("userid") int user_id){
         return ResponseEntity.status(HttpStatus.OK).body(userService.getTeamAsMember(user_id));
     }
     //userid로 사용자 삭제

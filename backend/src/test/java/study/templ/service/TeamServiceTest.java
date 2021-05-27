@@ -139,34 +139,21 @@ class TeamServiceTest {
         //reject
         userService.acceptApplication(new AcceptApplicationForm(owner_id,team_id,user_id,false));
         //then
-        for(Member m : teamService.getMemberOfTeam(team_id)) {
-            if (m.getUserid() == user_id)
-                Assertions.fail("fail");
-        }
-        for(Member m : userService.getTeamAsMember(user_id)) {
-            if (m.getTeamid() == team_id)
-                Assertions.fail("fail");
-        }
+        Assertions.assertThat(teamService.getMemberOfTeam(team_id).size()).isEqualTo(1);
         //when
         userService.createApplication(new CreateApplicationForm(team_id, user_id, "application_contents"));
         //accept
         userService.acceptApplication(new AcceptApplicationForm(owner_id,team_id,user_id,true));
         //then
+        List<User> result = teamService.getMemberOfTeam(team_id);
+        Assertions.assertThat(result.size()).isEqualTo(2);
         boolean flag = false;
-        System.out.println(teamService.getMemberOfTeam(team_id).size());
-        for(Member m : teamService.getMemberOfTeam(team_id)) {
-            if (m.getUserid() == user_id)
+        for (User u:result){
+            if (u.getUserid().intValue()==user_id)
                 flag = true;
         }
         Assertions.assertThat(flag).isEqualTo(true);
 
-        flag = false;
-        System.out.println(userService.getTeamAsMember(user_id).size());
-        for(Member m : userService.getTeamAsMember(user_id)) {
-            if (m.getTeamid() == team_id)
-                flag= true;
-        }
-        Assertions.assertThat(flag).isEqualTo(true);
     }
 
 }

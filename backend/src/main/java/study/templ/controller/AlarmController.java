@@ -4,10 +4,7 @@ import lombok.Getter;
 import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import study.templ.domain.*;
 import study.templ.repository.AlarmRepository;
 import study.templ.service.AlarmService;
@@ -38,15 +35,12 @@ public class AlarmController {
 
 
     @GetMapping("/alarm")
-    public List<Alarm> sendMessages(@RequestBody requestAlarm userid){
+    public List<Alarm> sendMessages(@RequestParam("userid") int userid){
 
 
-        if(userid.getUserid()==null)
-            throw new EntityNotFoundException("userid is null");
-        int id = userid.getUserid();
-        userService.getUserById(id);
+        userService.getUserById(userid);
 
-        return alarmService.updateAlarm(id);
+        return alarmService.updateAlarm(userid);
 
     }
     @Getter

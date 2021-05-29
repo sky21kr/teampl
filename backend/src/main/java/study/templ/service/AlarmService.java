@@ -48,7 +48,7 @@ public class AlarmService {
         String teamName = teamService.getTeamById(teamid).getTitle();
         String contents = userName+"님이 "+teamName+"에 가입신청을 했습니다. ";
         LocalDateTime datetime = LocalDateTime.now();
-        Alarm alarm = new Alarm(datetime, userid,contents);
+        Alarm alarm = new Alarm(datetime, teamService.getTeamById(teamid).getOwner().getUserid(),contents);
         alarmRepository.save(alarm);
 
 

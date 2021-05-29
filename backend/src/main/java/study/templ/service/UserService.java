@@ -115,11 +115,11 @@ public class UserService {
             MemberId memberId = new MemberId(team_id, user_id);
             applicationRepository.deleteById(memberId);
             memberRepository.save(new Member(team_id,user_id, team, user));
-            alarmService.sendMessage3(acceptApplicationForm.getUserid(), acceptApplicationForm.getTeamid());
+            alarmService.sendMessage3(acceptApplicationForm.getUserid(), acceptApplicationForm.getTeamid(), true);
         }
         else {
             applicationRepository.deleteById(new MemberId(team_id,user_id));
-            alarmService.sendMessage3(acceptApplicationForm.getUserid(), acceptApplicationForm.getTeamid());
+            alarmService.sendMessage3(acceptApplicationForm.getUserid(), acceptApplicationForm.getTeamid(), false);
         }
     }
     //user_id로 사용자 삭제

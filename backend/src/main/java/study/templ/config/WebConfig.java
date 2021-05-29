@@ -13,6 +13,7 @@ import java.util.List;
 
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
+
     private final String[] tokenRequirements = {
             // UserController
             //"login",
@@ -34,7 +35,6 @@ public class WebConfig implements WebMvcConfigurer {
             //"team-category",
             //"teamcontents",
             //"teammember",
-
     };
 
     @Bean
@@ -47,7 +47,7 @@ public class WebConfig implements WebMvcConfigurer {
         InterceptorRegistration reg = registry.addInterceptor(getJwtAuthIntercepter());
 
         for (String pattern : tokenRequirements) {
-            reg.addPathPatterns(pattern);
+            reg.addPathPatterns("/" + pattern);
         }
     }
 }

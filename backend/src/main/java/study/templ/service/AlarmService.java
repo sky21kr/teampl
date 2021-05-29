@@ -29,14 +29,12 @@ public class AlarmService {
 
 
         Team team = teamService.getTeamById(teamid);
+        int ownerid= team.getOwner().getUserid();
         String userName = userService.getUserById(userid).getNickname();
         String teamName = team.getTitle();
         String contents = userName+"님이 "+teamName+"에 댓글을 달았습니다. ";
         LocalDateTime datetime = LocalDateTime.now();
-        Alarm alarm = new Alarm(datetime, userid,contents);
-
-        System.out.println(contents);
-        System.out.println(alarm.getContents());
+        Alarm alarm = new Alarm(datetime, ownerid,contents);
 
         alarmRepository.save(alarm);
 
@@ -44,7 +42,7 @@ public class AlarmService {
 
     }
     //2.가입 신청 했을 때 팀 주인한테 메시지가 가는 방식이어야함.
-    public String sendMessage2(int userid, int teamid){
+    public void  sendMessage2(int userid, int teamid){
 
         String userName = userService.getUserById(userid).getNickname();
         String teamName = teamService.getTeamById(teamid).getTitle();
@@ -52,23 +50,33 @@ public class AlarmService {
         LocalDateTime datetime = LocalDateTime.now();
         Alarm alarm = new Alarm(datetime, userid,contents);
         alarmRepository.save(alarm);
-        return alarm.getContents();
 
 
     }
 
-    //3. 가입 수락이 되었을 때 targetuser한테 연락이 가게 됨.
-    public String sendMessage3(int userid, int teamid){
+    //3. 가입 수락,거절 되었을 때 targetuser한테 연락이 가게 됨.
+    public void sendMessage3(int userid, int teamid, boolean accept){
 
-        String userName = userService.getUserById(userid).getNickname();
-        String teamName = teamService.getTeamById(teamid).getTitle();
-        String contents = userName+"이 가입신청한"+teamName+"팀에 가입되었습니다. ";
-        LocalDateTime datetime = LocalDateTime.now();
-        Alarm alarm = new Alarm(datetime, userid,contents);
-        alarmRepository.save(alarm);
-        return alarm.getContents();
+        if(accept == true) {
+            String userName = userService.getUserById(userid).getNickname();
+            String teamName = teamService.getTeamById(teamid).getTitle();
+            String contents = userName + "이 가입신청한" + teamName + "팀에 가입되었습니다. ";
+            LocalDateTime datetime = LocalDateTime.now();
+            Alarm alarm = new Alarm(datetime, userid, contents);
+            alarmRepository.save(alarm);
+
+        }else {
+
+            String userName = userService.getUserById(userid).getNickname();
+            String teamName = teamService.getTeamById(teamid).getTitle();
+            String contents = userName + "이 가입신청한" + teamName + "팀 가입이 거절되었습니다. ";
+            LocalDateTime datetime = LocalDateTime.now();
+            Alarm alarm = new Alarm(datetime, userid, contents);
+            alarmRepository.save(alarm);
+        }
 
     }
+
 
 
     public List<Alarm> updateAlarm(int userid) {

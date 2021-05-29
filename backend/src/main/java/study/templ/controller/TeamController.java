@@ -76,7 +76,7 @@ public class TeamController {
         return ResponseEntity.status(HttpStatus.OK).body(teamService.getTeamContents(team_id));
     }
     @GetMapping("teammember")
-    public ResponseEntity<List<Member>> getTeamMember(@RequestParam("teamid") int team_id){
+    public ResponseEntity<List<User>> getTeamMember(@RequestParam("teamid") int team_id){
         return ResponseEntity.status(HttpStatus.OK).body(teamService.getMemberOfTeam(team_id));
     }
 

@@ -13,6 +13,7 @@ import study.templ.repository.MemberRepository;
 import javax.persistence.Access;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -105,5 +106,32 @@ class UserServiceTest {
         //then
         Assertions.assertThat(memberRepository.findById(new MemberId(team1, user2))).isEmpty();
         Assertions.assertThat(memberRepository.findById(new MemberId(team1, user3))).isEmpty();
+    }
+
+    @Test
+    void getTeamAsMember() {
+        //given
+        int owner_id = userService.createUser("acc", "pass", "nick").getUserid();
+        int user_id = userService.createUser("a","p","n").getUserid();
+        int team_id = (teamService.createTeam(new CreateTeamForm(1,3,4,false,"t","i", owner_id))).getTeamid();
+
+        //when reject
+        userService.createApplication(new CreateApplicationForm(team_id, user_id, "application_contents"));
+        userService.acceptApplication(new AcceptApplicationForm(owner_id,team_id,user_id,false));
+        //then
+        Assertions.assertThat(userService.getTeamAsMember(user_id).size()).isEqualTo(0);
+        //when accept and own team
+        userService.createApplication(new CreateApplicationForm(team_id, user_id, "application_contents"));
+        userService.acceptApplication(new AcceptApplicationForm(owner_id,team_id,user_id,true));
+        teamService.createTeam(new CreateTeamForm(2, 3,3, true, "t", "in",user_id));
+        //then
+        List<Team> result = userService.getTeamAsMember(user_id);
+        Assertions.assertThat(result.size()).isEqualTo(2);
+        boolean flag = false;
+        for (Team t:result){
+            if (t.getTeamid().intValue()==team_id)
+                flag = true;
+        }
+        Assertions.assertThat(flag).isEqualTo(true);
     }
 }

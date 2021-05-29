@@ -26,7 +26,9 @@ public class UserService {
     ApplicationRepository applicationRepository;
     @Autowired
     MemberRepository memberRepository;
-    
+
+    @Autowired
+    AlarmService alarmService;
     @Autowired
     TeamService teamService;
     @Autowired
@@ -62,10 +64,14 @@ public class UserService {
 
     //user_id가 member인 팀 가져오기
     @Transactional
-    public List<Member> getTeamAsMember(int user_id){
+    public List<Team> getTeamAsMember(int user_id){
         User user = getUserById(user_id);
 
-        List<Member> teams = new ArrayList<Member>(user.getMemberteams());
+        List<Member> members = new ArrayList<Member>(user.getMemberteams());
+        List<Team> teams = new ArrayList<>();
+        for (Member m: members){
+            teams.add(m.getTeam());
+        }
         return teams;
     }
 
@@ -87,6 +93,7 @@ public class UserService {
         Application application = new Application(createApplicationForm.getTeamid(), createApplicationForm.getUserid(),
                 createApplicationForm.getContents(), team, user);
         applicationRepository.save(application);
+        alarmService.sendMessage2(createApplicationForm.getUserid(), createApplicationForm.getTeamid());
     }
     //가입신청 수락/거절
     public void acceptApplication(AcceptApplicationForm acceptApplicationForm){
@@ -105,11 +112,14 @@ public class UserService {
             throw new EntityNotFoundException("application not found. check team id and user id.");
 
         if (acceptApplicationForm.getAccept()) {
-            applicationRepository.deleteById(new MemberId(team_id, user_id));
-            memberRepository.save(new Member(team_id, user_id, team, user));
+            MemberId memberId = new MemberId(team_id, user_id);
+            applicationRepository.deleteById(memberId);
+            memberRepository.save(new Member(team_id,user_id, team, user));
+            alarmService.sendMessage3(acceptApplicationForm.getUserid(), acceptApplicationForm.getTeamid());
         }
         else {
             applicationRepository.deleteById(new MemberId(team_id,user_id));
+            alarmService.sendMessage3(acceptApplicationForm.getUserid(), acceptApplicationForm.getTeamid());
         }
     }
     //user_id로 사용자 삭제

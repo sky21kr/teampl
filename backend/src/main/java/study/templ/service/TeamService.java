@@ -69,13 +69,15 @@ public class TeamService {
     public Page<Team> getTeam(Pageable pageable){ return teamRepository.findAll(pageable); }
 
     //team_id 팀의 멤버 가져오기
-    @Transactional
-    public List<Member> getMemberOfTeam(int team_id){
+    @Transactional      //team fetch.lazy 이므로 team.members proxy -> proxy 초기화할 수 있도록 transaction 하나로
+    public List<User> getMemberOfTeam(int team_id){
         Team team = getTeamById(team_id);
-        if (team.getMembers()==null)
-            return Collections.emptyList();
         List<Member> members = new ArrayList<Member>(team.getMembers());
-        return members;
+        List<User> users = new ArrayList<>();
+        for (Member m : members){
+            users.add(m.getUser());
+        }
+        return users;
 
     }
 

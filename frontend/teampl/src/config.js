@@ -1,0 +1,1 @@
+export const SERVER_ADDRESS = 'http://35.72.191.52/'

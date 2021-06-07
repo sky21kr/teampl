@@ -60,7 +60,7 @@ const SignUp = () => {
             </div>
             <input className="t-input" name="id" value={id} onChange={changeInput} style={inputStyle} placeholder="아이디"/>
             <input className="t-input" name="nickname" value={nickname} onChange={changeInput} style={inputStyle} placeholder="닉네임(한글, 영문, 숫자)"/>
-            <input className="t-input" name="password" value={password} onChange={changeInput} style={inputStyle} placeholder="비밀번호"/>
+            <input className="t-input" type="password" name="password" value={password} onChange={changeInput} style={inputStyle} placeholder="비밀번호"/>
             <button className="t-button" style={buttonStyle} onClick={() => clickSignUp(userInfo)}>
                 회원가입하기
             </button>

@@ -67,7 +67,7 @@ const LogIn = () => {
                 팀플을 만들고 찾아보세요!
             </div>
             <input className="t-input" name="id" value={id} onChange={changeInput} style={inputStyle} placeholder="아이디"/>
-            <input className="t-input" name="password" value={password} onChange={changeInput} style={inputStyle} placeholder="비밀번호"/>
+            <input className="t-input" type="password" name="password" value={password} onChange={changeInput} style={inputStyle} placeholder="비밀번호"/>
             <button onClick={() => clickLogin(loginInfo)} className="t-button" style={buttonStyle}>
                 로그인
             </button>

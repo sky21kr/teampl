@@ -3,12 +3,19 @@ import './LogIn.scss';
 import DefaultModal from '@/components/Common/Modal/DefaultModal/DefaultModal';
 import { useHistory } from "react-router-dom";
 import ImgSrc from '@/assets/images/askdelete.svg';
+import { customAxios } from '@/lib/customAxios';
 
 const LogIn = () => {
 
     const [ showModal, setShowModal ] = useState(false);
+    const [ loginInfo, setLoginInfo ] = useState({
+        id: "",
+        password: "",
+    });
 
-    const openModal = () => {
+    const { id, password } = loginInfo
+
+    const failLogin = () => {
         setShowModal(true);
     }
 
@@ -17,7 +24,7 @@ const LogIn = () => {
     }
 
     const btnOk = () => {
-        history.push('')
+        closeModal()
     }
 
     let history = useHistory()
@@ -30,14 +37,38 @@ const LogIn = () => {
         history.push('sign-up')
     }
 
+    const successLogin = () => {
+        history.push('')
+    }
+
+    const changeInput = (e) => {
+        const { name, value } = e.target
+
+        const nextLoginInfo = {
+            ...loginInfo,
+            [name]: value,
+        }
+
+        setLoginInfo(nextLoginInfo)
+    }
+
+    const clickLogin = async (loginInfo) => {
+        try {
+            await customAxios.post('/login', loginInfo)
+            successLogin()
+        } catch {
+            failLogin()
+        }
+    }
+
     return (
         <div className="logIn">
             <div className="logInTitle">
                 팀플을 만들고 찾아보세요!
             </div>
-            <input className="t-input" style={inputStyle} placeholder="아이디"/>
-            <input className="t-input" style={inputStyle} placeholder="비밀번호"/>
-            <button onClick={openModal} className="t-button" style={buttonStyle}>
+            <input className="t-input" name="id" value={id} onChange={changeInput} style={inputStyle} placeholder="아이디"/>
+            <input className="t-input" name="password" value={password} onChange={changeInput} style={inputStyle} placeholder="비밀번호"/>
+            <button onClick={() => clickLogin(loginInfo)} className="t-button" style={buttonStyle}>
                 로그인
             </button>
             <div className="signUpPhrase">
@@ -50,14 +81,11 @@ const LogIn = () => {
                 showModal={showModal}
                 imgSrc={ImgSrc}
                 title="로그인에 실패하셨습니다"
-                contents="로그인에 실패"
-                btnOkText="메인화면으로"
+                contents="아이디와 비밀번호를 다시 확인해주세요"
+                btnOkText="확인"
                 btnOk={btnOk}
-                btnCancelText="아니오"
                 closeModal={closeModal}
             />
-            
-
         </div>
     )
 }

@@ -4,6 +4,7 @@ import DefaultModal from '@/components/Common/Modal/DefaultModal/DefaultModal';
 import { useHistory } from "react-router-dom";
 import ImgSrc from '@/assets/images/askdelete.svg';
 import { customAxios } from '@/lib/customAxios';
+import Cookies from 'js-cookie';
 
 const LogIn = () => {
 
@@ -54,7 +55,8 @@ const LogIn = () => {
 
     const clickLogin = async (loginInfo) => {
         try {
-            await customAxios.post('/login', loginInfo)
+            const result = await customAxios.post('/login', loginInfo)
+            Cookies.set('token', result.data.token);
             successLogin()
         } catch {
             failLogin()

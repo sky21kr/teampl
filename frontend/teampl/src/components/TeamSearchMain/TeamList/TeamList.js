@@ -4,30 +4,18 @@ import RecruitBox from '@/components/Common/RecruitBox/RecruitBox'
 import { useHistory } from "react-router-dom";
 
 
-const TeamList = () => {
+const TeamList = ({teamList}) => {
 
     let history = useHistory();
 
-    const clickRecruitBox = () => {
-        history.push('/team/recruitment/1')
+    const clickRecruitBox = (teamid) => {
+        history.push(`/team/recruitment/${teamid}`)
     }
-
+    const renderRecruitBox = teamList.map((team) => <RecruitBox teamData={team} key={team.teamid} onClick={(team) => clickRecruitBox(team.teamid)}/>)
+    
     return (
         <div className="teamList">
-            <div onClick={clickRecruitBox}>
-                <RecruitBox/>
-            </div>
-            <RecruitBox/>
-            <RecruitBox/>
-            <RecruitBox/>
-            <RecruitBox/>
-            <RecruitBox/>
-            <RecruitBox/>
-            <RecruitBox/>
-            <RecruitBox/>
-            <RecruitBox/>
-            <RecruitBox/>
-            <RecruitBox/>
+            { renderRecruitBox }
         </div>
     )
 }

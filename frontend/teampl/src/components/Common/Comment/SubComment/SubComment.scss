@@ -1,0 +1,37 @@
+@import '@/assets/styles/variable.scss';
+
+.subComment {
+    padding: 20px;
+    background: #F9F9F9;
+    margin-bottom: 10px;
+    .commentHeader {
+        display: flex;
+        justify-content: space-between;
+        color: #8c8c8c;
+        font-size: 12px;
+        margin-bottom: 5px;
+        display: flex;
+        align-items: center;
+        div:first-child > span:first-child {
+            margin-right: 5px;
+            font-weight: 500;
+        }
+
+        div:first-child > span:nth-child(2) {
+            font-weight: 400;
+            font-size: 10px;
+        }
+
+        div:nth-child(2) {
+            font-size: 11px;
+            cursor: pointer;
+            span:first-child {
+                margin-right: 5px;
+            }
+        }
+    }
+    .commentContent {
+        color: #000000;
+        font-size: 12px;
+    }
+}

@@ -1,0 +1,49 @@
+@import '@/assets/styles/variable.scss';
+
+.TeamPost {
+    .postContent {
+        border: solid 1px #eeeeee;
+        padding: 50px;
+        display: flex;
+        flex-direction: column;
+
+        .postHeader {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            .postEditBtn {
+                font-size: 11px;
+                color: #8c8c8c;
+                cursor: pointer;
+                > span:first-child{
+                    margin-right: 5px;
+                }
+            }
+
+            .postTitle {
+                font-size: 20px;
+            }
+        }
+
+        .postInfo {
+            color: #8c8c8c;
+            margin-bottom: 20px;
+
+            > *{
+                margin-right: 10px;
+                font-size: 13px;
+            }
+        }
+
+        .postText {
+            margin-bottom: 100px;
+        }
+
+        .commentNumber {
+            font-size: 12px;
+            position: relative;
+            text-align: right;
+            color: #8c8c8c;
+        }
+    }
+}

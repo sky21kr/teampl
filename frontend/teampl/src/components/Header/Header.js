@@ -14,7 +14,7 @@ const Header = () => {
             </div>
             <div className="headerRight">
                 <MyMenu/>
-            </div>  
+            </div>
         </div>
     )
 }

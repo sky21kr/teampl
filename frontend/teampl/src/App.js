@@ -1,8 +1,18 @@
 import React, { Component } from 'react';
 import { Route } from 'react-router-dom'
-import { Home, SignUp } from './pages'
+import { Home, SignUp, LogIn, TeamSearch, TeamRecruitment } from './pages'
 import Header from './components/Header/Header'
-import './App.scss';
+import Footer from './components/Footer/Footer'
+import MakeTeam from './components/MakeTeam/MakeTeam';
+import MyTeam from './components/MyTeam/MyTeam';
+import JoinedTeamMain from './components/JoinedTeamMain/JoinedTeamMain';
+import MadeTeamMain from './components/MadeTeamMain/MadeTeamMain';
+import TeamPost from './components/TeamPost/TeamPost';
+import ModifyTeam from './components/ModifyTeam/ModifyTeam';
+import PrivateRoute from './lib/PrivateRoute';
+import PublicRoute from './lib/PublicRoute';
+import '@/assets/styles/index.scss'
+import './App.scss'
 
 class App extends Component {
   render() {
@@ -10,19 +20,21 @@ class App extends Component {
       <div>
         <Header/>
         <Route exact path='/' component={Home}/>
+        <Route path='/log-in' component={LogIn}/> {/*3*/}
         <Route path='/sign-up' component={SignUp}/> {/*4*/}
-        <Route path='/log-in' component={SignUp}/> {/*3*/}
-        <Route path='/main' component={SignUp}/> {/*2, 5*/}
+        <Route path='/main' component={Home}/> {/*2, 5*/}
 
-        <Route exact path='/team' component={SignUp}/> {/*9*/}
-        <Route path='/team/make' component={SignUp}/> {/*6*/} 
-        <Route path='/team/modify' component={SignUp}/> {/*6*/}
-        <Route path='/team/search' component={SignUp}/> {/*7, 12*/}
-        <Route path='/team/post' component={SignUp}/> {/*8*/}
+        <PrivateRoute exact path='/team/make' component={MakeTeam}/> {/*6*/} 
+        <PrivateRoute exact path='/team/modify' component={ModifyTeam}/> {/*6*/}
+        <Route exact path='/team/search' component={TeamSearch}/> {/*7, 12*/}
+        <Route exact path='/team/recruitment/:teamId' component={TeamRecruitment}/> {/*8*/}
+        <PrivateRoute exact path='/team' component={MyTeam}/> {/*9*/}
 
-        <Route path='/team/detail' component={SignUp}/> {/*10*/}
-        <Route path='/team/detail/post' component={SignUp}/> {/*11*/}
-        <div>푸터</div>
+        <Route exact path='/team/joinedteammain' component={JoinedTeamMain}/> {/*10*/}
+        <Route exact path='/team/post/:postId' component={TeamPost}/> {/*11*/}
+
+        <Route exact path='/team/madeteammain' component={MadeTeamMain}/> {/*14*/}
+        <Footer/>
       </div>
     )
   }

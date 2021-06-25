@@ -1,0 +1,62 @@
+.defaultModalBackground {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(204, 204, 204, 0.8);
+  position: fixed;
+  z-index: 2;
+  top: 0;
+  left: 0;
+
+  .defaultModal {
+    font-size: 18px;
+    width: 550px;
+    height: 450px;
+    background-color: white;
+    box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.25);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+
+    .closeBtn-a {
+      width: 12px;
+      height: 12px;
+      cursor: pointer;
+      position: absolute;
+      right: 30px;
+      top: 30px;
+    }
+
+    .modalImg {
+      width: 126px;
+      height: 126px;
+      margin-bottom: 10px;
+    }
+
+    .modalTitle {
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .modalContents {
+      font-size: 13px;
+      margin-bottom: 30px;
+    }
+
+    .btnOk {
+      margin-bottom: 10px;
+    }
+
+    .btnCancel {
+      background-color: #e6e6e6;
+    }
+  }
+}
+
+.hidden {
+  display: none;
+}

@@ -1,0 +1,58 @@
+//폼
+form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.makeTeamWrap {
+  margin: 100px auto;
+  width: 750px;
+  height: 565px;
+}
+
+.makeTeamWrap > h3 {
+  color: #6438e0;
+  font-size: 18px;
+}
+
+.makeTeamWrap > form > input:first-child,
+.makeTeamWrap > form > select {
+  width: 100%;
+  height: 40px;
+  background-color: #f8f5ff;
+  border: none;
+  text-indent: 30px;
+  margin-bottom: 15px;
+}
+
+select {
+  -webkit-appearance: none; /* 네이티브 외형 감추기 */
+  -moz-appearance: none;
+  appearance: none;
+  // background: url(./selectarrow.svg) no-repeat 97% 50%; /* 화살표 모양의 이미지 */
+}
+
+.makeTeamWrap > form > textarea {
+  width: 100%;
+  height: 250px;
+  background-color: #f8f5ff;
+  border: none;
+  // text-indent: 30px;
+  padding: 30px;
+  box-sizing: border-box;
+}
+
+.basicBtn {
+  width: 160px;
+  height: 48px;
+  background-color: #895ef7;
+  margin-top: 50px;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+}

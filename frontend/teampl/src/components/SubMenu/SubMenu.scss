@@ -1,0 +1,33 @@
+@import '@/assets/styles/variable.scss';
+
+.subMenu {
+    height: 80px;
+    width: 100%;
+    border-bottom: 1px solid #F3F3F3;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 16px;
+    font-family: $font;
+}
+
+.searchBar {
+    border: 1px solid $purple;
+    min-width: 300px;
+    display: flex;
+    padding: 10px;
+    margin: 0px 20px;
+}
+
+.searchBar > input {
+    width: 100%;
+    border: none;
+}
+
+.searchBar > input:focus {
+    outline: none;
+}
+
+.searchBar > img {
+    cursor: pointer;
+}

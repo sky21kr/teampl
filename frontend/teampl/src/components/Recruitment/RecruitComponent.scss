@@ -1,0 +1,64 @@
+// 팀원을 구합니다
+.recruitBoxWrap {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  grid-column-gap: 20px;
+  grid-row-gap: 20px;
+}
+
+.recruitBox {
+  background-color: white;
+  padding: 30px;
+  box-sizing: border-box;
+  width: 387px;
+  height: 225px;
+  border: 1px solid #eeeeee;
+  border-radius: 5px;
+  box-shadow: 0px 3px 4px rgba(0, 0, 0, 0.05);
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+}
+
+.recruitBox > div:first-child {
+  width: 327px;
+  height: 24px;
+  display: flex;
+  justify-content: space-between;
+}
+
+// 제목,내용
+.recruitBox > div:nth-child(2) > h3 {
+  font-size: 16px;
+  margin-bottom: 15px;
+  color: #000;
+}
+
+.recruitBox > div:nth-child(2) > p {
+  font-size: 13px;
+  color: #000;
+}
+
+// 글쓴이,작성일,댓글수
+.recruitBox > div:nth-child(3) {
+  color: #8c8c8c;
+  display: flex;
+  justify-content: space-between;
+}
+
+// 글쓴이
+.recruitBox > div:nth-child(3) > div > span:first-child {
+  font-size: 13px;
+  margin-right: 8px;
+}
+
+//날짜
+.recruitBox > div:nth-child(3) > div > span:nth-child(2) {
+  font-size: 11px;
+}
+
+//댓글 수
+.recruitBox > div:nth-child(3) > span {
+  font-size: 11px;
+}

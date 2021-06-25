@@ -1,0 +1,8 @@
+@import '@/assets/styles/variable.scss';
+
+
+.teamList {
+    display: grid;
+    grid-template-columns: 400px 400px 400px;
+    grid-template-rows: 250px 250px 250px 250px;
+}

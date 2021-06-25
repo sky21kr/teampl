@@ -1,0 +1,18 @@
+@import './variable.scss';
+
+.t-input {
+    height: 40px;
+    background-color: #f8f5ff;
+    border: none;
+    text-indent: 20px;
+    margin-bottom: 15px;
+}
+
+.t-input:focus {
+    outline: none;
+}
+
+.t-input::placeholder {
+    font-family: $font;
+    font-size: 15px;
+}

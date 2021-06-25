@@ -1,0 +1,37 @@
+@import '@/assets/styles/variable.scss';
+
+.TeamPost {
+    padding: 0px 120px;
+
+    > div:first-child {
+        margin-top: 100px;
+        margin-bottom: 10px;
+        cursor: pointer;
+    }
+    .commentInput {
+        margin-bottom: 10px;
+        border: 1px solid #eeeeee;
+        resize: none;
+        padding: 30px 40px;
+        width: 100%;
+        background-color: #FFFFFF;
+        overflow: hidden;
+        &:focus {
+            outline: none;
+        }
+
+        &::placeholder {
+            font-family: "Spoqa Han Sans Neo", sans-serif;
+        }
+
+    }
+    .addComment {
+        text-align: right;
+        margin-bottom: 50px;
+        .t-button {
+            width: 80px;
+            height: 30px;
+            font-size: 12px;
+        }
+    }
+}

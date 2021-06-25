@@ -1,0 +1,33 @@
+@import '@/assets/styles/variable.scss';
+
+.mainComment {
+    margin-bottom: 20px;
+
+    .commentHeader {
+        display: flex;
+        justify-content: space-between;
+        color: #8c8c8c;
+        font-size: 12px;
+        margin-bottom: 5px;
+        display: flex;
+        align-items: center;
+        div > span:first-child {
+            margin-right: 5px;
+            font-weight: 500;
+        }
+
+        div > span:nth-child(2) {
+            font-weight: 400;
+            font-size: 10px;
+        }
+
+        span {
+            font-size: 11px;
+            cursor: pointer;
+        }
+    }
+    .commentContent {
+        color: #000000;
+        font-size: 12px;
+    }
+}

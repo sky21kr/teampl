@@ -18,9 +18,9 @@ function Recruitment(){
       slidesPerView={1}
       pagination={{ clickable: true }}
     >
+      {/* <SwiperSlide><RecruitComponent></RecruitComponent></SwiperSlide>
       <SwiperSlide><RecruitComponent></RecruitComponent></SwiperSlide>
-      <SwiperSlide><RecruitComponent></RecruitComponent></SwiperSlide>
-      <SwiperSlide><RecruitComponent></RecruitComponent></SwiperSlide>
+      <SwiperSlide><RecruitComponent></RecruitComponent></SwiperSlide> */}
     </Swiper>
     </div>
   );

@@ -6,7 +6,7 @@ const PostContent  = () => {
     return (
         <div className="postContent">
             <div className="postHeader">
-                <div class="studyType">IT/개발</div>
+                <div className="studyType">IT/개발</div>
                 <div className="postEditBtn">
                     <span>수정</span>
                     <span>삭제</span>
@@ -14,7 +14,7 @@ const PostContent  = () => {
             </div>
             <div className="postTitle">
                 <span>개발자 구합니다</span>
-                <span class="recruitmentStatus">모집중</span>
+                <span className="recruitmentStatus">모집중</span>
             </div>
             <div className="postInfo">
                 <span>2021.03.21 13:24:25</span>

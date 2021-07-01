@@ -1,10 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './TeamRecruitment.scss'
 import PostContent from './PostContent/PostContent'
 import Comment from '@/components/Common/Comment/Comment'
 import SubsApplyModal from './SubsApplyModal/SubsApplyModal';
 
 const TeamRecruitment = () => {
+
+    useEffect(() => {
+        console.log('hi')
+    })
 
     const [ showModal, setShowModal ] = useState(false)
 

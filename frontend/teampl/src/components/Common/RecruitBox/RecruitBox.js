@@ -1,5 +1,6 @@
 import React from 'react'
 import styled, { css } from 'styled-components';
+import { useHistory } from "react-router-dom";
 
 const RecruitBox = ({ teamData }) => {
     const Subject = styled.span`
@@ -51,9 +52,14 @@ const RecruitBox = ({ teamData }) => {
     // teamid: 363
     // title: "7new"
 
+    let history = useHistory()
+    
+    const clickRecruitBox = () => {
+        history.push(`/team/recruitment/${teamData.teamid}`)
+    }
 
     return (
-        <div className="recruitBox">
+        <div className="recruitBox" onClick={clickRecruitBox}>
             <div>
                 <Subject {...teamData}>{teamData.category}</Subject>
                 <Status {...teamData}>{teamData.status === true ? '모집중' : '모집완료'}</Status>

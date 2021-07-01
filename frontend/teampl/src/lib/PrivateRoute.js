@@ -7,7 +7,7 @@ function PrivateRoute({ component: Component, ...rest }) {
     <Route
       {...rest}
       render={props =>
-        Cookies.get('token') ? (
+        window.sessionStorage.getItem('token') ? (
           <Component {...props} />
         ) : (
           <Redirect to="/" />

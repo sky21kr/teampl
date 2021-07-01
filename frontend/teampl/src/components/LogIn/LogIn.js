@@ -56,7 +56,8 @@ const LogIn = () => {
     const clickLogin = async (loginInfo) => {
         try {
             const result = await customAxios.post('/login', loginInfo)
-            Cookies.set('token', result.data.token);
+            window.sessionStorage.setItem('token', result.data.token);
+            window.sessionStorage.setItem('userId', result.data.userId);
             successLogin()
         } catch {
             failLogin()

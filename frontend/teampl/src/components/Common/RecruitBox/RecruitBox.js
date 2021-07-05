@@ -1,6 +1,8 @@
 import React from 'react'
 import styled, { css } from 'styled-components';
 import { useHistory } from "react-router-dom";
+import code from '@/utils/CommonData/code'
+import * as dayjs from 'dayjs'
 
 const RecruitBox = ({ teamData }) => {
     const Subject = styled.span`
@@ -57,11 +59,16 @@ const RecruitBox = ({ teamData }) => {
     const clickRecruitBox = () => {
         history.push(`/team/recruitment/${teamData.teamid}`)
     }
+    
+    const getCategoryName = (cateCode) => {
+        return code.categoryCodeList.find((cate) => cateCode === cate.code).label
+    }
+
 
     return (
         <div className="recruitBox" onClick={clickRecruitBox}>
             <div>
-                <Subject {...teamData}>{teamData.category}</Subject>
+                <Subject {...teamData}>{getCategoryName(teamData.category)}</Subject>
                 <Status {...teamData}>{teamData.status === true ? '모집중' : '모집완료'}</Status>
             </div>
             <div>
@@ -71,7 +78,7 @@ const RecruitBox = ({ teamData }) => {
             <div>
                 <div>
                 <span>{teamData.writer}</span>
-                <span>{teamData.datetime}</span>
+                <span>{dayjs(teamData.datetime).format('YYYY. MM. DD')}</span>
                 </div>
                 <span><img src="/images/message-circle.svg"></img>{teamData.comments}</span>
             </div>

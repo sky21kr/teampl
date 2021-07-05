@@ -27,7 +27,7 @@ class App extends Component {
         <PrivateRoute exact path='/team/make' component={MakeTeam}/> {/*6*/} 
         <PrivateRoute exact path='/team/modify' component={ModifyTeam}/> {/*6*/}
         <Route exact path='/team/search' component={TeamSearch}/> {/*7, 12*/}
-        <Route exact path='/team/recruitment/:teamId' component={TeamRecruitment}/> {/*8*/}
+        <Route path={"/team/recruitment/:teamId"} component={TeamRecruitment}/> {/*8*/}
         <PrivateRoute exact path='/team' component={MyTeam}/> {/*9*/}
 
         <Route exact path='/team/joinedteammain' component={JoinedTeamMain}/> {/*10*/}

@@ -19,7 +19,6 @@ const TeamSearchMain = () => {
         }
 
         const response = (await customAxios.get('/team', { params: searchParams } )).data.content;
-        console.log(response);
         setTeamList(response);
     }
 

@@ -1,7 +1,7 @@
 import React from 'react'
 import styled, { css } from 'styled-components';
 import { useHistory } from "react-router-dom";
-import code from '@/utils/CommonData/code'
+import { categoryCodeList } from '@/utils/CommonData/code'
 import * as dayjs from 'dayjs'
 
 const RecruitBox = ({ teamData }) => {
@@ -44,16 +44,6 @@ const RecruitBox = ({ teamData }) => {
         border-radius: 13px;
     `
 
-
-    // category: 2
-    // datetime: "2021-05-29T11:37:54"
-    // introduction: "7new"
-    // limit: 4
-    // numberofmembers: 4
-    // status: true
-    // teamid: 363
-    // title: "7new"
-
     let history = useHistory()
     
     const clickRecruitBox = () => {
@@ -61,7 +51,7 @@ const RecruitBox = ({ teamData }) => {
     }
     
     const getCategoryName = (cateCode) => {
-        return code.categoryCodeList.find((cate) => cateCode === cate.code).label
+        return categoryCodeList.find((cate) => cateCode === cate.code).label
     }
 
 

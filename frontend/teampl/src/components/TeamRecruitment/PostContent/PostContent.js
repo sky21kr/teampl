@@ -1,28 +1,39 @@
 import React from 'react';
 import './PostContent.scss'
+import * as dayjs from 'dayjs'
+import { categoryCodeList } from '@/utils/CommonData/code';
+import { customAxios } from '@/lib/customAxios';
 
-const PostContent  = () => {
+const PostContent  = ({ detailData, teamId }) => {
+
+    const getCategoryName = (cateCode) => {
+        return categoryCodeList.find((cate) => cateCode === cate.code)?.label
+    }
+
+    const clickDelete = () => {
+        console.log('teamId', teamId)
+        customAxios.delete(`team?teamid=${teamId}&userid=${window.sessionStorage.getItem('userid')}`)
+    }
 
     return (
         <div className="postContent">
             <div className="postHeader">
-                <div className="studyType">IT/개발</div>
+                <div className="studyType">{getCategoryName(detailData.category)}</div>
                 <div className="postEditBtn">
                     <span>수정</span>
-                    <span>삭제</span>
+                    <span onClick={clickDelete}>삭제</span>
                 </div>
             </div>
             <div className="postTitle">
-                <span>개발자 구합니다</span>
-                <span className="recruitmentStatus">모집중</span>
+                <span>{detailData.title}</span>
+                <span className="recruitmentStatus">{detailData.status ? '모집중' : '모집완료'}</span>
             </div>
             <div className="postInfo">
-                <span>2021.03.21 13:24:25</span>
-                <span>자바 개발자</span>
+                <span>{dayjs(detailData.datetime).format('YYYY. MM. DD')}</span>
+                <span>{detailData.nickname}</span>
             </div>
             <div className="postText">
-                안녕하세요~
-                감사합니다
+                {detailData.introduction}
             </div>
         </div>
     )

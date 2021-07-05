@@ -3,12 +3,28 @@ import './TeamRecruitment.scss'
 import PostContent from './PostContent/PostContent'
 import Comment from '@/components/Common/Comment/Comment'
 import SubsApplyModal from './SubsApplyModal/SubsApplyModal';
+import { customAxios } from '@/lib/customAxios';
+import { withRouter } from 'react-router-dom';
 
-const TeamRecruitment = () => {
+const TeamRecruitment = ({teamId, history}) => {
 
-    useEffect(() => {
-        console.log('hi')
+    const [detailData, setDetailData] = useState( {
+        category: null,
+        comments: [],
+        datetime: null,
+        introduction: null,
+        nickname: null,
+        status: null,
+        title: null,
     })
+
+    useEffect(async () => {
+        const response = (await customAxios.get('/teamcontents', { params: { teamid: teamId } } )).data;
+
+        setDetailData({
+            ...response,
+        })
+    }, [])
 
     const [ showModal, setShowModal ] = useState(false)
 
@@ -20,13 +36,22 @@ const TeamRecruitment = () => {
         setShowModal(false)
     }
 
+    const clickBack = () => {
+        history.goBack()
+    }
+
     return (
         <div className="TeamRecruitment">
-            <div>
+            <div onClick={clickBack}>
                 &lt; 이전으로
             </div>
-            <PostContent/>
-            <Comment/>
+            <PostContent
+                detailData={detailData}
+                teamId={teamId}
+            />
+            <Comment
+                commentData={detailData?.comment}
+            />
 
             <textarea className="commentInput" placeholder="댓글을 입력하세요"/>
             <div className="addComment">
@@ -46,4 +71,4 @@ const TeamRecruitment = () => {
     )
 }
 
-export default TeamRecruitment;
+export default withRouter(TeamRecruitment);

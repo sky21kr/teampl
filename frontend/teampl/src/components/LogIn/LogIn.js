@@ -57,7 +57,7 @@ const LogIn = () => {
         try {
             const result = await customAxios.post('/login', loginInfo)
             window.sessionStorage.setItem('token', result.data.token);
-            window.sessionStorage.setItem('userId', result.data.userId);
+            window.sessionStorage.setItem('userid', result.data.userId);
             successLogin()
         } catch {
             failLogin()

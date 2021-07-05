@@ -9,7 +9,7 @@ const MyMenu = ({ history }) => {
     const isLoggedIn = window.sessionStorage.getItem('token');
     
     const clickLogout = () => {
-        window.sessionStorage.removeItem('userId');
+        window.sessionStorage.removeItem('userid');
         window.sessionStorage.removeItem('token');
         history.push('/')
     }

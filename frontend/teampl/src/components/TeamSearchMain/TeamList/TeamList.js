@@ -11,8 +11,9 @@ const TeamList = ({teamList}) => {
     const clickRecruitBox = (teamid) => {
         history.push(`/team/recruitment/${teamid}`)
     }
-    const renderRecruitBox = teamList.map((team) => <RecruitBox teamData={team} key={team.teamid} onClick={(team) => clickRecruitBox(team.teamid)}/>)
     
+    const renderRecruitBox = teamList.map((team) => <RecruitBox teamData={team} key={team.teamid} onClick={(team) => clickRecruitBox(team.teamid)}/>)
+
     return (
         <div className="teamList">
             { renderRecruitBox }

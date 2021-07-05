@@ -6,6 +6,6 @@ export const customAxios: AxiosInstance = axios.create({
     baseURL: `${SERVER_ADDRESS}`,
     headers: {
         token: window.sessionStorage.getItem('token'),
-        userId: window.sessionStorage.getItem('userId'),
+        userid: window.sessionStorage.getItem('userid'),
     },
 })

@@ -11,17 +11,17 @@ function MakeTeam(){
         e.preventDefault();
 
         const teamData = {
-            limit: 0,
-            owner: 0,
+            limit: e.target.numberofmembers.value,
+            owner: window.sessionStorage.getItem('userid'),
             status: true,
             title: e.target.title.value,
             category: e.target.category.value,
-            numberofmembers: e.target.numberofmembers.value,
+            numberofmembers: 1,
             introduction: e.target.introduction.value,
         }
 
         await customAxios.post('/make-team', teamData)
-        console.log(teamData)
+        openModal();
     }
 
     const openModal = () => {
@@ -69,7 +69,7 @@ function MakeTeam(){
                     btnOkText="팀 확인하러 가기"
                     closeModal={closeModal}
                     >
-                </DefaultModal>
+            </DefaultModal>
         
             </>
             )

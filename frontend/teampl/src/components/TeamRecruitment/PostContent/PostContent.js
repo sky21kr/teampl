@@ -11,7 +11,7 @@ const PostContent  = ({ detailData, teamId }) => {
     }
 
     const clickDelete = () => {
-        console.log('teamId', teamId)
+        // 쿼리 스트링 타입
         customAxios.delete(`team?teamid=${teamId}&userid=${window.sessionStorage.getItem('userid')}`)
     }
 

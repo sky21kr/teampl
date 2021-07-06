@@ -8,7 +8,7 @@ const HeaderMenu = ({}) => {
     return (
         <div className="headerMenu">
             <div onClick={() => history.push('/team/make')}>팀 만들기</div>
-            <div onClick={() => history.push('/team/search')}>팀 찾기</div>
+            <div onClick={() => history.push('/team/search/0')}>팀 찾기</div>
         </div>
     )
 }

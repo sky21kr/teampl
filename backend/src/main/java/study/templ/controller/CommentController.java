@@ -48,7 +48,7 @@ public class CommentController {
 
 
         @DeleteMapping("/delete")
-        public String deleteComment(@RequestParam Integer comment_id){
+        public String deleteComment(@RequestParam("comment_id") int comment_id){
 
             Optional<Comment> commentToDelete =commentService.findById(comment_id);
             User owner = userService.getUserById(commentToDelete.get().getWriter().getUserid());

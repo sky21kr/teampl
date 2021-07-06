@@ -10,7 +10,7 @@ function PrivateRoute({ component: Component, ...rest }) {
         window.sessionStorage.getItem('token') ? (
           <Component {...props} />
         ) : (
-          <Redirect to="/" />
+          <Redirect to="/log-in" />
         )
       }
     />

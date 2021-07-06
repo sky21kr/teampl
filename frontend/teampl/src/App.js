@@ -23,17 +23,15 @@ class App extends Component {
         <Route path='/log-in' component={LogIn}/> {/*3*/}
         <Route path='/sign-up' component={SignUp}/> {/*4*/}
         <Route path='/main' component={Home}/> {/*2, 5*/}
+        <Route path='/team/search/:cateCode' component={TeamSearch}/> {/*7, 12*/}
 
         <PrivateRoute exact path='/team/make' component={MakeTeam}/> {/*6*/} 
         <PrivateRoute exact path='/team/modify' component={ModifyTeam}/> {/*6*/}
-        <Route path='/team/search/:cateCode' component={TeamSearch}/> {/*7, 12*/}
-        <Route path={"/team/recruitment/:teamId"} component={TeamRecruitment}/> {/*8*/}
+        <PrivateRoute path={"/team/recruitment/:teamId"} component={TeamRecruitment}/> {/*8*/}
         <PrivateRoute exact path='/team' component={MyTeam}/> {/*9*/}
-
-        <Route exact path='/team/joinedteammain' component={JoinedTeamMain}/> {/*10*/}
-        <Route exact path='/team/post/:postId' component={TeamPost}/> {/*11*/}
-
-        <Route exact path='/team/madeteammain' component={MadeTeamMain}/> {/*14*/}
+        <PrivateRoute exact path='/team/joinedteammain' component={JoinedTeamMain}/> {/*10*/}
+        <PrivateRoute exact path='/team/post/:postId' component={TeamPost}/> {/*11*/}
+        <PrivateRoute exact path='/team/madeteammain' component={MadeTeamMain}/> {/*14*/}
         <Footer/>
       </div>
     )

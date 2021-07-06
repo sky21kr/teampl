@@ -29,7 +29,7 @@ public class CommentController {
 
 
     @PostMapping("/create")
-    public Object createComment( @ApiIgnore @RequestBody CreateCommentForm createCommentForm) {
+    public Object createComment(@RequestBody CreateCommentForm createCommentForm) {
 
         int user_id= createCommentForm.getUserid();
         User writer = userService.getUserById(user_id);
@@ -39,7 +39,7 @@ public class CommentController {
     }
 
     @PostMapping("/edit")
-    public String editComment(@ApiIgnore @RequestBody EditCommentForm editCommentForm){
+    public String editComment(@RequestBody EditCommentForm editCommentForm){
 
         commentService.editComment(editCommentForm);
         Team team_id= commentService.findById(editCommentForm.getComment_id()).get().getTarget_team();
@@ -48,7 +48,7 @@ public class CommentController {
 
 
         @DeleteMapping("/delete")
-        public String deleteComment(@ApiIgnore @RequestParam Integer comment_id){
+        public String deleteComment(@RequestParam Integer comment_id){
 
             Optional<Comment> commentToDelete =commentService.findById(comment_id);
             User owner = userService.getUserById(commentToDelete.get().getWriter().getUserid());

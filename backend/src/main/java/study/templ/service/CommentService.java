@@ -107,8 +107,11 @@ public class CommentService {
 
     @Transactional
     public void editComment(EditCommentForm editCommentForm){
-        Optional<Comment> comment1 = commentRepository.findById(editCommentForm.getComment_id());
-        comment1.get().setComment(editCommentForm.getComment());
+
+
+            Optional<Comment> comment1 = commentRepository.findById(editCommentForm.getComment_id());
+            comment1.get().setComment(editCommentForm.getComment());
+        }
     }
-}
+
 

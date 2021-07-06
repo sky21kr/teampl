@@ -35,11 +35,9 @@ public class AlarmController {
 
 
     @GetMapping("/alarm")
-    public List<Alarm> sendMessages(@RequestParam("userid") int userid){
-
+    public List<Alarm> sendMessages(@PathVariable  int userid){
 
         userService.getUserById(userid);
-
         return alarmService.updateAlarm(userid);
 
     }

@@ -4,10 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import study.templ.domain.Comment;
-import study.templ.domain.CreateCommentForm;
-import study.templ.domain.Team;
-import study.templ.domain.User;
+import study.templ.domain.*;
 import study.templ.repository.AlarmRepository;
 import study.templ.repository.CommentRepository;
 import study.templ.repository.TeamRepository;
@@ -39,11 +36,11 @@ public class CommentService {
         Comment newComment = new Comment();
 
 
-        if(createCommentForm.getComment_id() ==null){
+        if(createCommentForm.getRefCommentId() ==null){
             newComment.setLevel(1);
         }
         else{
-            int super_comment_id = createCommentForm.getComment_id();
+            int super_comment_id = createCommentForm.getRefCommentId();
             Optional<Comment> super_comment = commentRepository.findById(super_comment_id);
 
             if(!super_comment.get().getLive()){
@@ -109,9 +106,9 @@ public class CommentService {
     }
 
     @Transactional
-    public void editComment(Integer comment_id, String comment){
-        Optional<Comment> comment1 = commentRepository.findById(comment_id);
-        comment1.get().setComment(comment);
+    public void editComment(EditCommentForm editCommentForm){
+        Optional<Comment> comment1 = commentRepository.findById(editCommentForm.getComment_id());
+        comment1.get().setComment(editCommentForm.getComment());
     }
 }
 

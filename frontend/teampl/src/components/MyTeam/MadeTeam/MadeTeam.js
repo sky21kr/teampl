@@ -1,7 +1,9 @@
 import React from 'react';
-import MadeTeamComponent from './MadeTeamComponent';
-import Alarm from './Alarm';
-function MadeTeam(){
+import TeamCard from '../_Common/TeamCard';
+import Alarm from '../Alarm';
+function MadeTeam({ myTeamList }) {
+    const renderMyTeam = myTeamList.map((myTeam) => <TeamCard teamDetail={myTeam} key={myTeam.teamid}/>)
+
     return(
         <div>
             <div className="titleWrap">
@@ -9,9 +11,7 @@ function MadeTeam(){
                 <Alarm></Alarm>
             </div>
             <div className="componentWrap">
-                <MadeTeamComponent></MadeTeamComponent>
-                <MadeTeamComponent></MadeTeamComponent>
-                <MadeTeamComponent></MadeTeamComponent>
+                {renderMyTeam}
             </div>
         </div>
     )

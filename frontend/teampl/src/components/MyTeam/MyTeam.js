@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import Myinfo from './Myinfo';
+import Myinfo from './MyInfo/Myinfo';
 import MadeTeam from './MadeTeam/MadeTeam';
-import JoinedTeam from './JoinedTeam';
+import JoinedTeam from './JoinedTeam/JoinedTeam';
 import { customAxios } from '@/lib/customAxios'
 import './MyTeam.scss'
 
@@ -22,11 +22,16 @@ function MyTeam(){
 
     return(
         <div>
-            <Myinfo/>
+            <Myinfo
+                numberOfMyTeam={myTeamList.length}
+                numberOfMemberTeam={memberTeamList.length}
+            />
             <MadeTeam
                 myTeamList={myTeamList}
             />
-            {/* <JoinedTeam/> */}
+            <JoinedTeam
+                memberTeamList={memberTeamList}
+            />
         </div>
     );
 }

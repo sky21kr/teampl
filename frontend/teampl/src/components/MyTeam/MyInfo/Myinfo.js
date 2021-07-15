@@ -1,9 +1,9 @@
 import React, { Component, useState } from 'react';
-import './MyTeam.scss'
-import DefaultModal from '../Common/Modal/DefaultModal/DefaultModal';
+import './MyInfo.scss'
+import DefaultModal from '@/components/Common/Modal/DefaultModal/DefaultModal';
 import ImgSrc from '@/assets/images/askdelete.svg';
 
-function Myinfo(props){
+function Myinfo({ numberOfMyTeam, numberOfMemberTeam }){
 
     const [ showModal, setShowModal ] = useState(false);
 
@@ -24,11 +24,6 @@ function Myinfo(props){
     const closeModal2 = () => {
         setShowModal2(false);
     }
-
-
-    const userName = props.userName
-    const madeTeamNum = props.madeTeamNum
-    const joinedTeamNum = props.joinedTeamNum
 
     Myinfo.defaultProps={
         userName : "유저이름",
@@ -59,15 +54,15 @@ function Myinfo(props){
                     >
                 </DefaultModal>
 
-
+{}
         <div className="myInfoWrap">
   
             <div>
                  <img src="./images/userimage.png"></img>
 
                  <div>
-                 <h2>{userName}  <button onClick={openModal2}>이름변경</button></h2>
-                 <p>내가만든 팀플 {madeTeamNum}개   |   내가 가입한 팀플 {joinedTeamNum}개</p>
+                 <h2>  <button onClick={openModal2}>이름변경</button></h2>
+                 <p>내가만든 팀플 {numberOfMyTeam}개   |   내가 가입한 팀플 {numberOfMemberTeam}개</p>
                  </div>
             </div>
 

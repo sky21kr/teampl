@@ -1,0 +1,20 @@
+.myTeamBox {
+    .teamCardHeader {
+        .teamCategory {
+            text-align: center;
+            font-size: 13px;
+            padding: 3px 13px 5px;
+            background:lightgray;
+            border-radius: 12px;
+            color: #fff;
+        }
+
+        .teamStatus {
+            padding: 4px 7px 2px;
+            font-size: 11px;
+            line-height: 12px;
+            background-color: #fff;
+            border-radius: 13px;
+        }
+    }   
+}

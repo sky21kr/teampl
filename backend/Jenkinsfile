@@ -1,0 +1,25 @@
+node{
+    stage('clone'){
+        git branch: 'backend', credentialsId: 'github-credential', poll: false, url: 'https://github.com/sky21kr/teampl'
+    }
+    dir('backend/'){
+        stage('config'){
+            dir('src/main/resources/'){
+                configFileProvider([configFile(fileId: 'teampl-rds-config', variable: 'RDS')]) {
+                     def contents = readFile file: "$RDS"
+                     writeFile file: 'application.properties', text: contents
+                }
+            }
+        }
+        stage('build'){
+            sh 'chmod +x gradlew'
+            sh './gradlew bootjar'
+        }
+        stage('publish'){
+            sshPublisher(publishers: [sshPublisherDesc
+            (configName: 'deploy-server', transfers: [sshTransfer
+            (cleanRemote: false, excludes: '', execCommand: 'ls', execTimeout: 120000, flatten: false, makeEmptyDirs: false, noDefaultExcludes: false, patternSeparator: '[, ]+', remoteDirectory: 'buildResults', remoteDirectorySDF: false, removePrefix: 'build/libs/', sourceFiles: 'build/libs/*.jar')]
+            , usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: false)])
+        }
+    }
+}

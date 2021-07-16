@@ -1,5 +1,6 @@
 package study.templ.intercepter;
 
+import io.swagger.models.HttpMethod;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
@@ -21,6 +22,10 @@ public class JwtAuthIntercepter implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+        if (request.getMethod().equals(HttpMethod.OPTIONS.name())) {
+            return true;
+        }
+
         String userId = request.getHeader("userId");
         String token = request.getHeader(HEADER_TOKEN_KEY);
 

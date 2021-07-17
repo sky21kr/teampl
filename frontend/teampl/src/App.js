@@ -23,7 +23,8 @@ class App extends Component {
         <Route path='/log-in' component={LogIn}/> {/*3*/}
         <Route path='/sign-up' component={SignUp}/> {/*4*/}
         <Route path='/main' component={Home}/> {/*2, 5*/}
-        <Route path='/team/search/:cateCode' component={TeamSearch}/> {/*7, 12*/}
+        <Route exact path='/team/search/:cateCode' component={TeamSearch}/> {/*7, 12*/}
+        <Route exact path='/team/search' component={TeamSearch}/> {/*7, 12*/}
 
         <PrivateRoute exact path='/team/make' component={MakeTeam}/> {/*6*/} 
         <PrivateRoute exact path='/team/modify' component={ModifyTeam}/> {/*6*/}

@@ -7,7 +7,7 @@ import qs from 'qs'
 
 const TeamSearchMain = ({cateCode, search}) => {
     const [teamList, setTeamList] = useState([]);
-
+    const [searchKeyword, setSearchKeyword] = useState('');
 
     useEffect(() => {
         fetchTeamList();
@@ -40,8 +40,9 @@ const TeamSearchMain = ({cateCode, search}) => {
         } else if(search) {
             const query = qs.parse(search, {
                 ignoreQueryPrefix: true
-                // 문자열 맨 앞의 ?를 생력
               });
+
+            setSearchKeyword(query.keyword)
 
             searchParams = {
                 keyword: query.keyword,
@@ -56,15 +57,17 @@ const TeamSearchMain = ({cateCode, search}) => {
         setTeamList(response);
     }
 
-    const getCategoryName = (cateCode) => {
-        console.log(cateCode, categoryCodeList)
-        return categoryCodeList.find((cate) => Number(cateCode) === cate.code)?.label
+    const getSearchCondition = () => {
+        if(cateCode) return categoryCodeList.find((cate) => Number(cateCode) === cate.code)?.label
+        else {
+            return `'${searchKeyword}'로 검색한 검색 결과입니다.`
+        }
     }
 
     return (
         <div className="teamSearchMain">
             <div>
-                <div className="subjectTitle">팀 찾기 &gt; {getCategoryName(cateCode)}</div>
+                <div className="subjectTitle">팀 찾기 &gt; {getSearchCondition()}</div>
                 <TeamList
                     teamList={teamList}
                 />

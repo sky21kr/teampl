@@ -1,17 +1,24 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './PostContent.scss'
 import * as dayjs from 'dayjs'
 import { categoryCodeList } from '@/utils/CommonData/code';
 import { customAxios } from '@/lib/customAxios';
+import DefaultModal from '@/components/Common/Modal/DefaultModal/DefaultModal';
+import ImgSrc from '@/assets/images/askdelete.svg';
 
 const PostContent  = ({ detailData, teamId }) => {
+
+    const [ showModal, setShowModal ] = useState(false)
 
     const getCategoryName = (cateCode) => {
         return categoryCodeList.find((cate) => cateCode === cate.code)?.label
     }
 
     const clickDelete = () => {
-        // 쿼리 스트링 타입
+        setShowModal(true)
+    }
+
+    const handleRemove = () => {
         customAxios.delete(`team?teamid=${teamId}&userid=${window.sessionStorage.getItem('userid')}`)
     }
 
@@ -35,6 +42,15 @@ const PostContent  = ({ detailData, teamId }) => {
             <div className="postText">
                 {detailData.introduction}
             </div>
+            <DefaultModal
+                showModal={showModal}
+                closeModal={() => setShowModal(false)}
+                imgSrc={ImgSrc}
+                title="해당 게시물을 삭제하시겠습니까"
+                btnOkText="삭제"
+                btnOk={handleRemove}
+                btnCancelText="취소"
+            />
         </div>
     )
 }

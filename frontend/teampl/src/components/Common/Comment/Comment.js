@@ -3,33 +3,53 @@ import './Comment.scss'
 import MainComment from './MainComment/MainComment'
 import SubComment from './SubComment/SubComment'
 import ReplyInput from './ReplyInput/ReplyInput'
+import dayjs from 'dayjs';
+import { customAxios } from '@/lib/customAxios';
 
-const Comment  = () => {
-
+const Comment  = ({commentData, teamId}) => {
     const [showReplyInput, setShowReplyInput] = useState(false) 
+    const [ replyContent, setReplyContent ] = useState('')
 
     const toggleReplyInput = () => {
         setShowReplyInput(!showReplyInput)
     }
 
-    const submitReply = () => {
+    const submitReply = async () => {
+        const params = {
+            comment: replyContent,
+            refCommentId: commentData.comment_id,
+            teamid: teamId,
+            userid: sessionStorage.getItem('userid')
+        }
+
+        const r = await customAxios.post('/create', params)
+
         setShowReplyInput(!showReplyInput)
     }
+
+    const changeReplyInput = (e) => {
+        setReplyContent(e.target.value)
+    }
+
+    // const renderSubComment = commentData.subComment.map((comment) => <SubComment writer={'테스트'}/>)
 
     return (
         <div className="Comment">
             <MainComment
-                writer={"취업성공"}
-                date={"2021.03.24 15:23:34"}
-                content={"안녕하세요 혼자 독학한지 6개월 됐는데 저도 같이 할 수 있을까요?"}
+                commentId={commentData.comment_id}
+                writer={commentData.writer?.nickname}
+                date={dayjs(commentData.datetime).format('YYYY-MM-DD hh:mm:ss')}
+                content={commentData.comment}
                 toggleReplyInput={toggleReplyInput}
                 />
-            <SubComment
+            {/* { renderSubComment } */}
+            {/* <SubComment
                 writer={"자바개발자"}
                 date={"2021.03.24 15:25:31"}
-                content={"네 가능합니다! 가입신청 해주시면 돼요!"}/>
+                content={"네 가능합니다! 가입신청 해주시면 돼요!"}/> */}
             <ReplyInput
                 showReplyInput={showReplyInput}
+                onChange={changeReplyInput}
                 submitReply={submitReply}
             />
         </div>

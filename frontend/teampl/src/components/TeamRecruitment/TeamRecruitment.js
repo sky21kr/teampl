@@ -18,12 +18,14 @@ const TeamRecruitment = ({teamId, history}) => {
         title: null,
     })
 
+    const [ commentContent, setCommentContent ] = useState('')
+    
     useEffect(async () => {
         const response = (await customAxios.get('/teamcontents', { params: { teamid: teamId } } )).data;
-
         setDetailData({
             ...response,
         })
+        console.log('response', response)
     }, [])
 
     const [ showModal, setShowModal ] = useState(false)
@@ -40,6 +42,22 @@ const TeamRecruitment = ({teamId, history}) => {
         history.goBack()
     }
 
+    const changeCommentContent = (e) => {
+        setCommentContent(e.target.value)
+    }
+
+    const submitComment = async () => {
+        const params = {
+            comment: commentContent,
+            teamid: teamId,
+            userid: sessionStorage.getItem('userid')
+        }
+
+        const response = await customAxios.post('/create', params)
+    }
+
+    const renderComment = detailData?.comments?.map((comment) => <Comment commentData={comment} teamId={teamId} key={comment.comment_id}/>)
+
     return (
         <div className="TeamRecruitment">
             <div onClick={clickBack}>
@@ -49,13 +67,12 @@ const TeamRecruitment = ({teamId, history}) => {
                 detailData={detailData}
                 teamId={teamId}
             />
-            <Comment
-                commentData={detailData?.comment}
-            />
+            
+            { renderComment }
 
-            <textarea className="commentInput" placeholder="댓글을 입력하세요"/>
+            <textarea className="commentInput" placeholder="댓글을 입력하세요" onChange={changeCommentContent}/>
             <div className="addComment">
-                <button className="t-button">등록</button>
+                <button className="t-button" onClick={submitComment}>등록</button>
             </div>
             <div className="submitJoin">
                 <button

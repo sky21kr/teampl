@@ -48,7 +48,6 @@ public class CommentService {
             }
             newComment.setLevel(super_comment.get().getLevel()+1);
             newComment.setComment1(super_comment.get());
-            super_comment.get().getSubComment().add(newComment);
 
             alarmService.sendMessage1(user.getUserid(),target_team.getTeamid());
 

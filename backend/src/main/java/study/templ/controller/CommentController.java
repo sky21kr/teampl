@@ -28,7 +28,7 @@ public class CommentController {
 
 
 
-    @PostMapping("/create")
+    @PostMapping("comment/create")
     public Object createComment(@RequestBody CreateCommentForm createCommentForm) {
 
         int user_id= createCommentForm.getUserid();
@@ -38,7 +38,7 @@ public class CommentController {
         return commentService.createComment(createCommentForm,target_team,writer);
     }
 
-    @PostMapping("/edit")
+    @PostMapping("comment/edit")
     public String editComment(@RequestBody EditCommentForm editCommentForm){
 
         commentService.editComment(editCommentForm);
@@ -47,7 +47,7 @@ public class CommentController {
     }
 
 
-        @DeleteMapping("/delete")
+        @DeleteMapping("comment/delete")
         public String deleteComment(@RequestParam("comment_id") int comment_id){
 
             Optional<Comment> commentToDelete =commentService.findById(comment_id);
@@ -56,6 +56,15 @@ public class CommentController {
             int team_id= commentToDelete.get().getTarget_team().getTeamid();
             commentService.deleteComment( owner.getUserid(), comment_id);
             return "redirect:/team/" +team_id;
+    }
+
+    @GetMapping("team")
+    public Integer numberOfComments(@RequestParam("team_id") int team_id){
+
+        Team team = teamService.getTeamById(team_id);
+        int number = team.getOwncomments().size();
+
+        return number;
     }
 
 

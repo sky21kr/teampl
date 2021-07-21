@@ -17,6 +17,10 @@
     background-color: #f8f5ff;
     border: none;
     text-indent: 30px;
+
+    &:focus {
+      outline: none;
+    }
   }
 
   textarea {
@@ -27,6 +31,10 @@
     border: none;
     padding: 30px;
     box-sizing: border-box;
+
+    &:focus {
+      outline: none;
+    }
   }
 
   .h3 {

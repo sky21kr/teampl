@@ -18,7 +18,7 @@ const SelectBox = ({ options, placeholder, onChange }) => {
             background: "#F7F5FF",
             border: 0,
             fontSize: '14px',
-            // boxShadow: "none",
+            boxShadow: "none",
             paddingLeft: 20,
         }),
       }

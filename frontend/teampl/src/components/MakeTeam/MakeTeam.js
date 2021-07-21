@@ -2,24 +2,29 @@ import React, { Component, useState } from 'react';
 import './MakeTeam.scss'
 import DefaultModal from '../Common/Modal/DefaultModal/DefaultModal';
 import ImgSrc from '@/assets/images/createsuccess.svg';
+import failImgSrc from '@/assets/images/askdelete.svg';
 import { customAxios } from '@/lib/customAxios';
+import SelectBox from '@/components/Common/SelectBox/SelectBox'
+import { categoryCodeList } from '@/utils/CommonData/code';
 
 function MakeTeam(){
     const [ showModal, setShowModal ] = useState(false);
+    const [ showAlertModal, setShowAlertModal ] = useState(false);
+
+    const [ teamData, setTeamData ] = useState({
+        owner: window.sessionStorage.getItem('userid'),
+        status: true,
+        numberofmembers: 1,
+    })
 
     const clickMakeTeam = async (e) => {
         e.preventDefault();
 
-        const teamData = {
-            limit: e.target.numberofmembers.value,
-            owner: window.sessionStorage.getItem('userid'),
-            status: true,
-            title: e.target.title.value,
-            category: e.target.category.value,
-            numberofmembers: 1,
-            introduction: e.target.introduction.value,
-        }
-
+        if( !teamData.title || !teamData.limit || !teamData.introduction || !teamData.category ) {
+            setShowAlertModal(true)
+            return
+        } 
+        
         await customAxios.post('/make-team', teamData)
         openModal();
     }
@@ -31,47 +36,77 @@ function MakeTeam(){
     const closeModal = () => {
         setShowModal(false);
     }
+
+    const changeCateSelect = (cate) => {
+        setTeamData({
+            ...teamData,
+            category: cate.code
+        })
+    }
+
+    const changeMemberSelect = (member) => {
+        setTeamData({
+            ...teamData,
+            limit: member.value
+        })
+    }
+
+    const changeTeamInfo = (e) => {
+        setTeamData({
+            ...teamData,
+            [e.target.name]: e.target.value
+        })
+    }
+
+    const categorySelectOption = categoryCodeList.map((cateCode) => ({...cateCode, value: cateCode.code})).slice(1)
+    const memberSelectOption = Array.from({length: 4}, (v, i) => ({ value: i+1, label: `${i+1}명`}))
+
         return(
             <>
             <div className="makeTeamWrap">
                 <h3>직접 팀을 만들어보세요!</h3>
-                <form onSubmit={clickMakeTeam}>
-                    <input className="teamName" type="text" name="title" placeholder="팀 이름" required></input>
-                    <select name="category">
-                        <option disabled selected hidden>주제 분류</option>
-                        <option value="1">공부/학문</option>
-                        <option value="2">운동/스포츠</option>
-                        <option value="3">취미/오락</option>
-                        <option value="4">취업/취준</option>
-                        <option value="5">어학/자격증</option>
-                        <option value="6">IT/개발</option>
-                        <option value="7">기타</option>
-                    </select>
-                    <select name="numberofmembers">
-                        <option disabled selected hidden>팀 인원</option>
-                        <option value="1">1명</option>
-                        <option value="2">2명</option>
-                        <option value="3">3명</option>
-                        <option value="4">4명</option>
-                    </select>
-                    <textarea className="teamIntro" name="introduction" placeholder="팀 소개글을 적어주세요!" required></textarea>
-                    {/* form안의 내용이 작성,선택이 되어있을때만 openModal이 작동하게 if문을 추가해야됨 */}
-                    <button className="basicBtn">팀 만들기</button>
-                </form>
-
+                <input
+                    className="teamName"
+                    onChange={changeTeamInfo}
+                    type="text"
+                    name="title"
+                    placeholder="팀 이름"/>
+                <SelectBox
+                    className="cateSelectBox"
+                    placeholder="주제 분류"
+                    options={categorySelectOption}
+                    onChange={changeCateSelect}
+                />
+                <SelectBox
+                    className="memberSelectBox"
+                    placeholder="팀 인원 "
+                    options={memberSelectOption}
+                    onChange={changeMemberSelect}
+                />
+                <textarea
+                    className="teamIntro"
+                    onChange={changeTeamInfo}
+                    name="introduction"
+                    placeholder="팀 소개글을 적어주세요!"
+                    required/>
+                <button onClick={clickMakeTeam} className="t-button">팀 만들기</button>
             </div>
 
             <DefaultModal
-                    showModal={showModal}
-                    imgSrc={ImgSrc}
-                    title="짝짝짝! 당신의 팀이 만들어졌어요!"
-                    contents="이제 다른 팀원들의 가입을 기다려주세요!"
-                    btnOkText="팀 확인하러 가기"
-                    closeModal={closeModal}
-                    >
-            </DefaultModal>
-        
+                showModal={showModal}
+                imgSrc={ImgSrc}
+                title="짝짝짝! 당신의 팀이 만들어졌어요!"
+                contents="이제 다른 팀원들의 가입을 기다려주세요!"
+                btnOkText="팀 확인하러 가기"
+                closeModal={closeModal}/>
+            <DefaultModal
+                showModal={showAlertModal}
+                imgSrc={failImgSrc}
+                title="정보를 모두 입력해주세요."
+                btnOkText="확인"
+                btnOk={() => setShowAlertModal(false)}
+                closeModal={() => setShowAlertModal(false)}/>
             </>
-            )
+        )
     }
 export default MakeTeam;

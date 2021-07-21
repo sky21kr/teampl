@@ -12,6 +12,7 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 public class TeamContentsForm {
+    private Integer userid;
     private Integer category;
     private LocalDateTime datetime;
     private String nickname;

@@ -85,7 +85,7 @@ public class TeamService {
     public TeamContentsForm getTeamContents(int team_id){
         Team team = getTeamById(team_id);
 
-        TeamContentsForm contents = new TeamContentsForm(team.getCategory(),team.getDatetime(),team.getOwner().getNickname(),
+        TeamContentsForm contents = new TeamContentsForm(team.getOwner().getUserid(),team.getCategory(),team.getDatetime(),team.getOwner().getNickname(),
                 team.getStatus(),team.getTitle(),team.getIntroduction(),team.getOwncomments());
         return contents;
     }
@@ -94,6 +94,7 @@ public class TeamService {
         int team_id = updateTeamForm.getTeamid();
         int owner = updateTeamForm.getOwner();
         Team team = getTeamById(team_id);                       //check team EntityNotFoundException
+
 
         userService.getUserById(updateTeamForm.getOwner());     //check user EntityNotFoundException
         if (team.getOwner().getUserid()!=owner)

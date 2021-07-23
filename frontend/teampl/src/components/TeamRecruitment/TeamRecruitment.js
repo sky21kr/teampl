@@ -82,6 +82,7 @@ const TeamRecruitment = ({teamId, history}) => {
             <SubsApplyModal
                 teamName={"개발자 3명 구합니다"}
                 showModal={showModal}
+                teamId={teamId}
                 closeModal={closeSubsApplyModal}
             />
         </div>

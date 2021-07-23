@@ -8,7 +8,7 @@ import MyTeam from './components/MyTeam/MyTeam';
 import JoinedTeamMain from './components/JoinedTeamMain/JoinedTeamMain';
 import MadeTeamMain from './components/MadeTeamMain/MadeTeamMain';
 import TeamPost from './components/TeamPost/TeamPost';
-import ModifyTeam from './components/ModifyTeam/ModifyTeam';
+// import ModifyTeam from './components/ModifyTeam/ModifyTeam';
 import PrivateRoute from './lib/PrivateRoute';
 import PublicRoute from './lib/PublicRoute';
 import '@/assets/styles/index.scss'
@@ -27,7 +27,7 @@ class App extends Component {
         <Route exact path='/team/search' component={TeamSearch}/> {/*7, 12*/}
 
         <PrivateRoute exact path='/team/make' component={MakeTeam}/> {/*6*/} 
-        <PrivateRoute exact path='/team/modify' component={ModifyTeam}/> {/*6*/}
+        {/* <PrivateRoute exact path='/team/modify' component={ModifyTeam}/> 6 */}
         <PrivateRoute path={"/team/recruitment/:teamId"} component={TeamRecruitment}/> {/*8*/}
         <PrivateRoute exact path='/team' component={MyTeam}/> {/*9*/}
         <PrivateRoute exact path='/team/joinedteammain' component={JoinedTeamMain}/> {/*10*/}

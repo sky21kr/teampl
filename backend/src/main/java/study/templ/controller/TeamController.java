@@ -79,7 +79,10 @@ public class TeamController {
     public ResponseEntity<List<User>> getTeamMember(@RequestParam("teamid") int team_id){
         return ResponseEntity.status(HttpStatus.OK).body(teamService.getMemberOfTeam(team_id));
     }
-
+    @GetMapping("/application")
+    public ResponseEntity<List<Application>> getTeamApplication(@RequestParam("teamid") int team_id, @RequestParam("userid") int user_id){
+        return ResponseEntity.status(HttpStatus.OK).body(teamService.getApplications(team_id, user_id));
+    }
     //수정
     //팀 정보 수정
     @PutMapping("team")

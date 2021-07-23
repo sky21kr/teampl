@@ -80,7 +80,13 @@ public class TeamService {
         return users;
 
     }
-
+    public List<Application> getApplications(int team_id, int user_id){
+        Team team = getTeamById(team_id);
+        User user = userService.getUserById(user_id);
+        if (team.getOwner().getUserid()!=user.getUserid())
+            throw new IllegalArgumentException("user is not owner of team.");
+        return team.getApplications();
+    }
     //팀 모집 글 내용 가져오기
     public TeamContentsForm getTeamContents(int team_id){
         Team team = getTeamById(team_id);

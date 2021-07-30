@@ -10,7 +10,7 @@ import MadeTeamMain from './components/MadeTeamMain/MadeTeamMain';
 import TeamPost from './components/TeamPost/TeamPost';
 // import ModifyTeam from './components/ModifyTeam/ModifyTeam';
 import PrivateRoute from './lib/PrivateRoute';
-import PublicRoute from './lib/PublicRoute';
+// import PublicRoute from './lib/PublicRoute';
 import '@/assets/styles/index.scss'
 import './App.scss'
 

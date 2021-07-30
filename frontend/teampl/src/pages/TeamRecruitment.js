@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import SubMenu from '@/components/SubMenu/SubMenu'
 import TeamRecruitmentComponent from '@/components/TeamRecruitment/TeamRecruitment'
 

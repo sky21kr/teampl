@@ -20,13 +20,15 @@ const TeamRecruitment = ({teamId, history}) => {
 
     const [ commentContent, setCommentContent ] = useState('')
     
-    useEffect(async () => {
-        const response = (await customAxios.get('/teamcontents', { params: { teamid: teamId } } )).data;
-        setDetailData({
-            ...response,
-        })
-        console.log('response', response)
-    }, [])
+    useEffect(() => {
+        const fetchData = async() => {
+            const response = (await customAxios.get('/teamcontents', { params: { teamid: teamId } } )).data;
+            setDetailData({
+                ...response,
+            })
+        }
+        fetchData()
+    }, [teamId])
 
     const [ showModal, setShowModal ] = useState(false)
 
@@ -80,7 +82,7 @@ const TeamRecruitment = ({teamId, history}) => {
                     onClick={openSubsApplyModal}>가입신청하기</button>
             </div>
             <SubsApplyModal
-                teamName={"개발자 3명 구합니다"}
+                teamName={detailData.title}
                 showModal={showModal}
                 teamId={teamId}
                 closeModal={closeSubsApplyModal}

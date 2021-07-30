@@ -7,7 +7,7 @@ import DefaultModal from '@/components/Common/Modal/DefaultModal/DefaultModal';
 import ImgSrc from '@/assets/images/askdelete.svg';
 
 const PostContent  = ({ detailData, teamId }) => {
-
+    const userId = Number(sessionStorage.getItem('userid'))
     const [ showModal, setShowModal ] = useState(false)
 
     const getCategoryName = (cateCode) => {
@@ -26,10 +26,10 @@ const PostContent  = ({ detailData, teamId }) => {
         <div className="postContent">
             <div className="postHeader">
                 <div className="studyType">{getCategoryName(detailData.category)}</div>
-                <div className="postEditBtn">
+                { detailData.userid === userId ? <div className="postEditBtn">
                     <span>수정</span>
                     <span onClick={clickDelete}>삭제</span>
-                </div>
+                </div> : ''}
             </div>
             <div className="postTitle">
                 <span>{detailData.title}</span>

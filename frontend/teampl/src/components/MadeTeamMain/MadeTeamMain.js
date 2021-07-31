@@ -1,4 +1,4 @@
-import React, { Component, useState } from 'react';
+import React, { Component, useState, useEffect } from 'react';
 import styled, { css } from 'styled-components';
 import beforebtn from '@/assets/images/beforebtn.svg';
 import teammaster from '@/assets/images/teammaster.svg';
@@ -10,12 +10,21 @@ import { useHistory } from "react-router-dom";
 import Posting from '@/components/Common/Posting/Posting';
 import PostingModal from '../Common/Modal/DefaultModal/PostingModal';
 import { Link } from 'react-router-dom';
-import MemberModal from '../Common/Modal/DefaultModal/MemberModal';
+import MemberModal from './MemberManageModal/MemberModal';
+import { customAxios } from '@/lib/customAxios';
 
-function MadeTeamMain(props){
+const MadeTeamMain = ({match}) => {
+  const teamId = match.params.teamId
 
-    const type = props.type
-    const teamName = props.teamName
+    useEffect(() => {
+      async function fetchTeamDetail() {
+        // await customAxios.get('/team')
+      }
+      fetchTeamDetail()
+    },[])
+
+    // const type = props.type
+    // const teamName = props.teamName
     let history = useHistory()
 
     MadeTeamMain.defaultProps={
@@ -86,14 +95,14 @@ function MadeTeamMain(props){
         <div className="titleArea">
             <>
             <img onClick={()=>{history.push('/team')}} src={beforebtn}/>
-            <h2>{teamName}</h2>
-            <Subject className="subjectBtn" {...props}>{type}</Subject>
+            {/* <h2>{teamName}</h2> */}
+            {/* <Subject className="subjectBtn" {...props}>{type}</Subject>
             <div>
               <img src={teammaster}/>
               <img src={teammember}/>
               <img src={teammember}/>
               <img src={teammember}/>
-            </div>
+            </div> */}
             <Link to="/team/modify"><button className="leaveBtn">정보 수정하기</button></Link>
             <button className="leaveBtn" onClick={openModal3}>멤버 관리</button>
             <button className="leaveBtn" onClick={openModal}>팀 삭제하기</button>
@@ -114,12 +123,9 @@ function MadeTeamMain(props){
 
 
                 <MemberModal
-                showModal={showModal3}
-                closeModal={closeModal3}
-                >
-                </MemberModal>
-
-
+                  teamId={teamId}
+                  showModal={showModal3}
+                  closeModal={closeModal3}/>
                 <PostingModal
                     className="postMode"
                     showModal={showModal2}

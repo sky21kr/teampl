@@ -34,7 +34,7 @@ function MadeTeamComponent({teamDetail}){
                 <p>{teamDetail.introduction}</p>
             </div>
             <div>
-                <Link to="/team/madeteammain"><button className="goToTeamBtn">팀 바로가기</button></Link>
+                <Link to={`/team/${teamDetail.teamid}`}><button className="goToTeamBtn">팀 바로가기</button></Link>
             </div>
         </div>
     )

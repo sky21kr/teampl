@@ -32,7 +32,7 @@ class App extends Component {
         <PrivateRoute exact path='/team' component={MyTeam}/> {/*9*/}
         <PrivateRoute exact path='/team/joinedteammain' component={JoinedTeamMain}/> {/*10*/}
         <PrivateRoute exact path='/team/post/:postId' component={TeamPost}/> {/*11*/}
-        <PrivateRoute exact path='/team/madeteammain' component={MadeTeamMain}/> {/*14*/}
+        <PrivateRoute exact path='/team/:teamId' component={MadeTeamMain}/> {/*14*/}
         <Footer/>
       </div>
     )
